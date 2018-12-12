@@ -33,6 +33,7 @@
     "build:android": "react-native bundle --entry-file index.js --platform android --dev false --bundle-output android/main.jsbundle --assets-dest ./android"
   },
   "dependencies": {
+    "firebase": "^5.7.0",
     "mobx": "^5.6.0",
     "mobx-react": "^5.4.2",
     "moment": "^2.22.2",
@@ -42,6 +43,7 @@
     "react-native-localization": "^2.0.3",
     "react-native-splash-screen": "^3.1.1",
     "react-native-status-bar-height": "^2.2.0",
+    "react-native-vector-icons": "^6.1.0",
     "react-navigation": "^3.0.2"
   },
   "devDependencies": {

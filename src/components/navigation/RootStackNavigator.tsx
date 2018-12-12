@@ -1,42 +1,86 @@
 import React from 'react';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator, getActiveChildNavigationOptions } from 'react-navigation';
 import { observer } from 'mobx-react/native';
-
 import { colors } from '../../utils/Styles';
-import appStore from '../../stores/appStore';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 import IntroScreen from '../screen/Intro';
 import NotFoundScreen from '../screen/NotFound';
+import Home from '../screen/Home';
+import Setting from '../screen/Settings/Setting';
+
+// Set here for tabNavigator content
+const BottomTabNavigator = createBottomTabNavigator(
+  {
+    Home: { screen: Home,
+      navigationOptions: {
+        tabBarLabel: 'Home',
+        tabBarIcon: (() => (<Icon name='home' size={30}/>) ),
+        tabBarVisible: true,
+        // title: 'Dzikr App', // setting header title on its screen
+      },
+    },
+    Intro: { screen: IntroScreen,
+      navigationOptions: () => ({
+        tabBarLabel: 'Profil',
+        tabBarIcon: (() => (<Icon name='user-md' size={30}/>) ),
+        tabBarVisible: true,
+        // title: 'Intro',
+        // headerBackTitle: null,
+      }),
+    },
+  },
+);
 
 const routeConfig = {
-  Intro: {
-    screen: IntroScreen,
-    navigationOptions: {
-      title: 'Intro',
+  BottomTabNavigator: {
+    screen: BottomTabNavigator,
+    navigationOptions: ({ navigation, screenProps }) => {
+      const childOptions = getActiveChildNavigationOptions(navigation, screenProps);
+      return {
+        title: childOptions.title,
+      };
     },
-    path: 'intro',
   },
   NotFound: {
     screen: NotFoundScreen,
     path: 'NotFound',
+    navigationOptions: () => ({
+      title: 'Not Found',
+      // headerBackTitle: null,
+    }),
+  },
+  // Home: { screen: Home,
+  //   path: 'Home',
+  //   navigationOptions: {
+  //     title: 'Dzikr App',
+  //   },
+  // },
+  Setting: { screen: Setting,
+    path: 'Setting',
+    navigationOptions: {
+      title: 'Setting',
+    },
   },
 };
 
 const navigatorConfig = {
-  initialRouteName: 'Intro',
+  initialRouteName: 'BottomTabNavigator',
   // header: null,
-  // headerMode: 'none',
-  gesturesEnabled: true,
-  statusBarStyle: 'light-content',
+  // gesturesEnabled: true,
+  // statusBarStyle: 'light-content',
   navigationOptions: {
     headerStyle: {
-      headerBackTitle: null,
-      backgroundColor: colors.dodgerBlue,
+      // headerBackTitle: null,
+      backgroundColor: '#79b700',
       borderBottomColor: 'transparent',
-      borderBottomWidth: 0,
-      elevation: 0,
+      borderBottomWidth: 1,
+      elevation: 1,
     },
-    headerTitleStyle: { color: 'white' },
-    headerTintColor: 'white',
+    // title: 'Dzikr App',
+    headerMode: 'screen',
+    headerTitleStyle: { color: '#e4ff54' },
+    // headerTintColor: 'white',
   },
 };
 
@@ -51,7 +95,11 @@ class RootNavigator extends React.Component<IProps> {
   private static router = RootStackNavigator.router;
 
   public render() {
-    return <RootStackNavigator navigation={this.props.navigation}/>;
+    return (
+      <RootStackNavigator
+        navigation={this.props.navigation}
+      />
+    );
   }
 }
 
