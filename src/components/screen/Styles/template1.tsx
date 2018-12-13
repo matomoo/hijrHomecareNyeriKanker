@@ -101,7 +101,7 @@ const styles: any = StyleSheet.create({
       margin: 10,
       // borderBottomColor: '#CFD8DC',
       // borderBottomWidth: 1,
-      flexGrow: 0,
+      // flexGrow: 0,
     },
     card3: {
       flex: 1,

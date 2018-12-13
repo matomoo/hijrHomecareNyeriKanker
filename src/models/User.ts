@@ -4,6 +4,7 @@ class User {
   @observable private _displayName: string;
   @observable private _age: number;
   @observable private _job: string;
+  @observable private _uid: string;
 
   public get displayName(): string {
     return this._displayName;
@@ -24,10 +25,17 @@ class User {
   public get job(): string {
     return this._job;
   }
-
   public set job(value: string) {
     this._job = value;
   }
+
+  public get uid(): string {
+    return this._uid;
+  }
+  public set uid(value: string) {
+    this._uid = value;
+  }
+
 }
 
 export default User;

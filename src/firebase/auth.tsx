@@ -13,12 +13,12 @@ export const doSignInWithEmailAndPassword = (email, password) =>
 // Sign Out
 export const doSignOut = async () => {
   auth.signOut();
-  try {
-    AsyncStorage.clear();
-    // await AsyncStorage.setItem("@HEC2:key", "nok");
-    } catch (error) {
-    // Error saving data
-    }
+  // try {
+  //   AsyncStorage.clear();
+  //   // await AsyncStorage.setItem("@HEC2:key", "nok");
+  //   } catch (error) {
+  //   // Error saving data
+  //   }
 };
 
 // IsAuthUser?
