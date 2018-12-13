@@ -80,7 +80,7 @@ class Screen extends Component<IProps, IState> {
     Alert.alert('Alert', 'Button pressed ' + viewId);
   }
 
-  private onLogin = ( p, q) => {
+  private onLogin = ( p, q ) => {
     auth.doSignInWithEmailAndPassword(p, q)
       .then(() => {
         this._signInAsync(p);
@@ -90,8 +90,9 @@ class Screen extends Component<IProps, IState> {
       });
   }
 
-  private _signInAsync = async ( p) => {
+  private _signInAsync = async ( p ) => {
     await AsyncStorage.setItem('userToken', p);
+    db._saveUserProfile(p);
     this.props.navigation.navigate('Home');
   }
 

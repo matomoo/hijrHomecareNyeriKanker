@@ -8,6 +8,7 @@ import IntroScreen from '../screen/Intro';
 import NotFoundScreen from '../screen/NotFound';
 import Home from '../screen/Home';
 import Setting from '../screen/Settings/Setting';
+import UserProfile from '../screen/Users/UserProfile';
 
 // Set here for tabNavigator content
 const BottomTabNavigator = createBottomTabNavigator(
@@ -20,7 +21,7 @@ const BottomTabNavigator = createBottomTabNavigator(
         // title: 'Dzikr App', // setting header title on its screen
       },
     },
-    Intro: { screen: IntroScreen,
+    Intro: { screen: UserProfile,
       navigationOptions: () => ({
         tabBarLabel: 'Profil',
         tabBarIcon: (() => (<Icon name='user-md' size={30}/>) ),

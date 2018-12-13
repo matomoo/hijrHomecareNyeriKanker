@@ -1,6 +1,15 @@
 import { db } from './firebase';
 import firebase from 'firebase';
 
+export const _saveUserProfile = ( a ) => {
+  const id = db.ref(`users`).push();
+  const key = id.key;
+  db.ref(`users/${key}`).update({
+    _id: key,
+    email: a,
+  });
+};
+
 export const doCreateUser = ( id, username, email, role ) => {
   db.ref(`users/${id}`).update({
     username,

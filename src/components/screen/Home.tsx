@@ -8,19 +8,11 @@ import {
 } from 'react-native';
 
 import { ratio, colors } from '../../utils/Styles';
-
-const styles: any = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-});
+import UserProfile from './Users/InputUserProfile';
 
 class Screen extends Component<any, any> {
   public static navigationOptions = {
-    title: 'Title',
+    title: 'Home',
   };
 
   constructor(props) {
@@ -32,10 +24,19 @@ class Screen extends Component<any, any> {
   public render() {
     return (
       <View style={styles.container}>
-        <Text>Screen</Text>
+        <UserProfile />
       </View>
     );
   }
 }
 
 export default Screen;
+
+const styles: any = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+});
