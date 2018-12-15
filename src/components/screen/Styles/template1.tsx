@@ -38,7 +38,7 @@ const styles: any = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 10,
-      width: 250,
+      width: 200,
       borderRadius: 30,
     },
     loginButton: {
@@ -64,7 +64,7 @@ const styles: any = StyleSheet.create({
       // width: 250,
       backgroundColor: 'white',
       borderRadius: 30,
-      width: 250,
+      width: 200,
       height: 45,
       // marginLeft: 10,
       paddingLeft: 20,

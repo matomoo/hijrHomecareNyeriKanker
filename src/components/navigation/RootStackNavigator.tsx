@@ -9,6 +9,7 @@ import NotFoundScreen from '../screen/NotFound';
 import Home from '../screen/Home';
 import Setting from '../screen/Settings/Setting';
 import UserProfile from '../screen/Users/UserProfile';
+import InputKonfirmasiDeposit from '../screen/Users/InputKonfirmasiDeposit';
 
 // Set here for tabNavigator content
 const BottomTabNavigator = createBottomTabNavigator(
@@ -62,6 +63,12 @@ const routeConfig = {
     navigationOptions: {
       title: 'Setting',
     },
+  },
+  InputKonfirmasiDeposit: { screen: InputKonfirmasiDeposit,
+    path: 'InputKonfirmasiDeposit',
+    // navigationOptions: {
+    //   title: 'Input Konfirmasi Deposit',
+    // },
   },
 };
 

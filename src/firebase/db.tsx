@@ -7,6 +7,7 @@ export const _saveUserProfile = ( q, a ) => {
   db.ref(`users/${q}`).update({
     _id: q,
     email: a,
+    role: 'user',
   });
 };
 

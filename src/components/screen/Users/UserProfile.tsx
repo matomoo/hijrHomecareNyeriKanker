@@ -34,7 +34,7 @@ class Screen extends Component<any, any> {
   public render() {
     return (
       <View style={styles.container}>
-        <Text>Logout</Text>
+        <Text>User Profil</Text>
         <Button title='Logout'
           onPress={() => this._onLogout()}
         />
