@@ -7,8 +7,9 @@ import {
   View,
   Button,
 } from 'react-native';
+import { observer } from 'mobx-react';
+import { inject } from 'mobx-react/native';
 
-import { ratio, colors } from '../../utils/Styles';
 import CpUsers from './Users/CpUsers';
 import CpDeposit from './Users/CpDeposit';
 
@@ -22,6 +23,7 @@ interface IState {
   // users: any;
 }
 
+@inject('store') @observer
 class Screen extends Component<IProps, IState> {
   public static navigationOptions = {
     title: 'Home',
@@ -37,7 +39,8 @@ class Screen extends Component<IProps, IState> {
   public render() {
     return (
       <View style={styles.container}>
-        <CpUsers navigation={ this.props.navigation } />
+        { this.props.store.user.userRole === 'user' &&
+          <CpUsers navigation={ this.props.navigation } />}
         {/* <CpDeposit navigation={ this.props.navigation }/> */}
       </View>
     );

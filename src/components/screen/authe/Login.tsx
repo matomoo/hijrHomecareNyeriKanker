@@ -13,6 +13,7 @@ import {
 import { auth, db } from '../../../firebase';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
+import * as db1 from '../../../firebase/firebase';
 
 interface IProps {
   navigation?: any;

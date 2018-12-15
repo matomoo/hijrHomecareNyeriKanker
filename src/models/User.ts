@@ -4,7 +4,9 @@ class User {
   @observable private _displayName: string;
   @observable private _age: number;
   @observable private _job: string;
+
   @observable private _uid: string;
+  @observable private _userRole: string;
 
   public get displayName(): string {
     return this._displayName;
@@ -34,6 +36,13 @@ class User {
   }
   public set uid(value: string) {
     this._uid = value;
+  }
+
+  public get userRole(): string {
+    return this._userRole;
+  }
+  public set userRole(value: string) {
+    this._userRole = value;
   }
 
 }

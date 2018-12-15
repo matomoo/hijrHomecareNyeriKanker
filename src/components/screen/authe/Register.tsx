@@ -83,7 +83,7 @@ class Screen extends Component<IProps, IState> {
   public onRegister = () => {
     auth.doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('Login');
       })
       .catch((error) => {
         Alert.alert(error.message);

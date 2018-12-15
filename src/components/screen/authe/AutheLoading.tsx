@@ -13,14 +13,8 @@ import { ratio, colors } from '../../../utils/Styles';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
-const styles: any = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-});
+import { db } from 'src/firebase';
+import * as db1 from '../../../firebase/firebase';
 
 interface IProps {
   navigation?: any;
@@ -29,9 +23,6 @@ interface IProps {
 
 interface IState {
   isLoggingIn: boolean;
-  switch1Value;
-  switch2Value;
-  switch3Value;
 }
 
 @inject('store') @observer
@@ -40,12 +31,8 @@ class Screen extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this._bootstrapAsync();
-    // this._fetchData();
     this.state = {
       isLoggingIn: false,
-      switch1Value: '',
-      switch2Value: '',
-      switch3Value: '',
     };
   }
 
@@ -61,15 +48,42 @@ class Screen extends Component<IProps, IState> {
   // Fetch the token from storage then navigate to our appropriate place
   private _bootstrapAsync = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
-    this.props.store.user.uid = userToken;
-    // This will switch to the App screen or Auth screen and this loading
-    // screen will be unmounted and thrown away.
+    if (userToken) {
+      this.props.store.user.uid = userToken;
+      db1.db.ref(`users/${userToken}`).once('value')
+        .then((el) => this.props.store.user.userRole = el.val().role );
+    //   const a = db1.db.ref(`users/${userToken}`);
+    //   // console.log(a);
+    //   this._getFirstData(a);
+    }
     this.props.navigation.navigate(userToken ? 'App' : 'Auth');
-    // const userSetting = await AsyncStorage.getItem('userSetting');
-    // const a = userSetting === null ? '{"s1":true,"s2":true,"s3":true}' : userSetting;
-    // this.props.store.userSetting.asyncUserSetting = a;
-    // this.props.navigation.navigate('App');
   }
+
+  // private async _getFirstData( p ) {
+  //   await p.once('value')
+  //     .then((result) => {
+  //       const r1 = [];
+  //       r1.push(result.val());
+  //       this.setState({
+  //         users: r1,
+  //         // isLoaded: false,
+  //       });
+  //       // console.log(r1);
+  //       // console.log(this.state.users);
+  //     }).catch((err) => {
+  //       console.log(err);
+  //   });
+  // }
+
 }
 
 export default Screen;
+
+const styles: any = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+});
