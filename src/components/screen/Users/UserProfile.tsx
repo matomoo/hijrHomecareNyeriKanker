@@ -8,7 +8,7 @@ import {
   AsyncStorage,
   Button,
 } from 'react-native';
-
+// import UpdateUserProfil from '../Users/InputKonfirmasiDeposit';
 import { ratio, colors } from '../../../utils/Styles';
 
 const styles: any = StyleSheet.create({
@@ -20,7 +20,18 @@ const styles: any = StyleSheet.create({
   },
 });
 
-class Screen extends Component<any, any> {
+interface IProps {
+  navigation?: any;
+  store?: any;
+}
+
+interface IState {
+  // isLoggingIn: boolean;
+  email;
+  password;
+}
+
+class Screen extends Component<IProps, IState> {
   public static navigationOptions = {
     title: 'User Profile',
   };
@@ -28,6 +39,8 @@ class Screen extends Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
+      email: '',
+      password: '',
     };
   }
 
@@ -35,9 +48,10 @@ class Screen extends Component<any, any> {
     return (
       <View style={styles.container}>
         <Text>User Profil</Text>
+        <Button title='Update User Profile'
+          onPress={() => this.props.navigation.navigate('InputUserProfile')} />
         <Button title='Logout'
-          onPress={() => this._onLogout()}
-        />
+          onPress={() => this._onLogout()} />
       </View>
     );
   }

@@ -82,8 +82,9 @@ class Screen extends Component<IProps, IState> {
 
   public onRegister = () => {
     auth.doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => {
-        this.props.navigation.navigate('Login');
+      .then(( p ) => {
+        db._saveUserProfile(p.user.uid, this.state.email);
+        this.props.navigation.navigate('Home');
       })
       .catch((error) => {
         Alert.alert(error.message);

@@ -95,7 +95,7 @@ class Screen extends Component<IProps, IState> {
 
   private _signInAsync = async ( p, q ) => {
     await AsyncStorage.setItem('userToken', p.user.uid);
-    db._saveUserProfile(p.user.uid, q);
+    // db._saveUserProfile(p.user.uid, q);
     this.props.store.user.uid = p.user.uid;
     this.props.navigation.navigate('Home');
   }

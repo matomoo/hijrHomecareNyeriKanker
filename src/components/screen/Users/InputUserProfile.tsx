@@ -51,16 +51,6 @@ class Screen extends Component<IProps, IState> {
   public render() {
     return (
       <View style={styles.container}>
-        {/* <View style={styles.inputContainer}>
-          <Text>Email Address</Text>
-          <TextInput style={styles.inputs}
-              placeholder='Email'
-              keyboardType='email-address'
-              underlineColorAndroid='transparent'
-              onChangeText={(email) => this.setState({email})}/>
-        </View> */}
-        {/* <View style={styles.card2}><Text>Hi, { this.props.store.user.uid }</Text></View> */}
-
         <View style={styles.card1}>
           <Text style={styles.itemLeft}>Nama Lengkap</Text>
           <TextInput style={styles.itemRight}

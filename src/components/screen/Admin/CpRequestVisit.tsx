@@ -10,6 +10,7 @@ import {
   StatusBar,
   Button,
   Alert,
+  TouchableHighlight,
 } from 'react-native';
 import { ratio, colors } from '../../../utils/Styles';
 import { observable } from 'mobx';
@@ -35,7 +36,7 @@ class Screen extends Component<IProps, IState> {
 
   constructor(props) {
     super(props);
-    this.taskUser = db1.db.ref(`deposit/konfirmasi`);
+    this.taskUser = db1.db.ref(`homecare/visit`);
     this.state = {
       isLoaded: true,
       users: [],
@@ -44,19 +45,29 @@ class Screen extends Component<IProps, IState> {
 
   public componentDidMount() {
     this.getFirstData(this.taskUser);
+    // console.log(this.state.users);
   }
 
   public render() {
     return (
       <View style={styles.topContainer}>
+        <Text style={styles.textInfo}>Daftar User Request Visit</Text>
         { this.state.isLoaded ?
             <ActivityIndicator /> :
             <View style={styles.container}>
               { this.state.users.map( (el, key) =>
                 <View style={styles.header} key={key}>
-                  <View style={styles.headerContent}>
-                    <Text style={styles.name}>{el.namaLengkap}</Text>
-                  </View>
+                  <TouchableOpacity
+                    // style={[styles.buttonContainer, styles.loginButton]}
+                    onPress={() =>
+                      this.props.navigation.navigate('DetailRequestVisit' , {qey : {el}})
+                      // this._onRequest()
+                    }
+                  >
+                    <View style={styles.headerContent}>
+                      <Text style={styles.name}>{el.namaLengkap}</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>,
               )}
             </View>
@@ -66,37 +77,44 @@ class Screen extends Component<IProps, IState> {
   }
 
   private async getFirstData( p ) {
-    await p.once('value')
-      .then((result) => {
-        const r1 = [];
-        r1.push(result.val());
-        this.setState({
-          users: r1,
-          isLoaded: false,
+    await p.on('value', (snap) => {
+      const r1 = [];
+      snap.forEach((el) => {
+        r1.push({
+          uid: el.val().uid,
+          namaLengkap: el.val().namaLengkap,
+          idRequestVisit: el.val()._id,
+          tanggalRequestVisit: el.val().tanggalRequestVisit,
         });
-        // console.log(r1);
-        // console.log(this.state.users);
-      }).catch((err) => {
-        console.log(err);
+      });
+      this.setState({
+        users: r1,
+        isLoaded: false,
+      });
     });
+    //   .then((result) => {
+    //     // const r1 = [];
+    //     // result.forEach((el) => {
+    //     //   r1.push({
+    //     //     uid: el.val().uid,
+    //     //     namaLengkap: el.val().namaLengkap,
+    //     //     idTransfer: el.val()._id,
+    //     //   });
+    //     // });
+    //     // this.setState({
+    //     //   users: r1,
+    //     //   isLoaded: false,
+    //     // });
+    //     // console.log(r1);
+    //     // console.log(this.state.users);
+    //   }).catch((err) => {
+    //     console.log(err);
+    // });
   }
 
   private _onRequest = () => {
-    Alert.alert(this.props.store.user.uid);
+    // Alert.alert(this.props.store.user.uid);
     // this.Picturexx();
-  }
-
-  // Fetch the token from storage then navigate to our appropriate place
-  private _bootstrapAsync = async () => {
-    // const userToken = await AsyncStorage.getItem('userToken');
-    // this.props.store.user.uid = userToken;
-    // This will switch to the App screen or Auth screen and this loading
-    // screen will be unmounted and thrown away.
-    // this.props.navigation.navigate(userToken ? 'App' : 'Auth');
-    // const userSetting = await AsyncStorage.getItem('userSetting');
-    // const a = userSetting === null ? '{"s1":true,"s2":true,"s3":true}' : userSetting;
-    // this.props.store.userSetting.asyncUserSetting = a;
-    // this.props.navigation.navigate('App');
   }
 
 }
@@ -108,6 +126,7 @@ const styles: any = StyleSheet.create({
     flex: 1,
     // flexGrow: 1,
     width: '100%',
+    padding: 10,
     // backgroundColor: 'yellow',
   },
   container: {
@@ -136,12 +155,13 @@ const styles: any = StyleSheet.create({
     // marginHorizontal: 0,
   },
   headerContent: {
-    backgroundColor: '#66bb6a',
-    padding: 30,
+    backgroundColor: '#0277bd',
+    padding: 15,
+    borderRadius: 15,
     // paddingHorizontal: 30,
-    // marginVertical: 0,
-    marginHorizontal: 0,
-    alignItems: 'center',
+    // marginLeft: 15,
+    // marginHorizontal: 0,
+    alignItems: 'flex-start',
     width: '100%',
     // flex: 1,
   },
@@ -165,8 +185,9 @@ const styles: any = StyleSheet.create({
   },
   textInfo: {
     fontSize: 18,
-    marginTop: 20,
-    color: '#fff59d',
+    marginTop: 10,
+    marginBottom: 5,
+    color: '#616161',
   },
   smallTextInfo: {
     fontSize: 14,

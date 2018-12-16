@@ -17,6 +17,7 @@ import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
 import * as db1 from '../../../firebase/firebase';
 import NumberFormat from 'react-number-format';
+import Moment from 'moment';
 
 interface IProps {
   navigation?: any;
@@ -79,7 +80,7 @@ class Screen extends Component<IProps, IState> {
                       <Text style={styles.itemSpaceV10} />
                       <Button title=' Request Visit '
                         onPress={() => this._onRequest()}
-                        disabled={ el.statusDeposit === 'OK' ? false : true }
+                        disabled={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ? false : true }
                       />
                   </View>
                 </View>,
@@ -91,24 +92,50 @@ class Screen extends Component<IProps, IState> {
   }
 
   private async getFirstData( p ) {
-    await p.once('value')
-      .then((result) => {
-        const r1 = [];
-        r1.push(result.val());
-        this.setState({
-          users: r1,
-          isLoaded: false,
-        });
-        // console.log(r1);
-        // console.log(this.state.users);
-      }).catch((err) => {
-        console.log(err);
+    await p.on('value', (result) => {
+      const r1 = [];
+      r1.push(result.val());
+      this.setState({
+        users: r1,
+        isLoaded: false,
+      });
     });
+    //   .then((result) => {
+    //     const r1 = [];
+    //     r1.push(result.val());
+    //     this.setState({
+    //       users: r1,
+    //       isLoaded: false,
+    //     });
+    //     // console.log(r1);
+    //     // console.log(this.state.users);
+    //   }).catch((err) => {
+    //     console.log(err);
+    // });
   }
 
   private _onRequest = () => {
-    Alert.alert(this.props.store.user.uid);
-    // this.Picturexx();
+    const url = 'homecare/visit';
+    const a = db1.db.ref(url).push();
+    db1.db.ref(url + '/' + a.key).update({
+      _id: a.key,
+      uid: this.props.store.user.uid,
+      namaLengkap: this.props.store.user.userNamaLengkap,
+      tanggalRequestVisit: Moment().format('DD/MM/YYYY'),
+      requestVisit: 'Menunggu Team Homecare',
+    });
+    const url2 = 'users/' + this.props.store.user.uid + '/visit';
+    const a2 = db1.db.ref(url2).push();
+    db1.db.ref(url2 + '/' + a2.key).update({
+      _id: a2.key,
+      uid: this.props.store.user.uid,
+      namaLengkap: this.props.store.user.userNamaLengkap,
+      tanggalRequestVisit: Moment().format('DD/MM/YYYY'),
+      requestVisit: 'Menunggu Team Homecare',
+    });
+    db1.db.ref('users/' + this.props.store.user.uid).update({
+      requestVisit: 'Menunggu Team Homecare',
+    });
   }
 
 }

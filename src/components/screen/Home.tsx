@@ -12,6 +12,8 @@ import { inject } from 'mobx-react/native';
 
 import CpUsers from './Users/CpUsers';
 import CpDeposit from './Users/CpDeposit';
+import CpKonfirmasiDeposit from './Admin/CpKonfirmasiDeposit';
+import CpRequestVisit from './Admin/CpRequestVisit';
 
 interface IProps {
   navigation?: any;
@@ -41,7 +43,12 @@ class Screen extends Component<IProps, IState> {
       <View style={styles.container}>
         { this.props.store.user.userRole === 'user' &&
           <CpUsers navigation={ this.props.navigation } />}
-
+        { this.props.store.user.userRole === 'admin' &&
+          <View style={styles.container}>
+            <CpKonfirmasiDeposit navigation={ this.props.navigation } />
+            <CpRequestVisit navigation={ this.props.navigation } />
+          </View>
+        }
       </View>
     );
   }
@@ -54,8 +61,9 @@ const styles: any = StyleSheet.create({
     flex: 1,
     backgroundColor: 'transparent',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'flex-start',
+    width: '100%',
     // padding: 10,
   },
 });

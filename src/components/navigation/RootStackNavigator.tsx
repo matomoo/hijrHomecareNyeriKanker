@@ -9,7 +9,10 @@ import NotFoundScreen from '../screen/NotFound';
 import Home from '../screen/Home';
 import Setting from '../screen/Settings/Setting';
 import UserProfile from '../screen/Users/UserProfile';
+import InputUserProfile from '../screen/Users/InputUserProfile';
 import InputKonfirmasiDeposit from '../screen/Users/InputKonfirmasiDeposit';
+import DetailKonfirmasiDeposit from '../screen/Admin/DetailKonfirmasiDeposit';
+import DetailRequestVisit from '../screen/Admin/DetailRequestVisit';
 
 // Set here for tabNavigator content
 const BottomTabNavigator = createBottomTabNavigator(
@@ -64,8 +67,26 @@ const routeConfig = {
       title: 'Setting',
     },
   },
+  InputUserProfile: { screen: InputUserProfile,
+    path: 'InputUserProfile',
+    // navigationOptions: {
+    //   title: 'Input Konfirmasi Deposit',
+    // },
+  },
   InputKonfirmasiDeposit: { screen: InputKonfirmasiDeposit,
     path: 'InputKonfirmasiDeposit',
+    // navigationOptions: {
+    //   title: 'Input Konfirmasi Deposit',
+    // },
+  },
+  DetailKonfirmasiDeposit: { screen: DetailKonfirmasiDeposit,
+    path: 'DetailKonfirmasiDeposit',
+    // navigationOptions: {
+    //   title: 'Input Konfirmasi Deposit',
+    // },
+  },
+  DetailRequestVisit: { screen: DetailRequestVisit,
+    path: 'DetailRequestVisit',
     // navigationOptions: {
     //   title: 'Input Konfirmasi Deposit',
     // },

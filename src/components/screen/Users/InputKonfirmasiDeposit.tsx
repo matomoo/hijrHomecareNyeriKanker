@@ -117,9 +117,10 @@ class Screen extends Component<IProps, IState> {
       _id: q.key,
       tanggalTransfer: this.state.tanggalTransfer,
       namaPengirim: this.state.namaPengirim,
-      alamat: this.state.bankPengirim,
+      bankPengirim: this.state.bankPengirim,
       handphonePengirim: this.state.handphonePengirim,
       jumlahTransfer: this.state.jumlahTransfer,
+      statusVerifikasi: 'nok',
     });
     db1.db.ref(`users/${this.props.store.user.uid}`).update({
       statusDeposit: 'Menunggu verifikasi',
