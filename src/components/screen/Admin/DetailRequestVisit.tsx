@@ -62,12 +62,14 @@ class Screen extends Component<IProps, IState> {
                     {/* <Text style={styles.name}>{el.namaLengkap}</Text> */}
                     <Text style={styles.name}>Tanggal Request Visit : {el.tanggalRequestVisit}</Text>
                     <Text style={styles.name}>Nama Lengkap : {el.namaLengkap}</Text>
+                    <Text style={styles.name}>Handphone : {el.handphone}</Text>
+                    <Text style={styles.name}>Alamat : {el.alamat}</Text>
                     <View
                       // style={{justifyContent: 'center'}}
                       >
                       <TouchableHighlight
                         style={[styles.buttonContainer, styles.loginButton]}
-                          onPress={() => this._onSubmit()}
+                          onPress={() => this._onSubmit(el)}
                       >
                         <Text style={styles.loginText}>Submit</Text>
                       </TouchableHighlight>
@@ -98,6 +100,8 @@ class Screen extends Component<IProps, IState> {
             namaLengkap: el.val().namaLengkap,
             idRequestVisit: el.val()._id,
             tanggalRequestVisit: el.val().tanggalRequestVisit,
+            alamat: el.val().alamat,
+            handphone: el.val().handphone,
           });
         });
         this.setState({
@@ -111,20 +115,18 @@ class Screen extends Component<IProps, IState> {
     });
   }
 
-  // ATIQA FAIRUZ KHALISA LOVE AYAH SAMA MAMA
-
-  private _onSubmit = () => {
-    // Alert.alert(this.props.store.user.uid);
-    const url = 'users/' + this.props.navigation.state.params.qey.el.uid;
-    db1.db.ref(url + '/deposit/' + this.props.navigation.state.params.qey.el.idTransfer).update({
-      statusVerifikasi: 'OK',
+  private _onSubmit = (p) => {
+    const url = 'homecare/visit';
+    db1.db.ref(url + '/' + p.idRequestVisit).update({
+      requestVisit: 'Menunggu Team Homecare',
     });
-    db1.db.ref(url).update({
-      statusDeposit: 'OK',
+    const url2 = 'users/' + p.uid + '/visit';
+    db1.db.ref(url2 + '/' + p.idRequestVisit).update({
+      requestVisit: 'Menunggu Team Homecare',
     });
-    db1.db.ref('deposit/konfirmasi')
-      .child(this.props.navigation.state.params.qey.el.idTransfer).remove();
-    this.props.navigation.navigate('Home');
+    db1.db.ref('users/' + p.uid).update({
+      requestVisit: 'Menunggu Team Homecare',
+    });
   }
 
 }

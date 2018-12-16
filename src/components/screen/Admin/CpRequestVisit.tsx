@@ -77,7 +77,9 @@ class Screen extends Component<IProps, IState> {
   }
 
   private async getFirstData( p ) {
-    await p.on('value', (snap) => {
+    await p.orderByChild('requestVisit')
+      .equalTo('Request visit')
+      .on('value', (snap) => {
       const r1 = [];
       snap.forEach((el) => {
         r1.push({
@@ -92,29 +94,11 @@ class Screen extends Component<IProps, IState> {
         isLoaded: false,
       });
     });
-    //   .then((result) => {
-    //     // const r1 = [];
-    //     // result.forEach((el) => {
-    //     //   r1.push({
-    //     //     uid: el.val().uid,
-    //     //     namaLengkap: el.val().namaLengkap,
-    //     //     idTransfer: el.val()._id,
-    //     //   });
-    //     // });
-    //     // this.setState({
-    //     //   users: r1,
-    //     //   isLoaded: false,
-    //     // });
-    //     // console.log(r1);
-    //     // console.log(this.state.users);
-    //   }).catch((err) => {
-    //     console.log(err);
-    // });
+
   }
 
   private _onRequest = () => {
-    // Alert.alert(this.props.store.user.uid);
-    // this.Picturexx();
+    Alert.alert(this.props.store.user.uid);
   }
 
 }

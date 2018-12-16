@@ -78,8 +78,9 @@ class Screen extends Component<IProps, IState> {
                         disabled={ el.statusDeposit === 'Menunggu verifikasi' ? true : false }
                       />
                       <Text style={styles.itemSpaceV10} />
+                      <Text style={styles.smallTextInfo}>Status Request : {el.requestVisit}</Text>
                       <Button title=' Request Visit '
-                        onPress={() => this._onRequest()}
+                        onPress={() => this._onRequest(el)}
                         disabled={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ? false : true }
                       />
                   </View>
@@ -114,16 +115,7 @@ class Screen extends Component<IProps, IState> {
     // });
   }
 
-  private _onRequest = () => {
-    const url = 'homecare/visit';
-    const a = db1.db.ref(url).push();
-    db1.db.ref(url + '/' + a.key).update({
-      _id: a.key,
-      uid: this.props.store.user.uid,
-      namaLengkap: this.props.store.user.userNamaLengkap,
-      tanggalRequestVisit: Moment().format('DD/MM/YYYY'),
-      requestVisit: 'Menunggu Team Homecare',
-    });
+  private _onRequest = ( p ) => {
     const url2 = 'users/' + this.props.store.user.uid + '/visit';
     const a2 = db1.db.ref(url2).push();
     db1.db.ref(url2 + '/' + a2.key).update({
@@ -131,10 +123,23 @@ class Screen extends Component<IProps, IState> {
       uid: this.props.store.user.uid,
       namaLengkap: this.props.store.user.userNamaLengkap,
       tanggalRequestVisit: Moment().format('DD/MM/YYYY'),
-      requestVisit: 'Menunggu Team Homecare',
+      alamat: p.alamat,
+      handphone: p.handphone,
+      requestVisit: 'Request visit',
     });
     db1.db.ref('users/' + this.props.store.user.uid).update({
-      requestVisit: 'Menunggu Team Homecare',
+      requestVisit: 'Request visit',
+    });
+    const url = 'homecare/visit';
+    // const a = db1.db.ref(url).push();
+    db1.db.ref(url + '/' + a2.key).update({
+      _id: a2.key,
+      uid: this.props.store.user.uid,
+      namaLengkap: this.props.store.user.userNamaLengkap,
+      tanggalRequestVisit: Moment().format('DD/MM/YYYY'),
+      alamat: p.alamat,
+      handphone: p.handphone,
+      requestVisit: 'Request visit',
     });
   }
 
