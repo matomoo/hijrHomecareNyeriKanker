@@ -26,7 +26,7 @@ interface IState {
 @inject('store') @observer
 class Screen extends Component<IProps, IState> {
   public static navigationOptions = {
-    title: 'Home',
+    title: 'Homecare Nyeri Kanker dan Paliatif',
   };
 
   constructor(props) {
@@ -41,7 +41,7 @@ class Screen extends Component<IProps, IState> {
       <View style={styles.container}>
         { this.props.store.user.userRole === 'user' &&
           <CpUsers navigation={ this.props.navigation } />}
-        {/* <CpDeposit navigation={ this.props.navigation }/> */}
+
       </View>
     );
   }

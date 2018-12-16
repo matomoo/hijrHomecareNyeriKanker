@@ -51,7 +51,10 @@ class Screen extends Component<IProps, IState> {
     if (userToken) {
       this.props.store.user.uid = userToken;
       db1.db.ref(`users/${userToken}`).once('value')
-        .then((el) => this.props.store.user.userRole = el.val().role );
+        .then((el) => {
+          this.props.store.user.userRole = el.val().role;
+          this.props.store.user.userNamaLengkap = el.val().namaLengkap;
+        });
     //   const a = db1.db.ref(`users/${userToken}`);
     //   // console.log(a);
     //   this._getFirstData(a);

@@ -112,7 +112,9 @@ class Screen extends Component<IProps, IState> {
   }
 
   private _onSubmit() {
-    db1.db.ref(`users/${this.props.store.user.uid}/deposit`).update({
+    const q = db1.db.ref(`users/${this.props.store.user.uid}/deposit`).push();
+    db1.db.ref(`users/${this.props.store.user.uid}/deposit/${q.key}`).update({
+      _id: q.key,
       tanggalTransfer: this.state.tanggalTransfer,
       namaPengirim: this.state.namaPengirim,
       alamat: this.state.bankPengirim,
@@ -122,6 +124,11 @@ class Screen extends Component<IProps, IState> {
     db1.db.ref(`users/${this.props.store.user.uid}`).update({
       statusDeposit: 'Menunggu verifikasi',
       saldoDeposit: this.state.jumlahTransfer,
+    });
+    db1.db.ref(`deposit/konfirmasi/${q.key}`).update({
+      _id: q.key,
+      uid: this.props.store.user.uid,
+      namaLengkap: this.props.store.user.userNamaLengkap,
     });
     this.props.navigation.navigate('Home');
   }

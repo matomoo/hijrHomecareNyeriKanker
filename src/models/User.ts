@@ -7,6 +7,7 @@ class User {
 
   @observable private _uid: string;
   @observable private _userRole: string;
+  @observable private _userNamaLengkap: string;
 
   public get displayName(): string {
     return this._displayName;
@@ -43,6 +44,13 @@ class User {
   }
   public set userRole(value: string) {
     this._userRole = value;
+  }
+
+  public get userNamaLengkap(): string {
+    return this._userNamaLengkap;
+  }
+  public set userNamaLengkap(value: string) {
+    this._userNamaLengkap = value;
   }
 
 }

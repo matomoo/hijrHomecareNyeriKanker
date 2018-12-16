@@ -35,7 +35,7 @@ class Screen extends Component<IProps, IState> {
 
   constructor(props) {
     super(props);
-    this.taskUser = db1.db.ref(`users/${this.props.store.user.uid}`);
+    this.taskUser = db1.db.ref(`deposit/konfirmasi`);
     this.state = {
       isLoaded: true,
       users: [],
@@ -55,32 +55,7 @@ class Screen extends Component<IProps, IState> {
               { this.state.users.map( (el, key) =>
                 <View style={styles.header} key={key}>
                   <View style={styles.headerContent}>
-                    <Image style={styles.avatar}
-                      source={{uri: 'https://bootdey.com/img/Content/avatar/avatar1.png'}}/>
-                    <Text style={styles.name}>Halo, {el.namaLengkap}</Text>
-                    {/* <Text style={styles.textInfo}>Alamat {el.alamat}</Text> */}
-                    <NumberFormat
-                      value={el.saldoDeposit}
-                      displayType={'text'} thousandSeparator={true} prefix={'Rp. '}
-                      renderText={(value) => <Text style={styles.textInfo}>Saldo deposit : {value}</Text>} />
-                  </View>
-                  <View style={styles.bodyContent}>
-                    <Text style={styles.smallTextInfo}>Status deposit : {el.statusDeposit}</Text>
-                      { el.statusDeposit !== 'OK' &&
-                      <Text style={styles.smallTextInfo}>Silahkan melakukan transfer ke rekening berikut dan
-                        melakukan konfirmasi transfer, petugas kami akan melakukan
-                        verifikasi setelahnya</Text>
-                      }
-                      <Button title=' Konfirmasi Deposit '
-                        // color='#841584'
-                        onPress={() => this.props.navigation.navigate('InputKonfirmasiDeposit')}
-                        disabled={ el.statusDeposit === 'Menunggu verifikasi' ? true : false }
-                      />
-                      <Text style={styles.itemSpaceV10} />
-                      <Button title=' Request Visit '
-                        onPress={() => this._onRequest()}
-                        disabled={ el.statusDeposit === 'OK' ? false : true }
-                      />
+                    <Text style={styles.name}>{el.namaLengkap}</Text>
                   </View>
                 </View>,
               )}
@@ -109,6 +84,19 @@ class Screen extends Component<IProps, IState> {
   private _onRequest = () => {
     Alert.alert(this.props.store.user.uid);
     // this.Picturexx();
+  }
+
+  // Fetch the token from storage then navigate to our appropriate place
+  private _bootstrapAsync = async () => {
+    // const userToken = await AsyncStorage.getItem('userToken');
+    // this.props.store.user.uid = userToken;
+    // This will switch to the App screen or Auth screen and this loading
+    // screen will be unmounted and thrown away.
+    // this.props.navigation.navigate(userToken ? 'App' : 'Auth');
+    // const userSetting = await AsyncStorage.getItem('userSetting');
+    // const a = userSetting === null ? '{"s1":true,"s2":true,"s3":true}' : userSetting;
+    // this.props.store.userSetting.asyncUserSetting = a;
+    // this.props.navigation.navigate('App');
   }
 
 }
