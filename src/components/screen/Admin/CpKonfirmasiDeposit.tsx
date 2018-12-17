@@ -88,7 +88,9 @@ class Screen extends Component<IProps, IState> {
         users: r1,
         isLoaded: false,
       });
+      this.props.store.user.userBadge1 = r1.length;
     });
+    // console.log(this.props.store.user.userBadge1);
     //   .then((result) => {
     //     // const r1 = [];
     //     // result.forEach((el) => {

@@ -94,6 +94,7 @@ class Screen extends Component<IProps, IState> {
         users: r1,
         isLoaded: false,
       });
+      this.props.store.user.userBadge2 = r1.length;
     });
 
   }

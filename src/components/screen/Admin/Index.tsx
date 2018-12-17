@@ -10,7 +10,9 @@ import {
 
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
 import TabBar from 'react-native-underline-tabbar';
-import { ratio, colors } from '../../../utils/Styles';
+import { observer } from 'mobx-react';
+import { inject } from 'mobx-react/native';
+// import { ratio, colors } from '../../../utils/Styles';
 import CpKonfirmasiDeposit from './CpKonfirmasiDeposit';
 import CpRequestVisit from './CpRequestVisit';
 import CpStatusVisit from './CpStatusVisit';
@@ -29,6 +31,7 @@ const Page = (tabLabel, {label}) => (
   </View>
 );
 
+@inject('store') @observer
 class Index extends Component<any, any> {
 
   constructor(props) {
@@ -43,9 +46,15 @@ class Index extends Component<any, any> {
             renderTabBar={() => <TabBar underlineColor='#53ac49' />}
             style={{width: '100%'}}
             >
-          <CpKonfirmasiDeposit tabLabel={{label: 'Konfirmasi Deposit'}} navigation={ this.props.navigation } />
-          <CpRequestVisit tabLabel={{label: 'Request Visit'}} navigation={ this.props.navigation } />
-          <CpStatusVisit tabLabel={{label: 'Status Visit'}} navigation={ this.props.navigation } />
+          <CpKonfirmasiDeposit tabLabel={{label: 'Konfirmasi Deposit',
+              badge: this.props.store.user.userBadge1, badgeColor: 'red'}}
+            navigation={ this.props.navigation } />
+          <CpRequestVisit tabLabel={{label: 'Request Visit',
+              badge: this.props.store.user.userBadge2, badgeColor: 'red'}}
+            navigation={ this.props.navigation } />
+          <CpStatusVisit tabLabel={{label: 'Status Visit',
+              badge: this.props.store.user.userBadge3, badgeColor: 'red'}}
+            navigation={ this.props.navigation } />
           {/* <Page tabLabel={{label: 'Developr'}} /> */}
           {/* <Page tabLabel={{label: 'Page Demo'}} />
           <Page tabLabel={{label: 'Page Demo'}} /> */}
