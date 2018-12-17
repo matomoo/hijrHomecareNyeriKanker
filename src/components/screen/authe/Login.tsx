@@ -97,6 +97,11 @@ class Screen extends Component<IProps, IState> {
     await AsyncStorage.setItem('userToken', p.user.uid);
     // db._saveUserProfile(p.user.uid, q);
     this.props.store.user.uid = p.user.uid;
+    db1.db.ref(`users/${p.user.uid}`).once('value')
+        .then((el) => {
+          this.props.store.user.userRole = el.val().role;
+          this.props.store.user.userNamaLengkap = el.val().namaLengkap;
+        });
     this.props.navigation.navigate('Home');
   }
 
@@ -107,16 +112,16 @@ export default Screen;
 const styles: any = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f1f8e9',
+    backgroundColor: 'transparent',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
   inputContainer: {
-    borderBottomColor: '#F5FCFF',
+    borderColor: '#4caf50',
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
-    borderBottomWidth: 1,
+    borderWidth: 2,
     width: 250,
     height: 45,
     marginBottom: 20,

@@ -41,29 +41,29 @@ class Screen extends Component<IProps, IState> {
             <Image style={styles.imageLogo} source={require('../../../../assets/app_splash.png')} />
           </View>
           <View style={styles.inputContainer}>
+            <Image style={styles.inputIcon}
+              source={{uri: 'https://img.icons8.com/color/40/000000/circled-user-male-skin-type-3.png'}}/>
             <TextInput style={styles.inputs}
                 placeholder='Full name'
                 underlineColorAndroid='transparent'
                 onChangeText={(fname) => this.setState({fname})}/>
-            <Image style={styles.inputIcon}
-              source={{uri: 'https://img.icons8.com/color/40/000000/circled-user-male-skin-type-3.png'}}/>
           </View>
           <View style={styles.inputContainer}>
+            <Image style={styles.inputIcon}
+              source={{uri: 'https://img.icons8.com/flat_round/40/000000/secured-letter.png'}}/>
             <TextInput style={styles.inputs}
                 placeholder='Email'
                 keyboardType='email-address'
                 underlineColorAndroid='transparent'
                 onChangeText={(email) => this.setState({email})}/>
-            <Image style={styles.inputIcon}
-              source={{uri: 'https://img.icons8.com/flat_round/40/000000/secured-letter.png'}}/>
           </View>
           <View style={styles.inputContainer}>
+            <Image style={styles.inputIcon} source={{uri: 'https://img.icons8.com/color/40/000000/password.png'}}/>
             <TextInput style={styles.inputs}
                 placeholder='Password'
                 secureTextEntry={true}
                 underlineColorAndroid='transparent'
                 onChangeText={(password) => this.setState({password})}/>
-            <Image style={styles.inputIcon} source={{uri: 'https://img.icons8.com/color/40/000000/password.png'}}/>
           </View>
           <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}
             onPress={() => this.onRegister()}>
@@ -101,13 +101,13 @@ const styles: any = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f1f8e9',
+    backgroundColor: 'transparent',
   },
   inputContainer: {
-    borderBottomColor: '#F5FCFF',
+    borderColor: '#4caf50',
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
-    borderBottomWidth: 1,
+    borderWidth: 2,
     width: 250,
     height: 45,
     marginBottom: 20,
@@ -123,7 +123,7 @@ const styles: any = StyleSheet.create({
   inputIcon: {
     width: 30,
     height: 30,
-    marginRight: 15,
+    marginLeft: 10,
     justifyContent: 'center',
   },
   buttonContainer: {
