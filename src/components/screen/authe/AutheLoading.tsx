@@ -55,28 +55,9 @@ class Screen extends Component<IProps, IState> {
           this.props.store.user.userRole = el.val().role;
           this.props.store.user.userNamaLengkap = el.val().namaLengkap;
         });
-    //   const a = db1.db.ref(`users/${userToken}`);
-    //   // console.log(a);
-    //   this._getFirstData(a);
     }
     this.props.navigation.navigate(userToken ? 'App' : 'Auth');
   }
-
-  // private async _getFirstData( p ) {
-  //   await p.once('value')
-  //     .then((result) => {
-  //       const r1 = [];
-  //       r1.push(result.val());
-  //       this.setState({
-  //         users: r1,
-  //         // isLoaded: false,
-  //       });
-  //       // console.log(r1);
-  //       // console.log(this.state.users);
-  //     }).catch((err) => {
-  //       console.log(err);
-  //   });
-  // }
 
 }
 

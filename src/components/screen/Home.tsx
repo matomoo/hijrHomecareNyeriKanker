@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Button,
+  ScrollView,
 } from 'react-native';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
@@ -40,15 +41,17 @@ class Screen extends Component<IProps, IState> {
 
   public render() {
     return (
-      <View style={styles.container}>
-        { this.props.store.user.userRole === 'user' &&
-          <CpUsers navigation={ this.props.navigation } />}
-        { this.props.store.user.userRole === 'admin' &&
-          <View style={styles.container}>
-            <CpAdminIndex navigation={ this.props.navigation } />
-          </View>
-        }
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          { this.props.store.user.userRole === 'user' &&
+            <CpUsers navigation={ this.props.navigation } />}
+          { this.props.store.user.userRole === 'admin' &&
+            <View style={styles.container}>
+              <CpAdminIndex navigation={ this.props.navigation } />
+            </View>
+          }
+        </View>
+      </ScrollView>
     );
   }
 }

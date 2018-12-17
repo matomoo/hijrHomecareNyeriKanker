@@ -117,6 +117,17 @@ const styles: any = StyleSheet.create({
       // flexGrow: 0,
       // backgroundColor: 'yellow',
     },
+    textInfo: {
+      fontSize: 18,
+      marginTop: 20,
+      color: '#696969',
+    },
+    textSmallInfo: {
+      fontSize: 14,
+      color: '#696969',
+      marginBottom: 10,
+    },
+
   });
 
 export default styles;
