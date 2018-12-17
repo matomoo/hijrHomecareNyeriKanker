@@ -45,6 +45,7 @@ class Index extends Component<any, any> {
             tabBarActiveTextColor='#53ac49'
             renderTabBar={() => <TabBar underlineColor='#53ac49' />}
             style={{width: '100%'}}
+            prerenderingSiblingsNumber={1}
             >
           <CpKonfirmasiDeposit tabLabel={{label: 'Konfirmasi Deposit',
               badge: this.props.store.user.userBadge1, badgeColor: 'red'}}

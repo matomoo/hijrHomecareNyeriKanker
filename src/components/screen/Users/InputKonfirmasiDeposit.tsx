@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   TextInput,
   DatePickerAndroid,
+  ScrollView,
 } from 'react-native';
 import styles from '../Styles/template1';
 import { db } from '../../../firebase';
@@ -54,60 +55,61 @@ class Screen extends Component<IProps, IState> {
 
   public render() {
     return (
-      <View style={styles.container}>
+      <ScrollView>
+          <View style={styles.container}>
 
-        <View style={[styles.card1]}>
-          <Text style={styles.itemLeft}>Tanggal Transfer</Text>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.loginButton]}
-              onPress={() => this._onDateTap()}
-          >
-            <Text style={styles.loginText}>{ this.state.tanggalTransfer }</Text>
-          </TouchableHighlight>
+          <View style={[styles.card1]}>
+            <Text style={styles.itemLeft}>Tanggal Transfer</Text>
+            <TouchableHighlight
+              style={[styles.buttonContainer, styles.loginButton]}
+                onPress={() => this._onDateTap()}
+            >
+              <Text style={styles.loginText}>{ this.state.tanggalTransfer }</Text>
+            </TouchableHighlight>
+          </View>
+
+          <View style={styles.card1}>
+            <Text style={styles.itemLeft}>Nama Pengirim</Text>
+            <TextInput style={styles.itemRight}
+                underlineColorAndroid='transparent'
+                onChangeText={(namaPengirim) => this.setState({namaPengirim})}/>
+          </View>
+
+          <View style={styles.card1}>
+            <Text style={styles.itemLeft}>Bank Pengirim</Text>
+            <TextInput style={styles.itemRight}
+                underlineColorAndroid='transparent'
+                onChangeText={(bankPengirim) => this.setState({bankPengirim})}/>
+          </View>
+
+          <View style={styles.card1}>
+            <Text style={styles.itemLeft}>Handphone Pengirim</Text>
+            <TextInput style={styles.itemRight}
+                keyboardType='number-pad'
+                // placeholder='Nama Lengkap'
+                underlineColorAndroid='transparent'
+                onChangeText={(handphonePengirim) => this.setState({handphonePengirim})}/>
+          </View>
+
+          <View style={styles.card1}>
+            <Text style={styles.itemLeft}>Jumlah Transfer</Text>
+            <TextInput style={styles.itemRight}
+                keyboardType='number-pad'
+                // placeholder='Nama Lengkap'
+                underlineColorAndroid='transparent'
+                onChangeText={(jumlahTransfer) => this.setState({jumlahTransfer})}/>
+          </View>
+
+          <View style={styles.card2}>
+            <TouchableHighlight
+              style={[styles.buttonContainer, styles.loginButton]}
+                onPress={() => this._onSubmit()}
+            >
+              <Text style={styles.loginText}>Submit</Text>
+            </TouchableHighlight>
+          </View>
         </View>
-
-        <View style={styles.card1}>
-          <Text style={styles.itemLeft}>Nama Pengirim</Text>
-          <TextInput style={styles.itemRight}
-              underlineColorAndroid='transparent'
-              onChangeText={(namaPengirim) => this.setState({namaPengirim})}/>
-        </View>
-
-        <View style={styles.card1}>
-          <Text style={styles.itemLeft}>Bank Pengirim</Text>
-          <TextInput style={styles.itemRight}
-              underlineColorAndroid='transparent'
-              onChangeText={(bankPengirim) => this.setState({bankPengirim})}/>
-        </View>
-
-        <View style={styles.card1}>
-          <Text style={styles.itemLeft}>Handphone Pengirim</Text>
-          <TextInput style={styles.itemRight}
-              keyboardType='number-pad'
-              // placeholder='Nama Lengkap'
-              underlineColorAndroid='transparent'
-              onChangeText={(handphonePengirim) => this.setState({handphonePengirim})}/>
-        </View>
-
-        <View style={styles.card1}>
-          <Text style={styles.itemLeft}>Jumlah Transfer</Text>
-          <TextInput style={styles.itemRight}
-              keyboardType='number-pad'
-              // placeholder='Nama Lengkap'
-              underlineColorAndroid='transparent'
-              onChangeText={(jumlahTransfer) => this.setState({jumlahTransfer})}/>
-        </View>
-
-        <View style={styles.card2}>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.loginButton]}
-              onPress={() => this._onSubmit()}
-          >
-            <Text style={styles.loginText}>Submit</Text>
-          </TouchableHighlight>
-        </View>
-
-      </View>
+      </ScrollView>
     );
   }
 
@@ -124,7 +126,8 @@ class Screen extends Component<IProps, IState> {
     });
     db1.db.ref(`users/${this.props.store.user.uid}`).update({
       statusDeposit: 'Menunggu verifikasi',
-      saldoDeposit: this.state.jumlahTransfer,
+      saldoDeposit: parseInt(this.state.jumlahTransfer, 10)
+                      + parseInt(this.props.navigation.state.params.qey.el.saldoDeposit, 10),
     });
     db1.db.ref(`deposit/konfirmasi/${q.key}`).update({
       _id: q.key,

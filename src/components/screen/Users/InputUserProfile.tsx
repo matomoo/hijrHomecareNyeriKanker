@@ -7,6 +7,7 @@ import {
   View,
   TouchableHighlight,
   TextInput,
+  ScrollView,
 } from 'react-native';
 import styles from '../Styles/template1';
 import { db } from '../../../firebase';
@@ -50,6 +51,7 @@ class Screen extends Component<IProps, IState> {
 
   public render() {
     return (
+      <ScrollView>
       <View style={styles.container}>
         <View style={styles.card1}>
           <Text style={styles.itemLeft}>Nama Lengkap</Text>
@@ -91,44 +93,18 @@ class Screen extends Component<IProps, IState> {
         </TouchableHighlight> */}
 
       </View>
+      </ScrollView>
     );
   }
 
   public _onSubmit() {
-    // console.log('save', this.props.store.user.uid);
-    // db._saveUserProfile(
-    //   this.props.store.user.uid,
-    //   null,
-    //   this.state.namaLengkap,
-    //   this.state.handphone,
-    //   this.state.alamat,
-    // );
     this.taskUser.update({
       namaLengkap: this.state.namaLengkap,
       handphone: this.state.handphone,
       alamat: this.state.alamat,
     });
-    // db1.db.ref(`users/${this.props.store.user.uid}`).update({
-    //   namaLengkap: this.state.namaLengkap,
-    //   handphone: this.state.handphone,
-    //   alamat: this.state.alamat,
-    // });
   }
 
-  // private async getFirstData( p ) {
-  //   await p.once('value')
-  //     .then((result) => {
-  //       const r1 = [];
-  //       r1.push(result.val());
-  //       this.setState({
-  //         // listUsers: r1,
-  //         // btnDisabled: r1[0].flagActivity === 'userIdle' ? false : true,
-  //       });
-  //       console.log(r1);
-  //     }).catch((err) => {
-  //       console.log(err);
-  //   });
-  // }
 }
 
 export default Screen;

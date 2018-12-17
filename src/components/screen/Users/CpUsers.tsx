@@ -74,7 +74,7 @@ class Screen extends Component<IProps, IState> {
                       }
                       <Button title=' Konfirmasi Deposit '
                         // color='#841584'
-                        onPress={() => this.props.navigation.navigate('InputKonfirmasiDeposit')}
+                        onPress={() => this.props.navigation.navigate('InputKonfirmasiDeposit', { qey : {el} })}
                         disabled={ el.statusDeposit === 'Menunggu verifikasi' ? true : false }
                       />
                       <Text style={styles.itemSpaceV10} />
