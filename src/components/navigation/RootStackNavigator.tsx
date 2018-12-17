@@ -13,6 +13,7 @@ import InputUserProfile from '../screen/Users/InputUserProfile';
 import InputKonfirmasiDeposit from '../screen/Users/InputKonfirmasiDeposit';
 import DetailKonfirmasiDeposit from '../screen/Admin/DetailKonfirmasiDeposit';
 import DetailRequestVisit from '../screen/Admin/DetailRequestVisit';
+import DetailStatusVisit from '../screen/Admin/DetailStatusVisit';
 
 // Set here for tabNavigator content
 const BottomTabNavigator = createBottomTabNavigator(
@@ -87,6 +88,12 @@ const routeConfig = {
   },
   DetailRequestVisit: { screen: DetailRequestVisit,
     path: 'DetailRequestVisit',
+    // navigationOptions: {
+    //   title: 'Input Konfirmasi Deposit',
+    // },
+  },
+  DetailStatusVisit: { screen: DetailStatusVisit,
+    path: 'DetailStatusVisit',
     // navigationOptions: {
     //   title: 'Input Konfirmasi Deposit',
     // },

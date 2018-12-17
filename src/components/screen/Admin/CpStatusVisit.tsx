@@ -37,7 +37,7 @@ class Screen extends Component<IProps, IState> {
 
   constructor(props) {
     super(props);
-    this.taskUser = db1.db.ref(`deposit/konfirmasi`);
+    this.taskUser = db1.db.ref(`homecare/visit`);
     this.state = {
       isLoaded: true,
       users: [],
@@ -52,20 +52,23 @@ class Screen extends Component<IProps, IState> {
   public render() {
     return (
       <View style={styles.topContainer}>
-        <Text style={styles.textInfo}>Daftar User menunggu verifikasi</Text>
+        <Text style={styles.textInfo}>Daftar User Done Visit</Text>
         { this.state.isLoaded ?
             <ActivityIndicator /> :
             <View style={styles.container}>
               { this.state.users.map( (el, key) =>
                 <View style={styles.header} key={key}>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     // style={[styles.buttonContainer, styles.loginButton]}
-                    onPress={() => this.props.navigation.navigate('DetailKonfirmasiDeposit' , {qey : {el}})}
+                    onPress={() =>
+                      this.props.navigation.navigate('DetailStatusVisit' , {qey : {el}})
+                      // this._onRequest()
+                    }
                   >
                     <View style={styles.headerContent}>
                       <Text style={styles.name}>{el.namaLengkap}</Text>
                     </View>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </View>,
               )}
             </View>
@@ -75,13 +78,16 @@ class Screen extends Component<IProps, IState> {
   }
 
   private async getFirstData( p ) {
-    await p.on('value', (snap) => {
+    await p.orderByChild('requestVisit')
+      .equalTo('Menunggu Team Homecare')
+      .on('value', (snap) => {
       const r1 = [];
       snap.forEach((el) => {
         r1.push({
           uid: el.val().uid,
           namaLengkap: el.val().namaLengkap,
-          idTransfer: el.val()._id,
+          idRequestVisit: el.val()._id,
+          tanggalRequestVisit: el.val().tanggalRequestVisit,
         });
       });
       this.setState({
@@ -89,29 +95,11 @@ class Screen extends Component<IProps, IState> {
         isLoaded: false,
       });
     });
-    //   .then((result) => {
-    //     // const r1 = [];
-    //     // result.forEach((el) => {
-    //     //   r1.push({
-    //     //     uid: el.val().uid,
-    //     //     namaLengkap: el.val().namaLengkap,
-    //     //     idTransfer: el.val()._id,
-    //     //   });
-    //     // });
-    //     // this.setState({
-    //     //   users: r1,
-    //     //   isLoaded: false,
-    //     // });
-    //     // console.log(r1);
-    //     // console.log(this.state.users);
-    //   }).catch((err) => {
-    //     console.log(err);
-    // });
+
   }
 
   private _onRequest = () => {
     Alert.alert(this.props.store.user.uid);
-    // this.Picturexx();
   }
 
 }
@@ -152,7 +140,7 @@ const styles: any = StyleSheet.create({
     // marginHorizontal: 0,
   },
   headerContent: {
-    backgroundColor: '#66bb6a',
+    backgroundColor: '#0277bd',
     padding: 15,
     borderRadius: 15,
     // paddingHorizontal: 30,

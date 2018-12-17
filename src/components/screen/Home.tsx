@@ -12,8 +12,8 @@ import { inject } from 'mobx-react/native';
 
 import CpUsers from './Users/CpUsers';
 import CpDeposit from './Users/CpDeposit';
-import CpKonfirmasiDeposit from './Admin/CpKonfirmasiDeposit';
-import CpRequestVisit from './Admin/CpRequestVisit';
+// import CpKonfirmasiDeposit from './Admin/CpKonfirmasiDeposit';
+import CpAdminIndex from './Admin/Index';
 
 interface IProps {
   navigation?: any;
@@ -45,8 +45,7 @@ class Screen extends Component<IProps, IState> {
           <CpUsers navigation={ this.props.navigation } />}
         { this.props.store.user.userRole === 'admin' &&
           <View style={styles.container}>
-            <CpKonfirmasiDeposit navigation={ this.props.navigation } />
-            <CpRequestVisit navigation={ this.props.navigation } />
+            <CpAdminIndex navigation={ this.props.navigation } />
           </View>
         }
       </View>

@@ -33,7 +33,7 @@ interface IState {
 @inject('store') @observer
 class Screen extends Component<IProps, IState> {
   public static navigationOptions = {
-    title: 'Detail Request Visit',
+    title: 'Detail Status Visit',
   };
 
   private taskUser: any;
@@ -118,14 +118,14 @@ class Screen extends Component<IProps, IState> {
   private _onSubmit = (p) => {
     const url = 'homecare/visit';
     db1.db.ref(url + '/' + p.idRequestVisit).update({
-      requestVisit: 'Menunggu Team Homecare',
+      requestVisit: 'Idle',
     });
     const url2 = 'users/' + p.uid + '/visit';
     db1.db.ref(url2 + '/' + p.idRequestVisit).update({
-      requestVisit: 'Menunggu Team Homecare',
+      requestVisit: 'Idle',
     });
     db1.db.ref('users/' + p.uid).update({
-      requestVisit: 'Menunggu Team Homecare',
+      requestVisit: 'Idle',
     });
     this.props.navigation.navigate('Home');
   }

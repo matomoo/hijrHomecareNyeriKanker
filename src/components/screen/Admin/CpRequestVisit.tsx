@@ -22,6 +22,7 @@ import NumberFormat from 'react-number-format';
 interface IProps {
   navigation?: any;
   store?: any;
+  tabLabel?;
 }
 
 interface IState {
