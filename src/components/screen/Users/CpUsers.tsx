@@ -10,6 +10,7 @@ import {
   StatusBar,
   Button,
   Alert,
+  ScrollView,
 } from 'react-native';
 import { ratio, colors } from '../../../utils/Styles';
 import { observable } from 'mobx';
@@ -50,6 +51,7 @@ class Screen extends Component<IProps, IState> {
   public render() {
     return (
       <View style={styles.topContainer}>
+        <ScrollView>
         { this.state.isLoaded ?
             <ActivityIndicator /> :
             <View style={styles.container}>
@@ -63,31 +65,63 @@ class Screen extends Component<IProps, IState> {
                     <NumberFormat
                       value={el.saldoDeposit}
                       displayType={'text'} thousandSeparator={true} prefix={'Rp. '}
-                      renderText={(value) => <Text style={styles.textInfo}>Saldo deposit : {value}</Text>} />
+                      renderText={(value) => <Text style={styles.textInfo}>Saldo : {value}</Text>} />
                   </View>
                   <View style={styles.bodyContent}>
-                    <Text style={styles.smallTextInfo}>Status deposit : {el.statusDeposit}</Text>
-                      { el.statusDeposit !== 'OK' &&
+                    <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text>
+                    <TouchableOpacity
+                        style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
+                                [styles.buttonContainer, styles.loginButton] :
+                                [styles.buttonContainerDisabled, styles.loginButtonDisabled] }
+                        onPress={() => this._onRequest(el)}
+                        disabled={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ? false : true }
+                      >
+                          <Text style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
+                                [styles.buttonText] :
+                                [styles.buttonTextDisabled] }>Layanan Homecare</Text>
+                      </TouchableOpacity>
+                    <Text style={styles.itemSpaceV10} />
+                    <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text>
+                    <TouchableOpacity
+                        style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
+                                [styles.buttonContainer, styles.loginButton] :
+                                [styles.buttonContainerDisabled, styles.loginButtonDisabled] }
+                        // onPress={() => this._onRequest(el)}
+                        disabled={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ? false : true }
+                      >
+                          <Text style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
+                                [styles.buttonText] :
+                                [styles.buttonTextDisabled] }>Layanan Beli dan Antar Obat</Text>
+                      </TouchableOpacity>
+                    <Text style={styles.itemSpaceV10} />
+                    <Text style={styles.smallTextInfo}>Status pembayaran : {el.statusDeposit}</Text>
+                      {/* { el.statusDeposit !== 'OK' &&
                       <Text style={styles.smallTextInfo}>Silahkan melakukan transfer ke rekening berikut dan
                         melakukan konfirmasi transfer, petugas kami akan melakukan
                         verifikasi setelahnya</Text>
-                      }
-                      <Button title=' Konfirmasi Deposit '
+                      } */}
+                      <TouchableOpacity
+                        style={ el.statusDeposit === 'Menunggu verifikasi' ?
+                                [styles.buttonContainerDisabled, styles.loginButtonDisabled] :
+                                [styles.buttonContainer, styles.loginButton] }
+                        onPress={() => this.props.navigation.navigate('InputKonfirmasiDeposit', { qey : {el} })}
+                        disabled={ el.statusDeposit === 'Menunggu verifikasi' ? true : false }
+                      >
+                          <Text style={ el.statusDeposit === 'Menunggu verifikasi' ?
+                                [styles.buttonTextDisabled] :
+                                [styles.buttonText] }>Konfirmasi Pembayaran</Text>
+                      </TouchableOpacity>
+                      {/* <Button title=' Konfirmasi Deposit '
                         // color='#841584'
                         onPress={() => this.props.navigation.navigate('InputKonfirmasiDeposit', { qey : {el} })}
                         disabled={ el.statusDeposit === 'Menunggu verifikasi' ? true : false }
-                      />
-                      <Text style={styles.itemSpaceV10} />
-                      <Text style={styles.smallTextInfo}>Status Request : {el.requestVisit}</Text>
-                      <Button title=' Request Visit '
-                        onPress={() => this._onRequest(el)}
-                        disabled={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ? false : true }
-                      />
+                      /> */}
                   </View>
                 </View>,
               )}
             </View>
         }
+      </ScrollView>
       </View>
     );
   }
@@ -101,21 +135,9 @@ class Screen extends Component<IProps, IState> {
         isLoaded: false,
       });
     });
-    //   .then((result) => {
-    //     const r1 = [];
-    //     r1.push(result.val());
-    //     this.setState({
-    //       users: r1,
-    //       isLoaded: false,
-    //     });
-    //     // console.log(r1);
-    //     // console.log(this.state.users);
-    //   }).catch((err) => {
-    //     console.log(err);
-    // });
   }
 
-  private _onRequest = ( p ) => {
+  private _onRequest( p ) {
     const url2 = 'users/' + this.props.store.user.uid + '/visit';
     const a2 = db1.db.ref(url2).push();
     db1.db.ref(url2 + '/' + a2.key).update({
@@ -218,6 +240,46 @@ const styles: any = StyleSheet.create({
     color: '#696969',
   },
   itemSpaceV10: {
-    marginVertical: 10,
+    marginVertical: 3,
+  },
+  buttonContainer: {
+    // height: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    // width: 220,
+    borderRadius: 30,
+  },
+  loginButton: {
+    backgroundColor: '#1976d2',
+  },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    // marginBottom: 10,
+    color: '#ffffff',
+  },
+  buttonContainerDisabled: {
+    // height: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    // width: 220,
+    borderRadius: 30,
+  },
+  loginButtonDisabled: {
+    backgroundColor: '#e0e0e0',
+  },
+  buttonTextDisabled: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    // marginBottom: 10,
+    color: '#aeaeae',
   },
 });

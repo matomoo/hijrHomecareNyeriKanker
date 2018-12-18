@@ -73,12 +73,12 @@ class Screen extends Component<IProps, IState> {
                     <View
                       // style={{justifyContent: 'center'}}
                       >
-                      <TouchableHighlight
+                      <TouchableOpacity
                         style={[styles.buttonContainer, styles.loginButton]}
                           onPress={() => this._onSubmit()}
                       >
                         <Text style={styles.loginText}>Submit</Text>
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
                   </View>
                   {/* <View style={styles.card2}>

@@ -33,7 +33,7 @@ interface IState {
 @inject('store') @observer
 class Screen extends Component<IProps, IState> {
   public static navigationOptions = {
-    title: 'Konfirmasi Deposit',
+    title: 'Konfirmasi Pembayaran',
   };
   private taskDeposit: any;
 
@@ -57,7 +57,12 @@ class Screen extends Component<IProps, IState> {
     return (
       <ScrollView>
           <View style={styles.container}>
-
+          <View style={styles.card4}>
+            <Text style={styles.largeTextInfo}>Informasi Rekening Transfer Pembayaran</Text>
+            <Text style={styles.largeTextInfo}>Bank BNI</Text>
+            <Text style={styles.largeTextInfo}>Nomor rekening : 111 028 895</Text>
+            <Text style={styles.largeTextInfo}>Atas nama : Rektor Unhas QQ RS Unhas</Text>
+          </View>
           <View style={[styles.card1]}>
             <Text style={styles.itemLeft}>Tanggal Transfer</Text>
             <TouchableHighlight
@@ -101,12 +106,12 @@ class Screen extends Component<IProps, IState> {
           </View>
 
           <View style={styles.card2}>
-            <TouchableHighlight
+            <TouchableOpacity
               style={[styles.buttonContainer, styles.loginButton]}
                 onPress={() => this._onSubmit()}
             >
-              <Text style={styles.loginText}>Submit</Text>
-            </TouchableHighlight>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

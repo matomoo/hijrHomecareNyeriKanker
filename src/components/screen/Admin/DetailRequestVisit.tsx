@@ -71,7 +71,7 @@ class Screen extends Component<IProps, IState> {
                         style={[styles.buttonContainer, styles.loginButton]}
                           onPress={() => this._onSubmit(el)}
                       >
-                        <Text style={styles.loginText}>Submit</Text>
+                        <Text style={styles.loginText}>Menunggu Team Homecare</Text>
                       </TouchableHighlight>
                     </View>
                   </View>

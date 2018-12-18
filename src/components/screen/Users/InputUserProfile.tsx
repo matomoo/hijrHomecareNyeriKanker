@@ -25,6 +25,7 @@ interface IState {
   namaLengkap;
   handphone;
   alamat;
+  users;
 }
 
 @inject('store') @observer
@@ -42,12 +43,13 @@ class Screen extends Component<IProps, IState> {
       namaLengkap : '',
       handphone : '',
       alamat : '',
+      users: [],
     };
   }
 
-  // public componentDidMount() {
-  //   // this.getFirstData(this.taskUser);
-  // }
+  public componentDidMount() {
+    this.getFirstData(this.taskUser);
+  }
 
   public render() {
     return (
@@ -57,6 +59,7 @@ class Screen extends Component<IProps, IState> {
           <Text style={styles.itemLeft}>Nama Lengkap</Text>
           <TextInput style={styles.itemRight}
               // placeholder='Nama Lengkap'
+              value={this.state.namaLengkap}
               underlineColorAndroid='transparent'
               onChangeText={(namaLengkap) => this.setState({namaLengkap})}/>
         </View>
@@ -66,6 +69,7 @@ class Screen extends Component<IProps, IState> {
           <TextInput style={styles.itemRight}
               keyboardType='number-pad'
               // placeholder='Nama Lengkap'
+              value={this.state.handphone}
               underlineColorAndroid='transparent'
               onChangeText={(handphone) => this.setState({handphone})}/>
         </View>
@@ -77,16 +81,17 @@ class Screen extends Component<IProps, IState> {
               multiline={true}
               numberOfLines={4}
               underlineColorAndroid='transparent'
+              value={this.state.alamat}
               onChangeText={(alamat) => this.setState({alamat})}/>
         </View>
 
         <View style={styles.card2}>
-          <TouchableHighlight
+          <TouchableOpacity
             style={[styles.buttonContainer, styles.loginButton]}
               onPress={() => this._onSubmit()}
           >
-            <Text style={styles.loginText}>Submit</Text>
-          </TouchableHighlight>
+            <Text style={styles.buttonText}>Submit</Text>
+          </TouchableOpacity>
         </View>
         {/* <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('restore_password')}>
             <Text>Forgot your password?</Text>
@@ -102,6 +107,22 @@ class Screen extends Component<IProps, IState> {
       namaLengkap: this.state.namaLengkap,
       handphone: this.state.handphone,
       alamat: this.state.alamat,
+    });
+    this.props.navigation.navigate('Home');
+  }
+
+  private async getFirstData( p ) {
+    await p.once('value', (result) => {
+      // const r1 = [];
+      // r1.push(result.val());
+      console.log(result.val());
+      this.setState({
+        namaLengkap : result.val().namaLengkap,
+        handphone : result.val().handphone,
+        alamat : result.val().alamat,
+        // users: r1,
+        // isLoaded: false,
+      });
     });
   }
 

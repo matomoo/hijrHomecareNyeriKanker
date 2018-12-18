@@ -32,18 +32,6 @@ const styles: any = StyleSheet.create({
       marginLeft: 15,
       justifyContent: 'center',
     },
-    buttonContainer: {
-      height: 45,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginBottom: 10,
-      width: 200,
-      borderRadius: 30,
-    },
-    loginButton: {
-      backgroundColor: '#00b5ec',
-    },
     loginText: {
       color: 'white',
     },
@@ -117,6 +105,16 @@ const styles: any = StyleSheet.create({
       // flexGrow: 0,
       // backgroundColor: 'yellow',
     },
+    card4: {
+      backgroundColor: '#ffe082',
+      paddingVertical: 10,
+      paddingHorizontal: 15,
+      borderRadius: 15,
+      alignItems: 'flex-start',
+      // width: '100%',
+      margin: 10,
+      flex: 1,
+    },
     textInfo: {
       fontSize: 18,
       marginTop: 20,
@@ -126,6 +124,52 @@ const styles: any = StyleSheet.create({
       fontSize: 14,
       color: '#696969',
       marginBottom: 10,
+    },
+    largeTextInfo: {
+      fontSize: 16,
+      color: '#000000',
+      marginBottom: 4,
+      fontWeight: 'bold',
+    },
+    buttonContainer: {
+      // height: 50,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 10,
+      // width: 220,
+      borderRadius: 30,
+    },
+    loginButton: {
+      backgroundColor: '#1976d2',
+    },
+    buttonText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      // marginBottom: 10,
+      color: '#ffffff',
+    },
+    buttonContainerDisabled: {
+      // height: 50,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 10,
+      // width: 220,
+      borderRadius: 30,
+    },
+    loginButtonDisabled: {
+      backgroundColor: '#e0e0e0',
+    },
+    buttonTextDisabled: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      // marginBottom: 10,
+      color: '#aeaeae',
     },
 
   });

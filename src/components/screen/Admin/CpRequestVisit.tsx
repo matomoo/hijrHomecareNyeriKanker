@@ -11,6 +11,7 @@ import {
   Button,
   Alert,
   TouchableHighlight,
+  ScrollView,
 } from 'react-native';
 import { ratio, colors } from '../../../utils/Styles';
 import { observable } from 'mobx';
@@ -52,7 +53,8 @@ class Screen extends Component<IProps, IState> {
   public render() {
     return (
       <View style={styles.topContainer}>
-        <Text style={styles.textInfo}>Daftar User Request Visit</Text>
+        {/* <Text style={styles.textInfo}>Daftar User Request Visit</Text> */}
+        <ScrollView>
         { this.state.isLoaded ?
             <ActivityIndicator /> :
             <View style={styles.container}>
@@ -73,6 +75,7 @@ class Screen extends Component<IProps, IState> {
               )}
             </View>
         }
+        </ScrollView>
       </View>
     );
   }
@@ -125,7 +128,7 @@ const styles: any = StyleSheet.create({
     // marginVertical: 10,
     // marginHorizontal: 0,
     // height : 100,
-    // marginTop : 10,
+    // marginBottom : 10,
     // flexGrow: 1,
   },
   // card1: {
@@ -138,7 +141,7 @@ const styles: any = StyleSheet.create({
     // flexGrow: 1,
     flex: 1,
     // paddingVertical: 30,
-    // marginHorizontal: 0,
+    marginBottom: 10,
   },
   headerContent: {
     backgroundColor: '#0277bd',

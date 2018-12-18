@@ -11,6 +11,7 @@ import {
   Button,
   Alert,
   TouchableHighlight,
+  ScrollView,
 } from 'react-native';
 import { ratio, colors } from '../../../utils/Styles';
 import { observable } from 'mobx';
@@ -52,7 +53,8 @@ class Screen extends Component<IProps, IState> {
   public render() {
     return (
       <View style={styles.topContainer}>
-        <Text style={styles.textInfo}>Daftar User menunggu verifikasi</Text>
+        {/* <Text style={styles.textInfo}>Daftar User menunggu verifikasi</Text> */}
+        <ScrollView>
         { this.state.isLoaded ?
             <ActivityIndicator /> :
             <View style={styles.container}>
@@ -70,6 +72,7 @@ class Screen extends Component<IProps, IState> {
               )}
             </View>
         }
+        </ScrollView>
       </View>
     );
   }
@@ -151,7 +154,7 @@ const styles: any = StyleSheet.create({
     // flexGrow: 1,
     flex: 1,
     // paddingVertical: 30,
-    // marginHorizontal: 0,
+    marginBottom: 10,
   },
   headerContent: {
     backgroundColor: '#66bb6a',
