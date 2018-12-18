@@ -80,7 +80,7 @@ class Screen extends Component<IProps, IState> {
                                 [styles.buttonText] :
                                 [styles.buttonTextDisabled] }>Layanan Homecare</Text>
                       </TouchableOpacity>
-                    <Text style={styles.itemSpaceV10} />
+                    {/* <Text style={styles.itemSpaceV10} /> */}
                     <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text>
                     <TouchableOpacity
                         style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
@@ -93,7 +93,7 @@ class Screen extends Component<IProps, IState> {
                                 [styles.buttonText] :
                                 [styles.buttonTextDisabled] }>Layanan Beli dan Antar Obat</Text>
                       </TouchableOpacity>
-                    <Text style={styles.itemSpaceV10} />
+                    {/* <Text style={styles.itemSpaceV10} /> */}
                     <Text style={styles.smallTextInfo}>Status pembayaran : {el.statusDeposit}</Text>
                       {/* { el.statusDeposit !== 'OK' &&
                       <Text style={styles.smallTextInfo}>Silahkan melakukan transfer ke rekening berikut dan
@@ -203,7 +203,7 @@ const styles: any = StyleSheet.create({
   },
   headerContent: {
     backgroundColor: '#66bb6a',
-    padding: 30,
+    padding: 20,
     // paddingHorizontal: 30,
     // marginVertical: 0,
     marginHorizontal: 0,
@@ -217,26 +217,26 @@ const styles: any = StyleSheet.create({
     borderRadius: 63,
     borderWidth: 4,
     borderColor: 'white',
-    marginBottom: 10,
+    marginBottom: 5,
   },
   name: {
-    fontSize: 22,
+    fontSize: 20,
     color: '#FFFFFF',
     fontWeight: '600',
   },
   bodyContent: {
     flex: 1,
     alignItems: 'center',
-    padding: 30,
+    paddingVertical: 5,
   },
   textInfo: {
     fontSize: 18,
-    marginTop: 20,
+    marginTop: 10,
     color: '#fff59d',
   },
   smallTextInfo: {
     fontSize: 14,
-    marginBottom: 10,
+    marginTop: 5,
     color: '#696969',
   },
   itemSpaceV10: {
