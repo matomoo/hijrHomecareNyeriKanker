@@ -11,6 +11,7 @@ class User {
   @observable private _userBadge1: string;
   @observable private _userBadge2: string;
   @observable private _userBadge3: string;
+  @observable private _userTerms: string;
 
   public get displayName(): string {
     return this._displayName;
@@ -64,6 +65,9 @@ class User {
 
   public get userBadge3(): string { return this._userBadge3; }
   public set userBadge3(value: string) { this._userBadge3 = value; }
+
+  public get userTerms(): string { return this._userTerms; }
+  public set userTerms(value: string) { this._userTerms = value; }
 
 }
 

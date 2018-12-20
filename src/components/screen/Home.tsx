@@ -52,6 +52,7 @@ class Screen extends Component<IProps, IState> {
               <CpAdminIndex navigation={ this.props.navigation } />
             </View>
           }
+          {/* <Button title='TERMS' onPress={() => this.props.navigation.navigate('Terms')} /> */}
         </View>
       // </ScrollView>
     );

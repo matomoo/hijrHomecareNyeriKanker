@@ -9,7 +9,10 @@ import {
   TextInput,
 } from 'react-native';
 import { auth, db } from '../../../firebase';
+import Terms from '../Terms';
 import { ratio, colors } from '../../../utils/Styles';
+import { observer } from 'mobx-react';
+import { inject } from 'mobx-react/native';
 
 interface IProps {
   navigation?: any;
@@ -23,6 +26,7 @@ interface IState {
   password;
 }
 
+@inject('store') @observer
 class Screen extends Component<IProps, IState> {
 
   constructor(props) {
@@ -83,8 +87,10 @@ class Screen extends Component<IProps, IState> {
   public onRegister = () => {
     auth.doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(( p ) => {
-        db._saveUserProfile(p.user.uid, this.state.email);
-        this.props.navigation.navigate('Home');
+        db._saveUserProfile(p.user.uid, this.state.email, this.state.fname);
+        this.props.store.user.uid = p.user.uid;
+        this.props.navigation.navigate('Terms');
+        // this.props.navigation.navigate('Home');
       })
       .catch((error) => {
         Alert.alert(error.message);

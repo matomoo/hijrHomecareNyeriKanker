@@ -9,6 +9,7 @@ YellowBox.ignoreWarnings([
   'Warning: componentWillReceiveProps is deprecated',,
   'Module RCTImageLoader',
   'Setting a timer for a long',
+  'Can\'t perform a React state update on an unmounted component',
 ]);
 
 AppRegistry.registerComponent('hijrhomecarenyerikanker', () => App);

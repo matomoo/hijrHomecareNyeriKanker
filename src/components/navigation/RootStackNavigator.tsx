@@ -14,6 +14,8 @@ import InputKonfirmasiDeposit from '../screen/Users/InputKonfirmasiDeposit';
 import DetailKonfirmasiDeposit from '../screen/Admin/DetailKonfirmasiDeposit';
 import DetailRequestVisit from '../screen/Admin/DetailRequestVisit';
 import DetailStatusVisit from '../screen/Admin/DetailStatusVisit';
+import Terms from '../screen/Terms';
+import AutheLoading from '../screen/authe/AutheLoading';
 
 // Set here for tabNavigator content
 const BottomTabNavigator = createBottomTabNavigator(
@@ -94,6 +96,18 @@ const routeConfig = {
   },
   DetailStatusVisit: { screen: DetailStatusVisit,
     path: 'DetailStatusVisit',
+    // navigationOptions: {
+    //   title: 'Input Konfirmasi Deposit',
+    // },
+  },
+  Terms: { screen: Terms,
+    path: 'Terms',
+    // navigationOptions: {
+    //   title: 'Input Konfirmasi Deposit',
+    // },
+  },
+  AutheLoading: { screen: AutheLoading,
+    path: 'AutheLoading',
     // navigationOptions: {
     //   title: 'Input Konfirmasi Deposit',
     // },

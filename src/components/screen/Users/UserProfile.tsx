@@ -13,6 +13,7 @@ import * as db1 from '../../../firebase/firebase';
 import styles from '../Styles/template1';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
+import { auth, db } from '../../../firebase';
 
 interface IProps {
   navigation?: any;
@@ -91,6 +92,7 @@ class Screen extends Component<IProps, IState> {
 
   private _onLogout = async () => {
     await AsyncStorage.clear();
+    auth.doSignOut();
     this.props.navigation.navigate('Auth');
   }
 

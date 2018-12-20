@@ -1,13 +1,18 @@
 import { db } from './firebase';
 import firebase from 'firebase';
 
-export const _saveUserProfile = ( q, a ) => {
+export const _saveUserProfile = ( q, a, b ) => {
   // const id = db.ref(`users`).push();
   // const key = id.key;
   db.ref(`users/${q}`).update({
     _id: q,
     email: a,
     role: 'user',
+    userTerms: 'nok',
+    namaLengkap: b,
+    handphone: '',
+    alamat: '',
+    saldoDeposit: '0',
   });
 };
 

@@ -27,7 +27,8 @@ interface IProps {
 
 interface IState {
   isLoaded: boolean;
-  users: any;
+  __users: any;
+  totalDeposit;
 }
 
 @inject('store') @observer
@@ -46,7 +47,8 @@ class Screen extends Component<IProps, IState> {
     //                   ${this.props.navigation.state.params.qey.el.idTransfer}`);
     this.state = {
       isLoaded: true,
-      users: [],
+      __users: [],
+      totalDeposit: '0',
     };
   }
 
@@ -61,7 +63,7 @@ class Screen extends Component<IProps, IState> {
         { this.state.isLoaded ?
             <ActivityIndicator /> :
             <View style={styles.container}>
-              { this.state.users.map( (el, key) =>
+              { this.state.__users.map( (el, key) =>
                 <View style={styles.header} key={key}>
                   <View style={styles.headerContent}>
                     {/* <Text style={styles.name}>{el.namaLengkap}</Text> */}
@@ -77,7 +79,13 @@ class Screen extends Component<IProps, IState> {
                         style={[styles.buttonContainer, styles.loginButton]}
                           onPress={() => this._onSubmit()}
                       >
-                        <Text style={styles.loginText}>Submit</Text>
+                        <Text style={styles.loginText}>Pembayaran OK</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={[styles.buttonContainer, styles.loginButton]}
+                          onPress={() => this._onReject()}
+                      >
+                        <Text style={styles.loginText}>Pembayaran Tidak OK</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -112,8 +120,12 @@ class Screen extends Component<IProps, IState> {
           });
         });
         this.setState({
-          users: r1,
+          __users: r1,
           isLoaded: false,
+        });
+        db1.db.ref('users/' + this.props.navigation.state.params.qey.el.uid + '/saldoDeposit')
+          .once('value').then((res) => { // res.val();
+            this.setState({ totalDeposit : res.val()});
         });
         // console.log(r1);
         // console.log(this.state.users);
@@ -124,12 +136,31 @@ class Screen extends Component<IProps, IState> {
 
   private _onSubmit = () => {
     // Alert.alert(this.props.store.user.uid);
+    // console.log('state', this.state);
+    // console.log('navigation', this.props.navigation.state.params);
     const url = 'users/' + this.props.navigation.state.params.qey.el.uid;
+    db1.db.ref(url).update({
+      statusDeposit: 'OK',
+      saldoDeposit: parseInt(this.state.totalDeposit, 10) + parseInt(this.state.__users[0].jumlahTransfer, 10),
+      // parseInt(this.state.totalDeposit, 10) + parseInt(this.state.__users.jumlahTransfer, 10),
+    });
     db1.db.ref(url + '/deposit/' + this.props.navigation.state.params.qey.el.idTransfer).update({
       statusVerifikasi: 'OK',
     });
+    db1.db.ref('deposit/konfirmasi')
+      .child(this.props.navigation.state.params.qey.el.idTransfer).remove();
+    this.props.navigation.navigate('Home');
+  }
+
+  private _onReject = () => {
+    const url = 'users/' + this.props.navigation.state.params.qey.el.uid;
     db1.db.ref(url).update({
-      statusDeposit: 'OK',
+      statusDeposit: 'Pembayaran tidak dapat di verifikasi.',
+      // saldoDeposit: parseInt(this.state.totalDeposit, 10) + parseInt(this.state.__users[0].jumlahTransfer, 10),
+      // parseInt(this.state.totalDeposit, 10) + parseInt(this.state.__users.jumlahTransfer, 10),
+    });
+    db1.db.ref(url + '/deposit/' + this.props.navigation.state.params.qey.el.idTransfer).update({
+      statusVerifikasi: 'Pembayaran tidak dapat di verifikasi.',
     });
     db1.db.ref('deposit/konfirmasi')
       .child(this.props.navigation.state.params.qey.el.idTransfer).remove();

@@ -131,8 +131,7 @@ class Screen extends Component<IProps, IState> {
     });
     db1.db.ref(`users/${this.props.store.user.uid}`).update({
       statusDeposit: 'Menunggu verifikasi',
-      saldoDeposit: parseInt(this.state.jumlahTransfer, 10)
-                      + parseInt(this.props.navigation.state.params.qey.el.saldoDeposit, 10),
+      // saldoDeposit: this.state.jumlahTransfer,
     });
     db1.db.ref(`deposit/konfirmasi/${q.key}`).update({
       _id: q.key,
