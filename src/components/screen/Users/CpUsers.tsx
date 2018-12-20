@@ -70,19 +70,22 @@ class Screen extends Component<IProps, IState> {
                   <View style={styles.bodyContent}>
                     <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text>
                     <TouchableOpacity
-                        style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle'  ?
-                                [styles.buttonContainer, styles.loginButton] :
-                                [styles.buttonContainerDisabled, styles.loginButtonDisabled] }
+                        style={ parseInt(el.saldoDeposit, 10) >= parseInt('50000', 10) &&
+                                  el.statusDeposit === 'OK' && el.requestVisit === 'Idle'  ?
+                                    [styles.buttonContainer, styles.loginButton] :
+                                    [styles.buttonContainerDisabled, styles.loginButtonDisabled] }
                         onPress={() => this._onRequest(el)}
-                        disabled={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ? false : true }
+                        disabled={ parseInt(el.saldoDeposit, 10) >= parseInt('50000', 10) &&
+                                    el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ? false : true }
                       >
-                          <Text style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
+                          <Text style={ parseInt(el.saldoDeposit, 10) >= parseInt('50000', 10) &&
+                                          el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
                                 [styles.buttonText] :
                                 [styles.buttonTextDisabled] }>Layanan Homecare</Text>
                       </TouchableOpacity>
                     {/* <Text style={styles.itemSpaceV10} /> */}
 
-                    {/* <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text>
+                    <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text>
                     <TouchableOpacity
                         style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
                                 [styles.buttonContainer, styles.loginButton] :
@@ -93,7 +96,7 @@ class Screen extends Component<IProps, IState> {
                           <Text style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
                                 [styles.buttonText] :
                                 [styles.buttonTextDisabled] }>Layanan Beli dan Antar Obat</Text>
-                      </TouchableOpacity> */}
+                      </TouchableOpacity>
 
                     {/* <Text style={styles.itemSpaceV10} /> */}
                     <Text style={styles.smallTextInfo}>Status pembayaran : {el.statusDeposit}</Text>
