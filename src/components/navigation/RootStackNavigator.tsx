@@ -16,6 +16,7 @@ import DetailRequestVisit from '../screen/Admin/DetailRequestVisit';
 import DetailStatusVisit from '../screen/Admin/DetailStatusVisit';
 import Terms from '../screen/Terms';
 import AutheLoading from '../screen/authe/AutheLoading';
+import LayananHomecare from '../screen/Users/LayananHomecare';
 
 // Set here for tabNavigator content
 const BottomTabNavigator = createBottomTabNavigator(
@@ -108,6 +109,12 @@ const routeConfig = {
   },
   AutheLoading: { screen: AutheLoading,
     path: 'AutheLoading',
+    // navigationOptions: {
+    //   title: 'Input Konfirmasi Deposit',
+    // },
+  },
+  LayananHomecare: { screen: LayananHomecare,
+    path: 'LayananHomecare',
     // navigationOptions: {
     //   title: 'Input Konfirmasi Deposit',
     // },

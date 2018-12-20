@@ -91,6 +91,7 @@ class Screen extends Component<IProps, IState> {
           namaLengkap: el.val().namaLengkap,
           idRequestVisit: el.val()._id,
           tanggalRequestVisit: el.val().tanggalRequestVisit,
+          itemLayanan: el.val().itemLayanan,
         });
       });
       this.setState({

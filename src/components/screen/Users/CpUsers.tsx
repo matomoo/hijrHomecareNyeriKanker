@@ -81,7 +81,8 @@ class Screen extends Component<IProps, IState> {
                                 [styles.buttonTextDisabled] }>Layanan Homecare</Text>
                       </TouchableOpacity>
                     {/* <Text style={styles.itemSpaceV10} /> */}
-                    <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text>
+
+                    {/* <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text>
                     <TouchableOpacity
                         style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
                                 [styles.buttonContainer, styles.loginButton] :
@@ -92,7 +93,8 @@ class Screen extends Component<IProps, IState> {
                           <Text style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
                                 [styles.buttonText] :
                                 [styles.buttonTextDisabled] }>Layanan Beli dan Antar Obat</Text>
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
+
                     {/* <Text style={styles.itemSpaceV10} /> */}
                     <Text style={styles.smallTextInfo}>Status pembayaran : {el.statusDeposit}</Text>
                       {/* { el.statusDeposit !== 'OK' &&
@@ -138,31 +140,33 @@ class Screen extends Component<IProps, IState> {
   }
 
   private _onRequest( p ) {
-    const url2 = 'users/' + this.props.store.user.uid + '/visit';
-    const a2 = db1.db.ref(url2).push();
-    db1.db.ref(url2 + '/' + a2.key).update({
-      _id: a2.key,
-      uid: this.props.store.user.uid,
-      namaLengkap: this.props.store.user.userNamaLengkap,
-      tanggalRequestVisit: Moment().format('DD/MM/YYYY'),
-      alamat: p.alamat,
-      handphone: p.handphone,
-      requestVisit: 'Request visit',
-    });
-    db1.db.ref('users/' + this.props.store.user.uid).update({
-      requestVisit: 'Request visit',
-    });
-    const url = 'homecare/visit';
-    // const a = db1.db.ref(url).push();
-    db1.db.ref(url + '/' + a2.key).update({
-      _id: a2.key,
-      uid: this.props.store.user.uid,
-      namaLengkap: this.props.store.user.userNamaLengkap,
-      tanggalRequestVisit: Moment().format('DD/MM/YYYY'),
-      alamat: p.alamat,
-      handphone: p.handphone,
-      requestVisit: 'Request visit',
-    });
+    // const url2 = 'users/' + this.props.store.user.uid + '/visit';
+    // const a2 = db1.db.ref(url2).push();
+    // db1.db.ref(url2 + '/' + a2.key).update({
+    //   _id: a2.key,
+    //   uid: this.props.store.user.uid,
+    //   namaLengkap: this.props.store.user.userNamaLengkap,
+    //   tanggalRequestVisit: Moment().format('DD/MM/YYYY'),
+    //   alamat: p.alamat,
+    //   handphone: p.handphone,
+    //   requestVisit: 'Request visit',
+    // });
+    // db1.db.ref('users/' + this.props.store.user.uid).update({
+    //   requestVisit: 'Request visit',
+    // });
+    // const url = 'homecare/visit';
+    // // const a = db1.db.ref(url).push();
+    // db1.db.ref(url + '/' + a2.key).update({
+    //   _id: a2.key,
+    //   uid: this.props.store.user.uid,
+    //   namaLengkap: this.props.store.user.userNamaLengkap,
+    //   tanggalRequestVisit: Moment().format('DD/MM/YYYY'),
+    //   alamat: p.alamat,
+    //   handphone: p.handphone,
+    //   requestVisit: 'Request visit',
+    // });
+
+    this.props.navigation.navigate('LayananHomecare');
   }
 
 }
