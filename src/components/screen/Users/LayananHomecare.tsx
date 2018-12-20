@@ -64,7 +64,11 @@ class Screen extends Component<IProps, IState> {
                       value={this.state.switchValue[key]}/>
                   </View>
                   <View style={styles.content2}>
-                    <Text style={styles.tex2}>{ el.r2 }</Text>
+                    {/* <Text style={styles.tex2}>{ el.r2 }</Text> */}
+                    <NumberFormat
+                      value={el.r2}
+                      displayType={'text'} thousandSeparator={true} prefix={'Rp. '}
+                      renderText={(value) => <Text style={styles.tex2}>{value}</Text>} />
                     <Text style={styles.tex3}>{ el.r3 }</Text>
                   </View>
                 {/* </TouchableOpacity> */}
