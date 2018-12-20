@@ -1,12 +1,13 @@
 import firebase from 'firebase';
 
 const config = {
-  apiKey: 'AIzaSyCMJbo1YBZistnfPdjMO7r0R7vRi2jPu-M',
-  authDomain: 'hijrhomecareuh.firebaseapp.com',
-  databaseURL: 'https://hijrhomecareuh.firebaseio.com',
-  projectId: 'hijrhomecareuh',
-  storageBucket: 'hijrhomecareuh.appspot.com',
-  messagingSenderId: '328157133517',
+  apiKey: 'AIzaSyCouX3FhvySSAFoB6RaS5xGk1GhHlXcmk4',
+    authDomain: 'hijrhomecare.firebaseapp.com',
+    databaseURL: 'https://hijrhomecare.firebaseio.com',
+    projectId: 'hijrhomecare',
+    storageBucket: 'hijrhomecare.appspot.com',
+    messagingSenderId: '403755576599',
+
 };
 
 if (!firebase.apps.length) {
