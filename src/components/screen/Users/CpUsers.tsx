@@ -70,7 +70,7 @@ class Screen extends Component<IProps, IState> {
                   <View style={styles.bodyContent}>
                     <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text>
                     <TouchableOpacity
-                        style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
+                        style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle'  ?
                                 [styles.buttonContainer, styles.loginButton] :
                                 [styles.buttonContainerDisabled, styles.loginButtonDisabled] }
                         onPress={() => this._onRequest(el)}
@@ -103,13 +103,13 @@ class Screen extends Component<IProps, IState> {
                         verifikasi setelahnya</Text>
                       } */}
                       <TouchableOpacity
-                        style={ el.statusDeposit !== 'Menunggu verifikasi' ?
+                        style={ el.statusDeposit === 'Menunggu verifikasi' ?
                                 [styles.buttonContainerDisabled, styles.loginButtonDisabled] :
                                 [styles.buttonContainer, styles.loginButton] }
                         onPress={() => this.props.navigation.navigate('InputKonfirmasiDeposit', { qey : {el} })}
-                        disabled={ el.statusDeposit !== 'Menunggu verifikasi' ? true : false }
+                        disabled={ el.statusDeposit === 'Menunggu verifikasi' ? true : false }
                       >
-                          <Text style={ el.statusDeposit !== 'Menunggu verifikasi' ?
+                          <Text style={ el.statusDeposit === 'Menunggu verifikasi' ?
                                 [styles.buttonTextDisabled] :
                                 [styles.buttonText] }>Konfirmasi Pembayaran</Text>
                       </TouchableOpacity>

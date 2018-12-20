@@ -13,6 +13,8 @@ export const _saveUserProfile = ( q, a, b ) => {
     handphone: '',
     alamat: '',
     saldoDeposit: '0',
+    statusDeposit: 'OK',
+    requestVisit: 'Idle',
   });
 };
 

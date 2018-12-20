@@ -91,24 +91,20 @@ class Screen extends Component<IProps, IState> {
       .catch((error) => {
         Alert.alert(error.message);
       });
-    console.log(this.props.store.user.uid, this.props.store.user.userTerms);
-    if (this.props.store.user.userTerms === 'ok') {
-      this.props.navigation.navigate('Home');
-    } else {
-      this.props.navigation.navigate('Terms');
-    }
+    // console.log(this.props.store.user.uid, this.props.store.user.userTerms);
   }
 
   private _signInAsync = async ( p, q ) => {
     await AsyncStorage.setItem('userToken', p.user.uid);
       // db._saveUserProfile(p.user.uid, q);
     this.props.store.user.uid = p.user.uid;
-    db1.db.ref(`users/${p.user.uid}`).once('value')
-        .then((el) => {
-          this.props.store.user.userRole = el.val().role;
-          this.props.store.user.userNamaLengkap = el.val().namaLengkap;
-          this.props.store.user.userTerms = el.val().userTerms;
-        });
+    this.props.navigation.navigate('AppLoader');
+    // db1.db.ref(`users/${p.user.uid}`).once('value')
+    //     .then((el) => {
+    //       this.props.store.user.userRole = el.val().role;
+    //       this.props.store.user.userNamaLengkap = el.val().namaLengkap;
+    //       this.props.store.user.userTerms = el.val().userTerms;
+    //     });
   }
 
 }

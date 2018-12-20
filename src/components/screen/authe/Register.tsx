@@ -89,7 +89,7 @@ class Screen extends Component<IProps, IState> {
       .then(( p ) => {
         db._saveUserProfile(p.user.uid, this.state.email, this.state.fname);
         this.props.store.user.uid = p.user.uid;
-        this.props.navigation.navigate('Terms');
+        this.props.navigation.navigate('AppLoader');
         // this.props.navigation.navigate('Home');
       })
       .catch((error) => {
