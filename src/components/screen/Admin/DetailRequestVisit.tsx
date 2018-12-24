@@ -72,6 +72,14 @@ class Screen extends Component<IProps, IState> {
                         </Text>
                       </View>,
                       )}
+                    { !!el.itemObat && <Text  style={styles.name}>Item Obat: </Text>}
+                    { !!el.itemObat && JSON.parse(el.itemObat).map((res, key2) =>
+                      <View key={key2}>
+                        <Text style={styles.name}>
+                          - {res.namaObat}
+                        </Text>
+                      </View>,
+                      )}
                     <View
                       // style={{justifyContent: 'center'}}
                       >
@@ -111,6 +119,7 @@ class Screen extends Component<IProps, IState> {
             // alamat: el.val().alamat,
             // handphone: el.val().handphone,
             itemLayanan: el.val().itemLayanan,
+            itemObat: el.val().itemObat,
           });
         });
         this.setState({
@@ -129,10 +138,10 @@ class Screen extends Component<IProps, IState> {
     db1.db.ref(url + '/' + p.idRequestVisit).update({
       requestVisit: 'Menunggu Team Homecare',
     });
-    const url2 = 'users/' + p.uid + '/visit';
-    db1.db.ref(url2 + '/' + p.idRequestVisit).update({
-      requestVisit: 'Menunggu Team Homecare',
-    });
+    // const url2 = 'users/' + p.uid + '/visit';
+    // db1.db.ref(url2 + '/' + p.idRequestVisit).update({
+    //   requestVisit: 'Menunggu Team Homecare',
+    // });
     db1.db.ref('users/' + p.uid).update({
       requestVisit: 'Menunggu Team Homecare',
     });

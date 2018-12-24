@@ -118,12 +118,12 @@ class Screen extends Component<IProps, IState> {
   private _onSubmit = (p) => {
     const url = 'homecare/visit';
     db1.db.ref(url + '/' + p.idRequestVisit).update({
-      requestVisit: 'Idle',
+      requestVisit: 'Done',
     });
     const url2 = 'users/' + p.uid + '/visit';
-    db1.db.ref(url2 + '/' + p.idRequestVisit).update({
-      requestVisit: 'Idle',
-    });
+    // db1.db.ref(url2 + '/' + p.idRequestVisit).update({
+    //   requestVisit: 'Idle',
+    // });
     db1.db.ref('users/' + p.uid).update({
       requestVisit: 'Idle',
     });

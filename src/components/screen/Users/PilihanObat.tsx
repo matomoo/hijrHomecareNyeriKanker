@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
-import LayananHomecare from '../AppsData/LayananHomecare';
+import PilihanObat from '../AppsData/PilihanObat';
 import * as db1 from '../../../firebase/firebase';
 import NumberFormat from 'react-number-format';
 import Moment from 'moment';
@@ -28,22 +28,22 @@ interface IState {
   isLoaded: boolean;
   items: any;
   switchValue;
-  pilihObatAktif;
 }
 
 @inject('store') @observer
 class Screen extends Component<IProps, IState> {
   public static navigationOptions = {
-    title: 'Pilihan Layanan Homecare',
+    title: 'Pilihan Obat',
   };
 
   constructor(props) {
     super(props);
     this.state = {
       isLoaded: false,
-      switchValue: [false, false, false, false, false, false, false],
+      switchValue: [false, false, false, false, false, false, false, false, false, false,
+                    false, false, false, false, false, false, false, false, false, false,
+                    false, false, false],
       items: [],
-      pilihObatAktif: '',
     };
   }
 
@@ -51,7 +51,7 @@ class Screen extends Component<IProps, IState> {
     return (
       <View style={styles.container}>
         <ScrollView>
-        { LayananHomecare.map((el, key) =>
+        { PilihanObat.map((el, key) =>
           <View key={key}
             style={styles.containerCard}>
               <View style={styles.card1}>
@@ -70,15 +70,15 @@ class Screen extends Component<IProps, IState> {
                     <NumberFormat
                       value={el.r2}
                       displayType={'text'} thousandSeparator={true} prefix={'Rp. '}
-                      renderText={(value) => <Text style={styles.tex2}>{value}</Text>} />
-                    <Text style={styles.tex3}>{ el.r3 }</Text>
+                      renderText={(value) => <Text style={styles.tex2}>{value}/{el.r3}</Text>} />
+                    {/* <Text style={styles.tex3}>{el.r3}</Text> */}
                   </View>
                 {/* </TouchableOpacity> */}
               </View>
           </View>,
         )}
         </ScrollView>
-        <View style={{marginVertical: 3}}>
+        <View style={{marginVertical: 5}}>
           <Button title='PROSES'
               onPress={() => this._onPress()}
               // disabled={true}
@@ -89,46 +89,45 @@ class Screen extends Component<IProps, IState> {
   }
 
   private _onPress( ) {
+    // this.setState({ totalHargaLayanan: 0 });
     const a = [];
     this.state.switchValue.forEach((res, key) => {
       if (res) {
+        // console.log(PilihanObat[key].r1);
         a.push({
-          namaLayanan: LayananHomecare[key].r1,
-          hargaLayanan: LayananHomecare[key].r2,
+          namaObat: PilihanObat[key].r1,
+          hargaObat: PilihanObat[key].r2,
         });
-        this.props.store.user.userPilihObatAktif = key === 6 ? 'Ya' : 'Tidak';
       }
     });
-    const url2 = 'users/' + this.props.store.user.uid + '/visit';
-    const a2 = db1.db.ref(url2).push();
-    if (this.props.store.user.userPilihObatAktif === 'Ya') {
-      this.props.store.user.userPilihObatAktif = a2.key;
-    }
+    // const url2 = 'users/' + this.props.store.user.uid + '/visit/visitObat';
+    const a2 = this.props.store.user.userPilihObatAktif;
     // db1.db.ref(url2 + '/' + a2.key).update({
     //   _id: a2.key,
     //   uid: this.props.store.user.uid,
     //   namaLengkap: this.props.store.user.userNamaLengkap,
-    //   tanggalRequestVisit: Moment().format('DD/MM/YYYY'),
-    //   itemLayanan: JSON.stringify(a),
+    //   tanggalRequestVisitObat: Moment().format('DD/MM/YYYY'),
+    //   itemObat: JSON.stringify(a),
     //   // alamat: p.alamat,
     //   // handphone: p.handphone,
-    //   requestVisit: 'Request visit',
+    //   requestVisitObat: 'Request visit obat',
     // });
-    db1.db.ref('users/' + this.props.store.user.uid).update({
-      requestVisit: 'Request visit',
-    });
-    // const url = 'homecare/visit';
+    // db1.db.ref('users/' + this.props.store.user.uid).update({
+    //   requestVisitObat: 'Request visit obat',
+    // });
+    const url = 'homecare/visit';
     // const a = db1.db.ref(url).push();
-    db1.db.ref('homecare/visit/' + a2.key).update({
-      _id: a2.key,
+    db1.db.ref(url + '/' + a2 ).update({
+      _id: a2,
       uid: this.props.store.user.uid,
-      namaLengkap: this.props.store.user.userNamaLengkap,
-      tanggalRequestVisit: Moment().format('DD/MM/YYYY'),
-      itemLayanan: JSON.stringify(a),
+      // namaLengkap: this.props.store.user.userNamaLengkap,
+      // tanggalRequestVisitObat: Moment().format('DD/MM/YYYY'),
+      itemObat: JSON.stringify(a),
       // alamat: p.alamat,
       // handphone: p.handphone,
-      requestVisit: 'Request visit',
+      // requestVisitObat: 'Request visit obat',
     });
+    this.props.store.user.userPilihObatAktif = 'Tidak';
     this.props.navigation.navigate('Home');
     // console.log(JSON.stringify(a));
   }

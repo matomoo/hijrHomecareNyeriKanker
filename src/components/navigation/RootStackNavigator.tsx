@@ -18,6 +18,7 @@ import Terms from '../screen/Terms';
 import AutheLoading from '../screen/authe/AutheLoading';
 import LayananHomecare from '../screen/Users/LayananHomecare';
 import AppLoader from '../screen/AppLoader';
+import PilihanObat from '../screen/Users/PilihanObat';
 
 // Set here for tabNavigator content
 const BottomTabNavigator = createBottomTabNavigator(
@@ -122,6 +123,12 @@ const routeConfig = {
   },
   AppLoader: { screen: AppLoader,
     path: 'AppLoader',
+    // navigationOptions: {
+    //   title: 'Input Konfirmasi Deposit',
+    // },
+  },
+  PilihanObat: { screen: PilihanObat,
+    path: 'PilihanObat',
     // navigationOptions: {
     //   title: 'Input Konfirmasi Deposit',
     // },

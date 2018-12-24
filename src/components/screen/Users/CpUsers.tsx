@@ -38,6 +38,7 @@ class Screen extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     this.taskUser = db1.db.ref(`users/${this.props.store.user.uid}`);
+    this.props.store.user.userPilihObatAktif = 'Tidak';
     this.state = {
       isLoaded: true,
       users: [],
@@ -85,15 +86,15 @@ class Screen extends Component<IProps, IState> {
                       </TouchableOpacity>
                     {/* <Text style={styles.itemSpaceV10} /> */}
 
-                    <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text>
+                    {/* <Text style={styles.smallTextInfo}>Status request : {el.requestVisitObat}</Text> */}
                     <TouchableOpacity
-                        style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
+                        style={ this.props.store.user.userPilihObatAktif !== 'Tidak' ?
                                 [styles.buttonContainer, styles.loginButton] :
                                 [styles.buttonContainerDisabled, styles.loginButtonDisabled] }
-                        // onPress={() => this._onRequest(el)}
-                        disabled={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ? false : true }
+                        onPress={() => this.props.navigation.navigate('PilihanObat')}
+                        disabled={ this.props.store.user.userPilihObatAktif !== 'Tidak' ? false : true }
                       >
-                          <Text style={ el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
+                          <Text style={ this.props.store.user.userPilihObatAktif !== 'Tidak' ?
                                 [styles.buttonText] :
                                 [styles.buttonTextDisabled] }>Layanan Beli dan Antar Obat</Text>
                       </TouchableOpacity>

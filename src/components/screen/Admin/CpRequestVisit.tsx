@@ -100,7 +100,6 @@ class Screen extends Component<IProps, IState> {
       });
       this.props.store.user.userBadge2 = r1.length;
     });
-
   }
 
   private _onRequest = () => {
