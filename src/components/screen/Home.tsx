@@ -38,6 +38,7 @@ class Screen extends Component<IProps, IState> {
     this.state = {
       isLoaded: false,
     };
+    // console.log('role', this.props.store.user.userRole);
   }
 
   public render() {

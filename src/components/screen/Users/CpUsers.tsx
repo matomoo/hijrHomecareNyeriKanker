@@ -18,6 +18,8 @@ import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
 import * as db1 from '../../../firebase/firebase';
 import NumberFormat from 'react-number-format';
+// import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-picker';
 import Moment from 'moment';
 
 interface IProps {
@@ -47,6 +49,7 @@ class Screen extends Component<IProps, IState> {
 
   public componentDidMount() {
     this.getFirstData(this.taskUser);
+    // console.log('cpUser', this.props.store.user.userAvatar1);
   }
 
   public render() {
@@ -59,8 +62,12 @@ class Screen extends Component<IProps, IState> {
               { this.state.users.map( (el, key) =>
                 <View style={styles.header} key={key}>
                   <View style={styles.headerContent}>
-                    <Image style={styles.avatar}
-                      source={{uri: 'https://bootdey.com/img/Content/avatar/avatar1.png'}}/>
+                    <TouchableOpacity
+                      onPress={() => this._onPressAvatar()}
+                      >
+                      <Image style={styles.avatar}
+                        source={{uri: this.props.store.user.userAvatar1 }}/>
+                    </TouchableOpacity>
                     <Text style={styles.name}>Halo, {el.namaLengkap}</Text>
                     {/* <Text style={styles.textInfo}>Alamat {el.alamat}</Text> */}
                     <NumberFormat
@@ -140,6 +147,8 @@ class Screen extends Component<IProps, IState> {
         users: r1,
         isLoaded: false,
       });
+      // this.props.store.user.userAvatar1 = result.val().userAvatar;
+      // console.log('cpUser', this.props.store.user.userAvatar1);
     });
   }
 
@@ -171,6 +180,43 @@ class Screen extends Component<IProps, IState> {
     // });
 
     this.props.navigation.navigate('LayananHomecare');
+  }
+
+  private _onPressAvatar() {
+    // console.log(this.props.store.user.userAvatar);
+    const options = {
+      title: 'Select Avatar',
+      // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    ImagePicker.showImagePicker(options, (response) => {
+      // console.log('Response = ', response);
+
+      if (response.didCancel) {
+        // console.log('User cancelled image picker');
+      } else if (response.error) {
+        // console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        // console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        // console.log(source.uri);
+        // console.log(this.props.store.user.uid);
+        // console.log(this.props.store.user.userAvatar);
+        db1.db.ref('users/' + this.props.store.user.uid).update({
+          userAvatar: source.uri,
+        });
+        AsyncStorage.setItem('userAva', source.uri);
+        this.props.store.user.userAvatar1 = source.uri;
+        // this.setState({
+        //   avatarSource: source,
+        // });
+      }
+    });
   }
 
 }
