@@ -60,14 +60,14 @@ class Screen extends Component<IProps, IState> {
             <View style={styles.container}>
               { this.state.users.map( (el, key) =>
                 <View style={styles.header} key={key}>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     // style={[styles.buttonContainer, styles.loginButton]}
                     onPress={() => this.props.navigation.navigate('DetailKonfirmasiDeposit' , {qey : {el}})}
                   >
                     <View style={styles.headerContent}>
                       <Text style={styles.name}>{el.namaLengkap}</Text>
                     </View>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </View>,
               )}
             </View>
@@ -157,7 +157,7 @@ const styles: any = StyleSheet.create({
     marginBottom: 10,
   },
   headerContent: {
-    backgroundColor: '#66bb6a',
+    backgroundColor: '#2e7d32',
     padding: 15,
     borderRadius: 15,
     // paddingHorizontal: 30,

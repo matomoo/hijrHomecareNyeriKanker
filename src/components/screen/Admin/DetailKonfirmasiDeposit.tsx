@@ -208,7 +208,7 @@ const styles: any = StyleSheet.create({
     // marginHorizontal: 0,
   },
   headerContent: {
-    backgroundColor: '#66bb6a',
+    backgroundColor: '#2e7d32',
     padding: 15,
     borderRadius: 15,
     // paddingHorizontal: 30,

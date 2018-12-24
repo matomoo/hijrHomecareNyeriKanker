@@ -20,7 +20,7 @@ interface IProps {
 }
 
 interface IState {
-  // isLoggingIn: boolean;
+  isLoggingIn: boolean;
   fname;
   email;
   password;
@@ -35,6 +35,7 @@ class Screen extends Component<IProps, IState> {
       fname   : '',
       email   : '',
       password: '',
+      isLoggingIn: false,
     };
   }
 
@@ -69,12 +70,16 @@ class Screen extends Component<IProps, IState> {
                 underlineColorAndroid='transparent'
                 onChangeText={(password) => this.setState({password})}/>
           </View>
-          <TouchableOpacity style={[styles.buttonContainer, styles.loginButton]}
+          <TouchableOpacity style={!this.state.isLoggingIn ?
+              [styles.buttonContainer, styles.loginButton] :
+              [styles.buttonContainerDisabled, styles.loginButtonDisabled]
+            }
+            disabled={this.state.isLoggingIn}
             onPress={() => this.onRegister()}>
-            <Text style={styles.loginText}>Register</Text>
+            <Text style={!this.state.isLoggingIn ? styles.buttonText : styles.buttonTextDisabled}>Register</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Login')}>
-              <Text style={styles.btnText}>Punya akun?</Text>
+              <Text style={styles.btnText}>Login</Text>
           </TouchableOpacity>
         </View>
       );
@@ -85,6 +90,7 @@ class Screen extends Component<IProps, IState> {
   }
 
   public onRegister = () => {
+    this.setState({ isLoggingIn: true });
     auth.doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(( p ) => {
         db._saveUserProfile(p.user.uid, this.state.email, this.state.fname);
@@ -94,6 +100,7 @@ class Screen extends Component<IProps, IState> {
       })
       .catch((error) => {
         Alert.alert(error.message);
+        this.setState({ isLoggingIn: false });
       });
   }
 }
@@ -132,15 +139,6 @@ const styles: any = StyleSheet.create({
     marginLeft: 10,
     justifyContent: 'center',
   },
-  buttonContainer: {
-    height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 10,
-    width: 250,
-    borderRadius: 30,
-  },
   btnByRegister: {
     height: 15,
     flexDirection: 'row',
@@ -150,12 +148,21 @@ const styles: any = StyleSheet.create({
     width: 300,
     backgroundColor: 'transparent',
   },
-  loginButton: {
-    backgroundColor: '#00b5ec',
-  },
-  loginText: {
-    color: 'white',
-  },
+  // buttonContainer: {
+  //   height: 45,
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   marginBottom: 10,
+  //   width: 250,
+  //   borderRadius: 30,
+  // },
+  // loginButton: {
+  //   backgroundColor: '#00b5ec',
+  // },
+  // loginText: {
+  //   color: 'white',
+  // },
   bgImage: {
     flex: 1,
     resizeMode,
@@ -189,5 +196,45 @@ const styles: any = StyleSheet.create({
   imageLogo: {
     width: 350,
     height: 255,
+  },
+  buttonContainer: {
+    // height: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    width: 250,
+    borderRadius: 30,
+  },
+  loginButton: {
+    backgroundColor: '#1976d2',
+  },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    // marginBottom: 10,
+    color: '#ffffff',
+  },
+  buttonContainerDisabled: {
+    // height: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    width: 250,
+    borderRadius: 30,
+  },
+  loginButtonDisabled: {
+    backgroundColor: '#e0e0e0',
+  },
+  buttonTextDisabled: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    // marginBottom: 10,
+    color: '#aeaeae',
   },
 });

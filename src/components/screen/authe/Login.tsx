@@ -21,7 +21,7 @@ interface IProps {
 }
 
 interface IState {
-  // isLoggingIn: boolean;
+  isLoggingIn: boolean;
   email;
   password;
 }
@@ -34,6 +34,7 @@ class Screen extends Component<IProps, IState> {
     this.state = {
       email   : '',
       password: '',
+      isLoggingIn: false,
     };
   }
 
@@ -61,19 +62,22 @@ class Screen extends Component<IProps, IState> {
               onChangeText={(password) => this.setState({password})}/>
         </View>
 
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.loginButton]}
-            onPress={() => this.onLogin(this.state.email, this.state.password)}>
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableHighlight>
+        <TouchableOpacity
+          style={!this.state.isLoggingIn ?
+            [styles.buttonContainer, styles.loginButton] :
+            [styles.buttonContainerDisabled, styles.loginButtonDisabled]}
+          disabled={this.state.isLoggingIn}
+          onPress={() => this.onLogin(this.state.email, this.state.password)}>
+          <Text style={!this.state.isLoggingIn ? styles.buttonText : styles.buttonTextDisabled}>Login</Text>
+        </TouchableOpacity>
 
         {/* <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('restore_password')}>
             <Text>Forgot your password?</Text>
         </TouchableHighlight> */}
 
-        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Register')}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Register')}>
             <Text>Register</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -83,6 +87,7 @@ class Screen extends Component<IProps, IState> {
   }
 
   private onLogin = ( p, q ) => {
+    this.setState({ isLoggingIn: true });
     auth.doSignInWithEmailAndPassword(p, q)
       .then((authUser) => {
         this._signInAsync(authUser, p);
@@ -90,6 +95,7 @@ class Screen extends Component<IProps, IState> {
       })
       .catch((error) => {
         Alert.alert(error.message);
+        this.setState({ isLoggingIn: false });
       });
     // console.log(this.props.store.user.uid, this.props.store.user.userTerms);
   }
@@ -142,8 +148,33 @@ const styles: any = StyleSheet.create({
     marginLeft: 15,
     justifyContent: 'center',
   },
+  // buttonContainer: {
+  //   height: 45,
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   marginBottom: 10,
+  //   width: 250,
+  //   borderRadius: 30,
+  // },
+  // loginButton: {
+  //   backgroundColor: '#00b5ec',
+  // },
+  // loginText: {
+  //   color: 'white',
+  // },
+  imageContainer: {
+    marginBottom: 20,
+    padding: 10,
+  },
+  imageLogo: {
+    width: 350,
+    height: 250,
+  },
   buttonContainer: {
-    height: 45,
+    // height: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -152,17 +183,32 @@ const styles: any = StyleSheet.create({
     borderRadius: 30,
   },
   loginButton: {
-    backgroundColor: '#00b5ec',
+    backgroundColor: '#1976d2',
   },
-  loginText: {
-    color: 'white',
+  buttonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    // marginBottom: 10,
+    color: '#ffffff',
   },
-  imageContainer: {
-    marginBottom: 20,
-    padding: 10,
+  buttonContainerDisabled: {
+    // height: 50,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    width: 250,
+    borderRadius: 30,
   },
-  imageLogo: {
-    width: 350,
-    height: 250,
+  loginButtonDisabled: {
+    backgroundColor: '#e0e0e0',
+  },
+  buttonTextDisabled: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    // marginBottom: 10,
+    color: '#aeaeae',
   },
 });
