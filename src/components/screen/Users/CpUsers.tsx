@@ -11,6 +11,7 @@ import {
   Button,
   Alert,
   ScrollView,
+  Platform,
 } from 'react-native';
 import { ratio, colors } from '../../../utils/Styles';
 import { observable } from 'mobx';
@@ -67,7 +68,7 @@ class Screen extends Component<IProps, IState> {
                 <View style={styles.header} key={key}>
                   <View style={styles.headerContent}>
                     <TouchableOpacity
-                      onPress={() => this._onPressAva4()}
+                      onPress={() => this._onPressAva5()}
                       >
                       <Image style={styles.avatar}
                         source={{uri: el.userAvatar }}/>
@@ -270,18 +271,67 @@ class Screen extends Component<IProps, IState> {
               console.log('RES', res);
             });
         });
+    });
+  }
 
-      // const a = new Blob([image], {type : 'image/jpeg'});
-      // dbRef.put(a)
-      //   .then((res) => {
-      //     console.log('res', dbRef.getDownloadURL());
-      //     db1.db.ref('users/' + this.props.store.user.uid).update({
-      //       userAvatar: dbRef.getDownloadURL(),
-      //     });
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
+  private _onPressAva5() {
+    const options = {
+      title: 'Select Avatar',
+      // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.showImagePicker(options, (response) => {
+      // console.log('filesize', response.type, response.fileSize);
+      const image = response.uri;
+      const dbRef = firebase.storage().ref('users/' + this.props.store.user.uid + '/images/ava.jpg');
+
+      const Blob = RNFetchBlob.polyfill.Blob;
+      const fs = RNFetchBlob.fs;
+      window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+      window.Blob = Blob;
+
+      const uploadImage = (uri, fbRef, mime = 'image/jpg') => {
+        return new Promise((resolve, reject) => {
+          const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+          let uploadBlob = null;
+          // const imageRef = firebase.storage().ref('posts').child(imageName);
+          const imageRef = fbRef;
+          fs.readFile(uploadUri, 'base64')
+            .then((data) => {
+              return Blob.build(data, { type: `${mime};BASE64` });
+            })
+            .then((blob) => {
+              uploadBlob = blob;
+              return imageRef.put(blob, { contentType: mime });
+            })
+            .then(() => {
+              uploadBlob.close();
+              return imageRef.getDownloadURL();
+            })
+            .then((url) => {
+              resolve(url);
+              // console.log(url);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
+      };
+
+      uploadImage(image, dbRef)
+        .then((res) => {
+          console.log(res);
+          db1.db.ref('users/' + this.props.store.user.uid).update({
+            userAvatar: res,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      ;
     });
   }
 
