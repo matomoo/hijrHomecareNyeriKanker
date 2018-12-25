@@ -48,9 +48,9 @@ class Screen extends Component<IProps, IState> {
   // Fetch the token from storage then navigate to our appropriate place
   private _bootstrapAsync = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
-    const userAva = await AsyncStorage.getItem('userAva');
-    this.props.store.user.userAvatar1 = userAva;
-    console.log(userAva);
+    // const userAva = await AsyncStorage.getItem('userAva');
+    // this.props.store.user.userAvatar1 = userAva;
+    // console.log(userAva);
     if (userToken) {
       this.props.store.user.uid = userToken;
       db1.db.ref(`users/${userToken}`).on('value', (el) => {

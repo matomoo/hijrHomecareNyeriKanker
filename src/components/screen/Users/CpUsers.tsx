@@ -20,7 +20,11 @@ import * as db1 from '../../../firebase/firebase';
 import NumberFormat from 'react-number-format';
 // import ImagePicker from 'react-native-image-crop-picker';
 import ImagePicker from 'react-native-image-picker';
+// import * as firebase from '../../../firebase/firebase';
+import firebase from 'firebase';
+import RNFetchBlob from 'rn-fetch-blob';
 import Moment from 'moment';
+import RNFS from 'react-native-fs';
 
 interface IProps {
   navigation?: any;
@@ -63,10 +67,10 @@ class Screen extends Component<IProps, IState> {
                 <View style={styles.header} key={key}>
                   <View style={styles.headerContent}>
                     <TouchableOpacity
-                      onPress={() => this._onPressAvatar()}
+                      onPress={() => this._onPressAva4()}
                       >
                       <Image style={styles.avatar}
-                        source={{uri: this.props.store.user.userAvatar1 }}/>
+                        source={{uri: el.userAvatar }}/>
                     </TouchableOpacity>
                     <Text style={styles.name}>Halo, {el.namaLengkap}</Text>
                     {/* <Text style={styles.textInfo}>Alamat {el.alamat}</Text> */}
@@ -182,6 +186,106 @@ class Screen extends Component<IProps, IState> {
     this.props.navigation.navigate('LayananHomecare');
   }
 
+  private _onPressAva2() {
+    const options = {
+      title: 'Select Avatar',
+      // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.showImagePicker(options, (response) => {
+      const image = response.uri;
+      const dbRef = firebase.storage().ref('users/' + this.props.store.user.uid + '/images/ava.jpg');
+      RNFS.read(image, 0, 0,  'base64')
+        .then((resx) => {
+          console.log(resx);
+          dbRef.put(resx)
+            .then(() => {
+              console.log('res', dbRef.getDownloadURL());
+              // db1.db.ref('users/' + this.props.store.user.uid).update({
+              //   userAvatar: dbRef.getDownloadURL(),
+              // });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+
+    });
+  }
+
+  private _onPressAva3() {
+    const options = {
+      title: 'Select Avatar',
+      // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.showImagePicker(options, (response) => {
+      const image = response.data.toString();
+      const dbRef = firebase.storage().ref('users/' + this.props.store.user.uid + '/images/ava.jpg');
+      const a = new Blob([image], {type : 'image/jpeg'});
+      dbRef.put(a)
+        .then((res) => {
+          console.log('res', dbRef.getDownloadURL());
+          db1.db.ref('users/' + this.props.store.user.uid).update({
+            userAvatar: dbRef.getDownloadURL(),
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  }
+
+  private _onPressAva4() {
+    const options = {
+      title: 'Select Avatar',
+      // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('filesize', response.type, response.fileSize);
+      const image = response.uri;
+      const dbRef = firebase.storage().ref('users/' + this.props.store.user.uid + '/images/ava.jpg');
+
+      const Blob = RNFetchBlob.polyfill.Blob;
+      window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+      window.Blob = Blob;
+      Blob.build(RNFetchBlob.wrap(image), { type: response.type + ';' })
+        .then((blob) => {
+          dbRef
+            .put(blob)
+            .then(() => {
+              return dbRef.getDownloadURL();
+            })
+            .then((res) => {
+              console.log('RES', res);
+            });
+        });
+
+      // const a = new Blob([image], {type : 'image/jpeg'});
+      // dbRef.put(a)
+      //   .then((res) => {
+      //     console.log('res', dbRef.getDownloadURL());
+      //     db1.db.ref('users/' + this.props.store.user.uid).update({
+      //       userAvatar: dbRef.getDownloadURL(),
+      //     });
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+    });
+  }
+
+  // error
   private _onPressAvatar() {
     // console.log(this.props.store.user.userAvatar);
     const options = {
@@ -194,28 +298,40 @@ class Screen extends Component<IProps, IState> {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
-      // console.log('Response = ', response);
+      // console.log(response.data);
+      db1.db.ref('users/' + this.props.store.user.uid).update({
+        userAvatar: response.uri,
+      });
+      AsyncStorage.setItem('userAva', response.uri);
+      this.props.store.user.userAvatar1 = response.uri;
 
-      if (response.didCancel) {
-        // console.log('User cancelled image picker');
-      } else if (response.error) {
-        // console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        // console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const source = { uri: response.uri };
-        // console.log(source.uri);
-        // console.log(this.props.store.user.uid);
-        // console.log(this.props.store.user.userAvatar);
-        db1.db.ref('users/' + this.props.store.user.uid).update({
-          userAvatar: source.uri,
+      const image = response.uri;
+      const imageRef = firebase.storage().ref('users/' + this.props.store.user.uid )
+        .child('dp.jpg');
+
+      imageRef.putString(image, 'base64', {contentType: 'image/jpeg'})
+      // .then(() => {
+      //   return imageRef.getDownloadURL();
+      // })
+        .then((res) => {
+          console.log('RES', res);
+        }, (err) => {
+          console.log('err', err);
         });
-        AsyncStorage.setItem('userAva', source.uri);
-        this.props.store.user.userAvatar1 = source.uri;
-        // this.setState({
-        //   avatarSource: source,
-        // });
-      }
+
+      // const Blob = RNFetchBlob.polyfill.Blob;
+      // Blob.build(image, { type: 'image/jpeg' })
+      //   .then((blob) => {
+      //     imageRef
+      //       .put(blob)
+      //       .then(() => {
+      //         return imageRef.getDownloadURL();
+      //       })
+      //       .then((res) => {
+      //         console.log('RES', res);
+      //       });
+      //   });
+
     });
   }
 
