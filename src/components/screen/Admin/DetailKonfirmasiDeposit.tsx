@@ -11,6 +11,7 @@ import {
   Button,
   Alert,
   TouchableHighlight,
+  ScrollView,
 } from 'react-native';
 import { ratio, colors } from '../../../utils/Styles';
 import { observable } from 'mobx';
@@ -29,6 +30,7 @@ interface IState {
   isLoaded: boolean;
   __users: any;
   totalDeposit;
+  buktiBayar;
 }
 
 @inject('store') @observer
@@ -49,6 +51,7 @@ class Screen extends Component<IProps, IState> {
       isLoaded: true,
       __users: [],
       totalDeposit: '0',
+      buktiBayar: 'assets:/thumbnail-bukti.png',
     };
   }
 
@@ -58,6 +61,7 @@ class Screen extends Component<IProps, IState> {
 
   public render() {
     return (
+        <ScrollView>
       <View style={styles.topContainer}>
         {/* <Text style={styles.textInfo}>Detail Informasi Transfer</Text> */}
         { this.state.isLoaded ?
@@ -72,6 +76,9 @@ class Screen extends Component<IProps, IState> {
                     <Text style={styles.name}>Handphone pengirim : {el.handphonePengirim}</Text>
                     <Text style={styles.name}>Bank pengirim : {el.bankPengirim}</Text>
                     <Text style={styles.name}>Jumlah transfer : {el.jumlahTransfer}</Text>
+                    <Text style={styles.name}>Screenshot bukti bayar:</Text>
+                    <Image style={styles.buktiBayar}
+                      source={{uri: this.state.buktiBayar }}/>
                     <View
                       // style={{justifyContent: 'center'}}
                       >
@@ -96,6 +103,7 @@ class Screen extends Component<IProps, IState> {
             </View>
         }
       </View>
+        </ScrollView>
     );
   }
 
@@ -117,6 +125,7 @@ class Screen extends Component<IProps, IState> {
             bankPengirim: el.val().bankPengirim,
             jumlahTransfer: el.val().jumlahTransfer,
             idTransfer: el.val()._id,
+            // ssBuktiBayar: el.val().ssBuktiBayar,
           });
         });
         this.setState({
@@ -126,6 +135,10 @@ class Screen extends Component<IProps, IState> {
         db1.db.ref('users/' + this.props.navigation.state.params.qey.el.uid + '/saldoDeposit')
           .once('value').then((res) => { // res.val();
             this.setState({ totalDeposit : res.val()});
+        });
+        db1.db.ref('users/' + this.props.navigation.state.params.qey.el.uid + '/ssBuktiBayar')
+          .once('value').then((res) => { // res.val();
+            this.setState({ buktiBayar: res.val() });
         });
         // console.log(r1);
         // console.log(this.state.users);
@@ -274,5 +287,14 @@ const styles: any = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: '#00b5ec',
+  },
+  buktiBayar: {
+    width: 300,
+    height: 400,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: 'white',
+    marginBottom: 5,
+    backgroundColor: 'white',
   },
 });

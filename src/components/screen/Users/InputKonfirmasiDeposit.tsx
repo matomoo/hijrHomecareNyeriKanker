@@ -9,6 +9,7 @@ import {
   TextInput,
   DatePickerAndroid,
   ScrollView,
+  Platform,
 } from 'react-native';
 import styles from '../Styles/template1';
 import { db } from '../../../firebase';
@@ -16,6 +17,11 @@ import * as db1 from '../../../firebase/firebase';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
 import moment from 'moment';
+import ImagePicker from 'react-native-image-picker';
+import firebase from 'firebase';
+import RNFetchBlob from 'rn-fetch-blob';
+import Moment from 'moment';
+import RNFS from 'react-native-fs';
 
 interface IProps {
   navigation?: any;
@@ -28,6 +34,7 @@ interface IState {
   bankPengirim;
   handphonePengirim;
   jumlahTransfer;
+  buktiBayar;
 }
 
 @inject('store') @observer
@@ -46,6 +53,7 @@ class Screen extends Component<IProps, IState> {
       bankPengirim: '',
       handphonePengirim : '',
       jumlahTransfer: '',
+      buktiBayar: 'assets:/thumbnail-bukti.png',
     };
   }
 
@@ -105,6 +113,16 @@ class Screen extends Component<IProps, IState> {
                 onChangeText={(jumlahTransfer) => this.setState({jumlahTransfer})}/>
           </View>
 
+          <View style={styles.card3}>
+            <Text style={styles.itemLeft}>Screenshot Bukti Bayar</Text>
+            <TouchableOpacity
+              onPress={() => this._onPressAva5()}
+              >
+              <Image style={styles.avatar}
+                source={{uri: this.state.buktiBayar }}/>
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.card2}>
             <TouchableOpacity
               style={[styles.buttonContainer, styles.loginButton]}
@@ -131,7 +149,7 @@ class Screen extends Component<IProps, IState> {
     });
     db1.db.ref(`users/${this.props.store.user.uid}`).update({
       statusDeposit: 'Menunggu verifikasi',
-      // saldoDeposit: this.state.jumlahTransfer,
+      ssBuktiBayar: this.state.buktiBayar,
     });
     db1.db.ref(`deposit/konfirmasi/${q.key}`).update({
       _id: q.key,
@@ -153,6 +171,68 @@ class Screen extends Component<IProps, IState> {
     } catch ({code, message}) {
       console.warn('Cannot open date picker', message);
     }
+  }
+
+  private _onPressAva5() {
+    const options = {
+      title: 'Select Avatar',
+      // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.showImagePicker(options, (response) => {
+      // console.log('filesize', response.type, response.fileSize);
+      const image = response.uri;
+      const dbRef = firebase.storage().ref('users/' + this.props.store.user.uid + '/images/deposit/bukti.jpg');
+
+      const Blob = RNFetchBlob.polyfill.Blob;
+      const fs = RNFetchBlob.fs;
+      window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+      window.Blob = Blob;
+
+      const uploadImage = (uri, fbRef, mime = 'image/jpg') => {
+        return new Promise((resolve, reject) => {
+          const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+          let uploadBlob = null;
+          // const imageRef = firebase.storage().ref('posts').child(imageName);
+          const imageRef = fbRef;
+          fs.readFile(uploadUri, 'base64')
+            .then((data) => {
+              return Blob.build(data, { type: `${mime};BASE64` });
+            })
+            .then((blob) => {
+              uploadBlob = blob;
+              return imageRef.put(blob, { contentType: mime });
+            })
+            .then(() => {
+              uploadBlob.close();
+              return imageRef.getDownloadURL();
+            })
+            .then((url) => {
+              resolve(url);
+              // console.log(url);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
+      };
+
+      uploadImage(image, dbRef)
+        .then((res) => {
+          // console.log(res);
+          // db1.db.ref('users/' + this.props.store.user.uid).update({
+          //   ssBuktiBayar: res,
+          // });
+          this.setState({ buktiBayar: res });
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      ;
+    });
   }
 
 }

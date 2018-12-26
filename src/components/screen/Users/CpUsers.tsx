@@ -21,7 +21,6 @@ import * as db1 from '../../../firebase/firebase';
 import NumberFormat from 'react-number-format';
 // import ImagePicker from 'react-native-image-crop-picker';
 import ImagePicker from 'react-native-image-picker';
-// import * as firebase from '../../../firebase/firebase';
 import firebase from 'firebase';
 import RNFetchBlob from 'rn-fetch-blob';
 import Moment from 'moment';
@@ -84,15 +83,15 @@ class Screen extends Component<IProps, IState> {
                     <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text>
                     <TouchableOpacity
                         style={ parseInt(el.saldoDeposit, 10) >= parseInt('50000', 10) &&
-                                  el.statusDeposit === 'OK' && el.requestVisit === 'Idle'  ?
+                                  el.requestVisit === 'Idle'  ?
                                     [styles.buttonContainer, styles.loginButton] :
                                     [styles.buttonContainerDisabled, styles.loginButtonDisabled] }
                         onPress={() => this._onRequest(el)}
                         disabled={ parseInt(el.saldoDeposit, 10) >= parseInt('50000', 10) &&
-                                    el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ? false : true }
+                                    el.requestVisit === 'Idle' ? false : true }
                       >
                           <Text style={ parseInt(el.saldoDeposit, 10) >= parseInt('50000', 10) &&
-                                          el.statusDeposit === 'OK' && el.requestVisit === 'Idle' ?
+                                          el.requestVisit === 'Idle' ?
                                 [styles.buttonText] :
                                 [styles.buttonTextDisabled] }>Layanan Homecare</Text>
                       </TouchableOpacity>
@@ -243,36 +242,36 @@ class Screen extends Component<IProps, IState> {
     });
   }
 
-  private _onPressAva4() {
-    const options = {
-      title: 'Select Avatar',
-      // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('filesize', response.type, response.fileSize);
-      const image = response.uri;
-      const dbRef = firebase.storage().ref('users/' + this.props.store.user.uid + '/images/ava.jpg');
+  // private _onPressAva4() {
+  //   const options = {
+  //     title: 'Select Avatar',
+  //     // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+  //     storageOptions: {
+  //       skipBackup: true,
+  //       path: 'images',
+  //     },
+  //   };
+  //   ImagePicker.showImagePicker(options, (response) => {
+  //     console.log('filesize', response.type, response.fileSize);
+  //     const image = response.uri;
+  //     const dbRef = firebase.storage().ref('users/' + this.props.store.user.uid + '/images/ava.jpg');
 
-      const Blob = RNFetchBlob.polyfill.Blob;
-      window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
-      window.Blob = Blob;
-      Blob.build(RNFetchBlob.wrap(image), { type: response.type + ';' })
-        .then((blob) => {
-          dbRef
-            .put(blob)
-            .then(() => {
-              return dbRef.getDownloadURL();
-            })
-            .then((res) => {
-              console.log('RES', res);
-            });
-        });
-    });
-  }
+  //     const Blob = RNFetchBlob.polyfill.Blob;
+  //     window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+  //     window.Blob = Blob;
+  //     Blob.build(RNFetchBlob.wrap(image), { type: response.type + ';' })
+  //       .then((blob) => {
+  //         dbRef
+  //           .put(blob)
+  //           .then(() => {
+  //             return dbRef.getDownloadURL();
+  //           })
+  //           .then((res) => {
+  //             console.log('RES', res);
+  //           });
+  //       });
+  //   });
+  // }
 
   private _onPressAva5() {
     const options = {

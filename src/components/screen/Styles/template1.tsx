@@ -171,7 +171,15 @@ const styles: any = StyleSheet.create({
       // marginBottom: 10,
       color: '#aeaeae',
     },
-
+    avatar: {
+      width: 300,
+      height: 400,
+      borderRadius: 5,
+      borderWidth: 2,
+      borderColor: 'white',
+      marginBottom: 5,
+      backgroundColor: 'white',
+    },
   });
 
 export default styles;
