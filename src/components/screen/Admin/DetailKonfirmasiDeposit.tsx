@@ -8,11 +8,12 @@ import {
   ActivityIndicator,
   AsyncStorage,
   StatusBar,
-  Button,
+  // Button,
   Alert,
   TouchableHighlight,
   ScrollView,
 } from 'react-native';
+import { TextInput, Button, TouchableRipple } from 'react-native-paper';
 import { ratio, colors } from '../../../utils/Styles';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -31,6 +32,7 @@ interface IState {
   __users: any;
   totalDeposit;
   buktiBayar;
+  catatanKonfirmasiDeposit;
 }
 
 @inject('store') @observer
@@ -52,6 +54,7 @@ class Screen extends Component<IProps, IState> {
       __users: [],
       totalDeposit: '0',
       buktiBayar: 'assets:/thumbnail-bukti.png',
+      catatanKonfirmasiDeposit: '',
     };
   }
 
@@ -75,11 +78,45 @@ class Screen extends Component<IProps, IState> {
                     <Text style={styles.name}>Nama pengirim : {el.namaPengirim}</Text>
                     <Text style={styles.name}>Handphone pengirim : {el.handphonePengirim}</Text>
                     <Text style={styles.name}>Bank pengirim : {el.bankPengirim}</Text>
-                    <Text style={styles.name}>Jumlah transfer : {el.jumlahTransfer}</Text>
+                    <NumberFormat
+                      value={el.jumlahTransfer}
+                      displayType={'text'} thousandSeparator={true} prefix={'Rp. '}
+                      renderText={(value) => <Text style={styles.name}>Jumlah transfer : {value}</Text>} />
+                    {/* <Text style={styles.name}>Jumlah transfer : {el.jumlahTransfer}</Text> */}
                     <Text style={styles.name}>Screenshot bukti bayar:</Text>
                     <Image style={styles.buktiBayar}
                       source={{uri: this.state.buktiBayar }}/>
-                    <View
+                    <View style={[{width: '100%'}, {marginVertical: 10}]}>
+                      <TouchableRipple>
+                        <Button mode='contained'
+                          onPress={() => this._onSubmit()}
+                          disabled={this.state.catatanKonfirmasiDeposit === '' ? false : true }
+                        >
+                          Konfirmasi Deposit OK
+                        </Button>
+                      </TouchableRipple>
+                    </View>
+                    <View style={[{width: '100%'}, {marginBottom: 5}]}>
+                      <TouchableRipple>
+                        <Button mode='contained' color='#c43e00'
+                          onPress={() => this._onSubmitNOK()}
+                          disabled={this.state.catatanKonfirmasiDeposit === '' ? true : false }
+                        >
+                          Konfirmasi Deposit Tidak OK
+                        </Button>
+                      </TouchableRipple>
+                    </View>
+                    <View style={{ width: '100%' }}>
+                      <TextInput
+                        label='Catatan Konfirmasi Deposit Tidak OK'
+                        value={this.state.catatanKonfirmasiDeposit}
+                        onChangeText={(catatanKonfirmasiDeposit) => this.setState({ catatanKonfirmasiDeposit })}
+                        multiline={true}
+                        numberOfLines={3}
+                      />
+                    </View>
+
+                    {/* <View
                       // style={{justifyContent: 'center'}}
                       >
                       <TouchableOpacity
@@ -94,7 +131,7 @@ class Screen extends Component<IProps, IState> {
                       >
                         <Text style={styles.loginText}>Pembayaran Tidak OK</Text>
                       </TouchableOpacity>
-                    </View>
+                    </View> */}
                   </View>
                   {/* <View style={styles.card2}>
                   </View> */}
@@ -165,15 +202,13 @@ class Screen extends Component<IProps, IState> {
     this.props.navigation.navigate('Home');
   }
 
-  private _onReject = () => {
+  private _onSubmitNOK = () => {
     const url = 'users/' + this.props.navigation.state.params.qey.el.uid;
     db1.db.ref(url).update({
-      statusDeposit: 'Pembayaran tidak dapat di verifikasi.',
-      // saldoDeposit: parseInt(this.state.totalDeposit, 10) + parseInt(this.state.__users[0].jumlahTransfer, 10),
-      // parseInt(this.state.totalDeposit, 10) + parseInt(this.state.__users.jumlahTransfer, 10),
+      statusDeposit: this.state.catatanKonfirmasiDeposit,
     });
     db1.db.ref(url + '/deposit/' + this.props.navigation.state.params.qey.el.idTransfer).update({
-      statusVerifikasi: 'Pembayaran tidak dapat di verifikasi.',
+      statusDeposit: this.state.catatanKonfirmasiDeposit,
     });
     db1.db.ref('deposit/konfirmasi')
       .child(this.props.navigation.state.params.qey.el.idTransfer).remove();

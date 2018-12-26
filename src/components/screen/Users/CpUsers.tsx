@@ -81,7 +81,7 @@ class Screen extends Component<IProps, IState> {
                   </View>
                   <View style={styles.bodyContent}>
                     {/* <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text> */}
-                    {!!el.requestVisitNote && <Text style={styles.smallTextInfo}>Catatan : {el.requestVisitNote}</Text>}
+                    {!!el.requestVisitNote && <Text style={styles.smallTextInfo}>Info : {el.requestVisitNote}</Text>}
                     <TouchableOpacity
                         style={ parseInt(el.saldoDeposit, 10) >= parseInt('50000', 10) &&
                                   el.requestVisit === 'Idle'  ?
@@ -112,7 +112,8 @@ class Screen extends Component<IProps, IState> {
                       </TouchableOpacity>
 
                     {/* <Text style={styles.itemSpaceV10} /> */}
-                    <Text style={styles.smallTextInfo}>Status pembayaran : {el.statusDeposit}</Text>
+                    { el.statusDeposit !== 'OK' &&
+                      <Text style={styles.smallTextInfo}>Info : {el.statusDeposit}</Text>}
                       {/* { el.statusDeposit !== 'OK' &&
                       <Text style={styles.smallTextInfo}>Silahkan melakukan transfer ke rekening berikut dan
                         melakukan konfirmasi transfer, petugas kami akan melakukan

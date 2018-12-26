@@ -6,11 +6,12 @@ import {
   Text,
   View,
   TouchableHighlight,
-  TextInput,
+  // TextInput,
   DatePickerAndroid,
   ScrollView,
   Platform,
 } from 'react-native';
+import { TextInput, Button, TouchableRipple } from 'react-native-paper';
 import styles from '../Styles/template1';
 import { db } from '../../../firebase';
 import * as db1 from '../../../firebase/firebase';
@@ -35,6 +36,8 @@ interface IState {
   handphonePengirim;
   jumlahTransfer;
   buktiBayar;
+  formDone;
+  notifUpload;
 }
 
 @inject('store') @observer
@@ -54,6 +57,8 @@ class Screen extends Component<IProps, IState> {
       handphonePengirim : '',
       jumlahTransfer: '',
       buktiBayar: 'assets:/thumbnail-bukti.png',
+      formDone: false,
+      notifUpload: '',
     };
   }
 
@@ -64,7 +69,7 @@ class Screen extends Component<IProps, IState> {
   public render() {
     return (
       <ScrollView>
-          <View style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.card4}>
             <Text style={styles.largeTextInfo}>Informasi Rekening Transfer Pembayaran</Text>
             <Text style={styles.largeTextInfo}>Bank BNI</Text>
@@ -81,40 +86,66 @@ class Screen extends Component<IProps, IState> {
             </TouchableHighlight>
           </View>
 
-          <View style={styles.card1}>
-            <Text style={styles.itemLeft}>Nama Pengirim</Text>
+          <View style={[{ width: '100%' }, {marginBottom: 5}]}>
+            <TextInput
+              label='Nama Pengirim'
+              value={this.state.namaPengirim}
+              onChangeText={(namaPengirim) => this.setState({ namaPengirim })}
+              // keyboardType='numeric'
+            />
+            {/* <Text style={styles.itemLeft}>Nama Pengirim</Text>
             <TextInput style={styles.itemRight}
                 underlineColorAndroid='transparent'
-                onChangeText={(namaPengirim) => this.setState({namaPengirim})}/>
+                onChangeText={(namaPengirim) => this.setState({namaPengirim})}/> */}
           </View>
 
-          <View style={styles.card1}>
-            <Text style={styles.itemLeft}>Bank Pengirim</Text>
-            <TextInput style={styles.itemRight}
-                underlineColorAndroid='transparent'
-                onChangeText={(bankPengirim) => this.setState({bankPengirim})}/>
+          <View style={[{ width: '100%' }, {marginBottom: 5}]}>
+            <TextInput
+              label='Bank Pengirim'
+              value={this.state.bankPengirim}
+              onChangeText={(bankPengirim) => this.setState({ bankPengirim })}
+            />
+          {/* <View style={styles.card1}>
+          <Text style={styles.itemLeft}>Bank Pengirim</Text>
+             <TextInput style={styles.itemRight}
+                 underlineColorAndroid='transparent'
+                onChangeText={(bankPengirim) => this.setState({bankPengirim})}/> */}
           </View>
 
-          <View style={styles.card1}>
+          <View style={[{ width: '100%' }, {marginBottom: 5}]}>
+            <TextInput
+              label='Handphone Pengirim'
+              value={this.state.handphonePengirim}
+              onChangeText={(handphonePengirim) => this.setState({ handphonePengirim })}
+              keyboardType='numeric'
+            />
+          {/* <View style={styles.card1}>
             <Text style={styles.itemLeft}>Handphone Pengirim</Text>
             <TextInput style={styles.itemRight}
                 keyboardType='number-pad'
                 // placeholder='Nama Lengkap'
                 underlineColorAndroid='transparent'
-                onChangeText={(handphonePengirim) => this.setState({handphonePengirim})}/>
+                onChangeText={(handphonePengirim) => this.setState({handphonePengirim})}/> */}
           </View>
 
-          <View style={styles.card1}>
+          <View style={[{ width: '100%' }, {marginBottom: 5}]}>
+            <TextInput
+              label='Jumlah Transfer'
+              value={this.state.jumlahTransfer}
+              onChangeText={(jumlahTransfer) => this.setState({ jumlahTransfer })}
+              keyboardType='numeric'
+            />
+          {/* <View style={styles.card1}>
             <Text style={styles.itemLeft}>Jumlah Transfer</Text>
             <TextInput style={styles.itemRight}
                 keyboardType='number-pad'
                 // placeholder='Nama Lengkap'
                 underlineColorAndroid='transparent'
-                onChangeText={(jumlahTransfer) => this.setState({jumlahTransfer})}/>
+                onChangeText={(jumlahTransfer) => this.setState({jumlahTransfer})}/> */}
           </View>
 
           <View style={styles.card3}>
-            <Text style={styles.itemLeft}>Screenshot Bukti Bayar</Text>
+            <Text style={styles.itemLeft}>Screenshot Bukti Bayar {this.state.notifUpload}</Text>
             <TouchableOpacity
               onPress={() => this._onPressAva5()}
               >
@@ -123,13 +154,23 @@ class Screen extends Component<IProps, IState> {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.card2}>
+          {/* <View style={styles.card2}>
             <TouchableOpacity
               style={[styles.buttonContainer, styles.loginButton]}
                 onPress={() => this._onSubmit()}
             >
               <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
+          </View> */}
+          <View style={[{width: '100%'}, {padding: 10}]}>
+            <TouchableRipple>
+              <Button mode='contained'
+                onPress={() => this._onSubmit()}
+                disabled={this.state.formDone ? false : true }
+              >
+                Proses
+              </Button>
+            </TouchableRipple>
           </View>
         </View>
       </ScrollView>
@@ -174,6 +215,7 @@ class Screen extends Component<IProps, IState> {
   }
 
   private _onPressAva5() {
+    // this.setState({ notifUpload: '- uploading...'});
     const options = {
       title: 'Select Avatar',
       // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
@@ -183,6 +225,7 @@ class Screen extends Component<IProps, IState> {
       },
     };
     ImagePicker.showImagePicker(options, (response) => {
+      this.setState({ notifUpload: '- uploading ...'});
       // console.log('filesize', response.type, response.fileSize);
       const image = response.uri;
       const dbRef = firebase.storage().ref('users/' + this.props.store.user.uid + '/images/deposit/bukti.jpg');
@@ -226,7 +269,15 @@ class Screen extends Component<IProps, IState> {
           // db1.db.ref('users/' + this.props.store.user.uid).update({
           //   ssBuktiBayar: res,
           // });
-          this.setState({ buktiBayar: res });
+          this.setState({ buktiBayar: res,
+                          notifUpload: 'upload done.',
+                          formDone:
+                            this.state.namaPengirim === ''
+                            || this.state.bankPengirim === ''
+                            || this.state.handphonePengirim === ''
+                            || parseInt(this.state.jumlahTransfer, 10) <= 0 ?
+                            false : true,
+           });
         })
         .catch((err) => {
           console.log(err);
