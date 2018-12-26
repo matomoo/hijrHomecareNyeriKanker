@@ -5,6 +5,7 @@ import { Provider } from 'mobx-react';
 import { Platform, StatusBar, StyleSheet, View, Text } from 'react-native';
 
 import appStore from './stores/appStore';
+import { Provider as PaperProvider } from 'react-native-paper';
 import SwitchNavigator from './components/navigation/SwitchNavigator';
 import { ratio } from './utils/Styles';
 import SplashScreen from 'react-native-splash-screen';
@@ -18,9 +19,11 @@ class App extends React.Component {
   public render() {
     return (
       <Provider store={ appStore }>
-        <View style={styles.container}>
-          <SwitchNavigator />
-        </View>
+        <PaperProvider>
+          <View style={styles.container}>
+            <SwitchNavigator />
+          </View>
+        </PaperProvider>
       </Provider>
     );
   }

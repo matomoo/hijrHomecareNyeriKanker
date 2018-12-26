@@ -7,8 +7,9 @@ import {
   View,
   ScrollView,
   Switch,
-  Button,
+  // Button,
 } from 'react-native';
+import { Button } from 'react-native-paper';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
 import LayananHomecare from '../AppsData/LayananHomecare';
@@ -78,11 +79,16 @@ class Screen extends Component<IProps, IState> {
           </View>,
         )}
         </ScrollView>
-        <View style={{marginVertical: 3}}>
-          <Button title='PROSES'
+        <View style={{marginVertical: 5}}>
+
+          {/* <Button title='PROSES'
               onPress={() => this._onPress()}
               // disabled={true}
-          />
+          /> */}
+          <Button
+            icon='assignment' mode='contained'
+            onPress={() => this._onPress()}
+            >PROSES</Button>
         </View>
       </View>
     );
