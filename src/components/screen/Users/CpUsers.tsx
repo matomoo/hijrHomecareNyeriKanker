@@ -183,7 +183,7 @@ class Screen extends Component<IProps, IState> {
     //   handphone: p.handphone,
     //   requestVisit: 'Request visit',
     // });
-
+    // console.log('alamat', this.props.store.user.userAlamat);
     this.props.navigation.navigate('LayananHomecare');
   }
 

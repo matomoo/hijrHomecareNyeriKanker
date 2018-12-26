@@ -62,9 +62,9 @@ class Screen extends Component<IProps, IState> {
                     {/* <Text style={styles.name}>{el.namaLengkap}</Text> */}
                     <Text style={styles.name}>Tanggal Request Visit : {el.tanggalRequestVisit}</Text>
                     <Text style={styles.name}>Nama Lengkap : {el.namaLengkap}</Text>
+                    <Text style={styles.name}>Handphone : {el.handphone}</Text>
+                    <Text style={styles.name}>Alamat : {el.alamat}</Text>
                     <Text  style={styles.name}>Item Layanan: </Text>
-                    {/* <Text style={styles.name}>Handphone : {el.handphone}</Text>
-                    <Text style={styles.name}>Alamat : {el.alamat}</Text> */}
                     { JSON.parse(el.itemLayanan).map((res, key2) =>
                       <View key={key2}>
                         <Text style={styles.name}>
@@ -116,8 +116,8 @@ class Screen extends Component<IProps, IState> {
             namaLengkap: el.val().namaLengkap,
             idRequestVisit: el.val()._id,
             tanggalRequestVisit: el.val().tanggalRequestVisit,
-            // alamat: el.val().alamat,
-            // handphone: el.val().handphone,
+            alamat: el.val().alamat,
+            handphone: el.val().handphone,
             itemLayanan: el.val().itemLayanan,
             itemObat: el.val().itemObat,
           });

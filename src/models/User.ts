@@ -8,6 +8,8 @@ class User {
   @observable private _uid: string;
   @observable private _userRole: string;
   @observable private _userNamaLengkap: string;
+  @observable private _userHandphone: string;
+  @observable private _userAlamat: string;
   @observable private _userBadge1: string;
   @observable private _userBadge2: string;
   @observable private _userBadge3: string;
@@ -59,6 +61,12 @@ class User {
   public set userNamaLengkap(value: string) {
     this._userNamaLengkap = value;
   }
+
+  public get userHandphone(): string { return this._userHandphone; }
+  public set userHandphone(value: string) { this._userHandphone = value; }
+
+  public get userAlamat(): string { return this._userAlamat; }
+  public set userAlamat(value: string) { this._userAlamat = value; }
 
   public get userBadge1(): string { return this._userBadge1; }
   public set userBadge1(value: string) { this._userBadge1 = value; }

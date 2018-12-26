@@ -57,6 +57,8 @@ class Screen extends Component<IProps, IState> {
           this.props.store.user.userRole = el.val().role;
           this.props.store.user.userNamaLengkap = el.val().namaLengkap;
           this.props.store.user.userTerms = el.val().userTerms;
+          this.props.store.user.userHandphone = el.val().handphone;
+          this.props.store.user.userAlamat = el.val().alamat;
           // console.log('authe', el.val());
         });
     }

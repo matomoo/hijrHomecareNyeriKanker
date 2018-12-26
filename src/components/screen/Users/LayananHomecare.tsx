@@ -131,10 +131,11 @@ class Screen extends Component<IProps, IState> {
       namaLengkap: this.props.store.user.userNamaLengkap,
       tanggalRequestVisit: Moment().format('DD/MM/YYYY'),
       itemLayanan: JSON.stringify(a),
-      // alamat: p.alamat,
-      // handphone: p.handphone,
+      alamat: this.props.store.user.userAlamat,
+      handphone: this.props.store.user.userHandphone,
       requestVisit: 'Request visit',
     });
+    // console.log('alamat', db1.db.ref('users/' +  + this.props.store.user.uid + '/alamat').once('value'));
     this.props.navigation.navigate('Home');
     // console.log(JSON.stringify(a));
   }

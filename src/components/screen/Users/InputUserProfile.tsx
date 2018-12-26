@@ -115,7 +115,7 @@ class Screen extends Component<IProps, IState> {
     await p.once('value', (result) => {
       // const r1 = [];
       // r1.push(result.val());
-      console.log(result.val());
+      // console.log(result.val());
       this.setState({
         namaLengkap : result.val().namaLengkap,
         handphone : result.val().handphone,
