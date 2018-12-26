@@ -8,10 +8,12 @@ import {
   ActivityIndicator,
   AsyncStorage,
   StatusBar,
-  Button,
+  // Button,
   Alert,
   TouchableHighlight,
+  ScrollView,
 } from 'react-native';
+import { TextInput, Button, TouchableRipple } from 'react-native-paper';
 import { ratio, colors } from '../../../utils/Styles';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -28,12 +30,13 @@ interface IProps {
 interface IState {
   isLoaded: boolean;
   users: any;
+  catatanRequestVisit;
 }
 
 @inject('store') @observer
 class Screen extends Component<IProps, IState> {
   public static navigationOptions = {
-    title: 'Detail Request Visit',
+    title: 'Detail Request Layanan',
   };
 
   private taskUser: any;
@@ -43,6 +46,7 @@ class Screen extends Component<IProps, IState> {
     this.state = {
       isLoaded: true,
       users: [],
+      catatanRequestVisit: '',
     };
   }
 
@@ -53,6 +57,7 @@ class Screen extends Component<IProps, IState> {
   public render() {
     return (
       <View style={styles.topContainer}>
+        <ScrollView>
         { this.state.isLoaded ?
             <ActivityIndicator /> :
             <View style={styles.container}>
@@ -80,23 +85,42 @@ class Screen extends Component<IProps, IState> {
                         </Text>
                       </View>,
                       )}
-                    <View
-                      // style={{justifyContent: 'center'}}
-                      >
-                      <TouchableHighlight
-                        style={[styles.buttonContainer, styles.loginButton]}
+                    <View style={[{width: '100%'}, {marginBottom: 10}]}>
+                      <TouchableRipple>
+                        <Button mode='contained'
                           onPress={() => this._onSubmit(el)}
-                      >
-                        <Text style={styles.loginText}>Menunggu Team Homecare</Text>
-                      </TouchableHighlight>
+                          disabled={this.state.catatanRequestVisit === '' ? false : true }
+                        >
+                          Request Layanan OK
+                        </Button>
+                      </TouchableRipple>
+                    </View>
+                    <View style={[{width: '100%'}, {marginBottom: 5}]}>
+                      <TouchableRipple>
+                        <Button mode='contained' color='#c43e00'
+                          onPress={() => this._onSubmitNOK(el)}
+                          disabled={this.state.catatanRequestVisit === '' ? true : false }
+                        >
+                          Request Layanan Tidak OK
+                        </Button>
+                      </TouchableRipple>
+                    </View>
+                    <View style={{ width: '100%' }}>
+                      <TextInput
+                        label='Catatan Request Layanan Tidak OK'
+                        value={this.state.catatanRequestVisit}
+                        onChangeText={(catatanRequestVisit) => this.setState({ catatanRequestVisit })}
+                        multiline={true}
+                        numberOfLines={3}
+                      />
                     </View>
                   </View>
-                  {/* <View style={styles.card2}>
-                  </View> */}
+
                 </View>,
               )}
             </View>
         }
+      </ScrollView>
       </View>
     );
   }
@@ -137,13 +161,24 @@ class Screen extends Component<IProps, IState> {
     const url = 'homecare/visit';
     db1.db.ref(url + '/' + p.idRequestVisit).update({
       requestVisit: 'Menunggu Team Homecare',
+      requestVisitNote: 'Menunggu Team Homecare',
     });
-    // const url2 = 'users/' + p.uid + '/visit';
-    // db1.db.ref(url2 + '/' + p.idRequestVisit).update({
-    //   requestVisit: 'Menunggu Team Homecare',
-    // });
     db1.db.ref('users/' + p.uid).update({
       requestVisit: 'Menunggu Team Homecare',
+      requestVisitNote: 'Menunggu Team Homecare',
+    });
+    this.props.navigation.navigate('Home');
+  }
+
+  private _onSubmitNOK = (p) => {
+    const url = 'homecare/visit';
+    db1.db.ref(url + '/' + p.idRequestVisit).update({
+      requestVisit: 'Idle',
+      requestVisitNote: this.state.catatanRequestVisit,
+    });
+    db1.db.ref('users/' + p.uid).update({
+      requestVisit: 'Idle',
+      requestVisitNote: this.state.catatanRequestVisit,
     });
     this.props.navigation.navigate('Home');
   }
@@ -196,8 +231,10 @@ const styles: any = StyleSheet.create({
     // marginLeft: 15,
     // marginHorizontal: 0,
     alignItems: 'flex-start',
-    width: '100%',
-    // flex: 1,
+    // justifyContent: 'flex-start',
+    flexDirection: 'column',
+    // width: '100%',
+    flex: 1,
   },
   avatar: {
     width: 130,

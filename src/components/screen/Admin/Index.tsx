@@ -50,10 +50,10 @@ class Index extends Component<any, any> {
           <CpKonfirmasiDeposit tabLabel={{label: 'Konfirmasi Deposit',
               badge: this.props.store.user.userBadge1, badgeColor: 'red'}}
             navigation={ this.props.navigation } />
-          <CpRequestVisit tabLabel={{label: 'Request Visit',
+          <CpRequestVisit tabLabel={{label: 'Request Layanan',
               badge: this.props.store.user.userBadge2, badgeColor: 'red'}}
             navigation={ this.props.navigation } />
-          <CpStatusVisit tabLabel={{label: 'Status Visit',
+          <CpStatusVisit tabLabel={{label: 'Status Layanan',
               badge: this.props.store.user.userBadge3, badgeColor: 'red'}}
             navigation={ this.props.navigation } />
           {/* <Page tabLabel={{label: 'Developr'}} /> */}

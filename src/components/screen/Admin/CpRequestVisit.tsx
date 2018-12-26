@@ -102,10 +102,6 @@ class Screen extends Component<IProps, IState> {
     });
   }
 
-  private _onRequest = () => {
-    Alert.alert(this.props.store.user.uid);
-  }
-
 }
 
 export default Screen;

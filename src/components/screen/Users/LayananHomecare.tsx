@@ -122,6 +122,7 @@ class Screen extends Component<IProps, IState> {
     // });
     db1.db.ref('users/' + this.props.store.user.uid).update({
       requestVisit: 'Request visit',
+      requestVisitNote: '',
     });
     // const url = 'homecare/visit';
     // const a = db1.db.ref(url).push();

@@ -93,30 +93,7 @@ class Screen extends Component<IProps, IState> {
       });
       this.props.store.user.userBadge1 = r1.length;
     });
-    // console.log(this.props.store.user.userBadge1);
-    //   .then((result) => {
-    //     // const r1 = [];
-    //     // result.forEach((el) => {
-    //     //   r1.push({
-    //     //     uid: el.val().uid,
-    //     //     namaLengkap: el.val().namaLengkap,
-    //     //     idTransfer: el.val()._id,
-    //     //   });
-    //     // });
-    //     // this.setState({
-    //     //   users: r1,
-    //     //   isLoaded: false,
-    //     // });
-    //     // console.log(r1);
-    //     // console.log(this.state.users);
-    //   }).catch((err) => {
-    //     console.log(err);
-    // });
-  }
 
-  private _onRequest = () => {
-    Alert.alert(this.props.store.user.uid);
-    // this.Picturexx();
   }
 
 }

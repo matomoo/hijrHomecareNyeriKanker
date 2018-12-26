@@ -8,10 +8,11 @@ import {
   ActivityIndicator,
   AsyncStorage,
   StatusBar,
-  Button,
+  // Button,
   Alert,
   TouchableHighlight,
 } from 'react-native';
+import { TextInput, Button, TouchableRipple } from 'react-native-paper';
 import { ratio, colors } from '../../../utils/Styles';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -28,12 +29,15 @@ interface IProps {
 interface IState {
   isLoaded: boolean;
   users: any;
+  catatanStatusLayanan;
+  totalBayarLayanan;
+  totalDeposit;
 }
 
 @inject('store') @observer
 class Screen extends Component<IProps, IState> {
   public static navigationOptions = {
-    title: 'Detail Status Visit',
+    title: 'Detail Status Layanan',
   };
 
   private taskUser: any;
@@ -43,6 +47,9 @@ class Screen extends Component<IProps, IState> {
     this.state = {
       isLoaded: true,
       users: [],
+      catatanStatusLayanan: '',
+      totalBayarLayanan: '',
+      totalDeposit: '',
     };
   }
 
@@ -64,15 +71,45 @@ class Screen extends Component<IProps, IState> {
                     <Text style={styles.name}>Nama Lengkap : {el.namaLengkap}</Text>
                     <Text style={styles.name}>Handphone : {el.handphone}</Text>
                     <Text style={styles.name}>Alamat : {el.alamat}</Text>
-                    <View
-                      // style={{justifyContent: 'center'}}
-                      >
-                      <TouchableHighlight
-                        style={[styles.buttonContainer, styles.loginButton]}
+
+                    <View style={[{ width: '100%' }, {marginBottom: 5}]}>
+                      <TextInput
+                        label='Total Bayar Layanan'
+                        value={this.state.totalBayarLayanan}
+                        onChangeText={(totalBayarLayanan) => this.setState({ totalBayarLayanan })}
+                        keyboardType='numeric'
+                      />
+                    </View>
+                    <View style={[{width: '100%'}, {marginBottom: 10}]}>
+                      <TouchableRipple>
+                        <Button mode='contained'
                           onPress={() => this._onSubmit(el)}
-                      >
-                        <Text style={styles.loginText}>Visit Done</Text>
-                      </TouchableHighlight>
+                          disabled={this.state.catatanStatusLayanan === ''
+                                      && parseInt(this.state.totalBayarLayanan, 10) > 0
+                                      ? false : true }
+                        >
+                          Status Layanan OK
+                        </Button>
+                      </TouchableRipple>
+                    </View>
+                    <View style={[{width: '100%'}, {marginBottom: 5}]}>
+                      <TouchableRipple>
+                        <Button mode='contained' color='#c43e00'
+                          onPress={() => this._onSubmitNOK(el)}
+                          disabled={this.state.catatanStatusLayanan === '' ? true : false }
+                        >
+                          Status Layanan Tidak OK
+                        </Button>
+                      </TouchableRipple>
+                    </View>
+                    <View style={{ width: '100%' }}>
+                      <TextInput
+                        label='Catatan Status Layanan Tidak OK'
+                        value={this.state.catatanStatusLayanan}
+                        onChangeText={(catatanStatusLayanan) => this.setState({ catatanStatusLayanan })}
+                        multiline={true}
+                        numberOfLines={3}
+                      />
                     </View>
                   </View>
                   {/* <View style={styles.card2}>
@@ -113,18 +150,36 @@ class Screen extends Component<IProps, IState> {
       }).catch((err) => {
         console.log(err);
     });
+    db1.db.ref('users/' + this.props.navigation.state.params.qey.el.uid + '/saldoDeposit')
+    .once('value').then((res) => { // res.val();
+      this.setState({ totalDeposit : res.val()});
+  });
+
   }
 
   private _onSubmit = (p) => {
     const url = 'homecare/visit';
     db1.db.ref(url + '/' + p.idRequestVisit).update({
       requestVisit: 'Done',
+      requestVisitNote: '',
+      totalBayarLayanan: this.state.totalBayarLayanan,
     });
-    const url2 = 'users/' + p.uid + '/visit';
-    // db1.db.ref(url2 + '/' + p.idRequestVisit).update({
-    //   requestVisit: 'Idle',
-    // });
     db1.db.ref('users/' + p.uid).update({
+      requestVisit: 'Idle',
+      requestVisitNote: '',
+      saldoDeposit: parseInt(this.state.totalDeposit, 10) - parseInt(this.state.totalBayarLayanan, 10),
+    });
+    this.props.navigation.navigate('Home');
+  }
+
+  private _onSubmitNOK = (p) => {
+    const url = 'homecare/visit';
+    db1.db.ref(url + '/' + p.idRequestVisit).update({
+      requestVisit: 'Done',
+      requestVisitNote: this.state.catatanStatusLayanan,
+    });
+    db1.db.ref('users/' + p.uid).update({
+      requestVisitNote: this.state.catatanStatusLayanan,
       requestVisit: 'Idle',
     });
     this.props.navigation.navigate('Home');
