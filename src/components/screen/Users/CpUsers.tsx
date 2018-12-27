@@ -111,7 +111,7 @@ class Screen extends Component<IProps, IState> {
                                 [styles.buttonTextDisabled] }>Layanan Beli dan Antar Obat</Text>
                       </TouchableOpacity>
 
-                    {/* <Text style={styles.itemSpaceV10} /> */}
+                    <Text style={styles.itemSpaceV10} />
                     { el.statusDeposit !== 'OK' &&
                       <Text style={styles.smallTextInfo}>Info : {el.statusDeposit}</Text>}
                       {/* { el.statusDeposit !== 'OK' &&

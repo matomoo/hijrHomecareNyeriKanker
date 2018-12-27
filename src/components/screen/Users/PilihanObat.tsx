@@ -87,6 +87,7 @@ class Screen extends Component<IProps, IState> {
           <Button
             icon='assignment' mode='contained'
             onPress={() => this._onPress()}
+            disabled={ this.state.switchValue.findIndex( (el) => el === true) === -1 ? true : false }
             >PROSES</Button>
         </View>
       </View>
