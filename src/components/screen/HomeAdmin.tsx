@@ -46,14 +46,13 @@ class Screen extends Component<IProps, IState> {
       // <ScrollView>
         <View style={styles.container}>
           {/* <ActivityIndicator /> */}
-          { this.props.store.user.userRole === 'user' &&
-            <CpUsers navigation={ this.props.navigation } />
-          }
-          { this.props.store.user.userRole === 'admin' &&
+          {/* { this.props.store.user.userRole === 'user' &&
+            <CpUsers navigation={ this.props.navigation } />} */}
+          {/* { this.props.store.user.userRole === 'admin' && */}
             <View style={styles.container}>
               <CpAdminIndex navigation={ this.props.navigation } />
             </View>
-          }
+          {/* } */}
           {/* <Button title='TERMS' onPress={() => this.props.navigation.navigate('Terms')} /> */}
         </View>
       // </ScrollView>

@@ -19,6 +19,8 @@ import AutheLoading from '../screen/authe/AutheLoading';
 import LayananHomecare from '../screen/Users/LayananHomecare';
 import AppLoader from '../screen/AppLoader';
 import PilihanObat from '../screen/Users/PilihanObat';
+import RoleLoader from '../screen/RoleLoader';
+import HomeAdmin from '../screen/HomeAdmin';
 
 // Set here for tabNavigator content
 const BottomTabNavigator = createBottomTabNavigator(
@@ -129,6 +131,18 @@ const routeConfig = {
   },
   PilihanObat: { screen: PilihanObat,
     path: 'PilihanObat',
+    // navigationOptions: {
+    //   title: 'Input Konfirmasi Deposit',
+    // },
+  },
+  RoleLoader: { screen: RoleLoader,
+    path: 'RoleLoader',
+    // navigationOptions: {
+    //   title: 'Input Konfirmasi Deposit',
+    // },
+  },
+  HomeAdmin: { screen: HomeAdmin,
+    path: 'HomeAdmin',
     // navigationOptions: {
     //   title: 'Input Konfirmasi Deposit',
     // },

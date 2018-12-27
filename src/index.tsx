@@ -3,7 +3,6 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import React from 'react';
 import { Provider } from 'mobx-react';
 import { Platform, StatusBar, StyleSheet, View, Text } from 'react-native';
-
 import appStore from './stores/appStore';
 import { Provider as PaperProvider } from 'react-native-paper';
 import SwitchNavigator from './components/navigation/SwitchNavigator';
