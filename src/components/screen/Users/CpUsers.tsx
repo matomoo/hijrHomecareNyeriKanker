@@ -24,7 +24,7 @@ import ImagePicker from 'react-native-image-picker';
 import firebase from 'firebase';
 import RNFetchBlob from 'rn-fetch-blob';
 import Moment from 'moment';
-import RNFS from 'react-native-fs';
+// import RNFS from 'react-native-fs';
 
 interface IProps {
   navigation?: any;
