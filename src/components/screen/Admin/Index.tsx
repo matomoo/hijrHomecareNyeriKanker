@@ -6,10 +6,13 @@ import {
   Text,
   View,
   AsyncStorage,
+  Alert,
 } from 'react-native';
 
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
+import { TextInput, Button, TouchableRipple } from 'react-native-paper';
 import TabBar from 'react-native-underline-tabbar';
+import NotifService from '../NotifService';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
 // import { ratio, colors } from '../../../utils/Styles';
@@ -33,9 +36,11 @@ const Page = (tabLabel, {label}) => (
 
 @inject('store') @observer
 class Index extends Component<any, any> {
+  public notif;
 
   constructor(props) {
     super(props);
+    this.notif = new NotifService(this.onRegister.bind(this), this.onNotif.bind(this));
   }
 
   public render() {
@@ -60,8 +65,24 @@ class Index extends Component<any, any> {
           {/* <Page tabLabel={{label: 'Page Demo'}} />
           <Page tabLabel={{label: 'Page Demo'}} /> */}
         </ScrollableTabView>
+        {/* <Button onPress={() => this.notif.localNotif()}>Tes</Button> */}
         </View>
       );
+  }
+
+  public onRegister(token) {
+    Alert.alert("Registered !", JSON.stringify(token));
+    console.log(token);
+    this.setState({ registerToken: token.token, gcmRegistered: true });
+  }
+
+  public onNotif(notif) {
+    console.log(notif);
+    Alert.alert(notif.title, notif.message);
+  }
+
+  public handlePerm(perms) {
+    Alert.alert("Permissions", JSON.stringify(perms));
   }
 
 }

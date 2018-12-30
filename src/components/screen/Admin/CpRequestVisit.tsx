@@ -8,32 +8,38 @@ import {
   ActivityIndicator,
   AsyncStorage,
   StatusBar,
-  Button,
+  // Button,
   Alert,
   TouchableHighlight,
   ScrollView,
 } from 'react-native';
+import { TextInput, Button, TouchableRipple } from 'react-native-paper';
 import { ratio, colors } from '../../../utils/Styles';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
 import * as db1 from '../../../firebase/firebase';
 import NumberFormat from 'react-number-format';
+import NotifService from '../NotifService';
 
 interface IProps {
   navigation?: any;
   store?: any;
   tabLabel?;
+  // notif?: any;
 }
 
 interface IState {
   isLoaded: boolean;
   users: any;
+  // registerToken;
+  // gcmRegistered;
 }
 
 @inject('store') @observer
 class Screen extends Component<IProps, IState> {
 
+  public notif: NotifService;
   private taskUser: any;
 
   constructor(props) {
@@ -42,11 +48,15 @@ class Screen extends Component<IProps, IState> {
     this.state = {
       isLoaded: true,
       users: [],
+      // registerToken: '',
+      // gcmRegistered: false,
     };
+    this.notif = new NotifService(this.onRegister.bind(this), this.onNotif.bind(this));
   }
 
   public componentDidMount() {
     this.getFirstData(this.taskUser);
+    this.getNotif(this.taskUser);
     // console.log(this.state.users);
   }
 
@@ -76,6 +86,7 @@ class Screen extends Component<IProps, IState> {
             </View>
         }
         </ScrollView>
+        {/* <Button onPress={() => this.notif.localNotif()}>Tes</Button> */}
       </View>
     );
   }
@@ -98,8 +109,38 @@ class Screen extends Component<IProps, IState> {
         users: r1,
         isLoaded: false,
       });
+      // this.notif.localNotif();
       this.props.store.user.userBadge2 = r1.length;
     });
+  }
+
+  private async getNotif(p) {
+    await p.orderByChild('requestVisit')
+      .equalTo('Request visit')
+      .on('child_added', (snap) => {
+        // console.log(snap.val());
+        // snap.forEach(el => {
+          this.notif.localNotifFor( 'Request Layanan',
+                                      snap.val().namaLengkap );
+          
+        // });
+      })
+  }
+
+  public onRegister(token) {
+    // Alert.alert("Registered !", JSON.stringify(token));
+    console.log(token);
+    // this.setState({ registerToken: token.token, gcmRegistered: true });
+  }
+
+  public onNotif(notif) {
+    console.log(notif);
+    // Alert.alert(notif.title, notif.message);
+  }
+
+  public handlePerm(perms) {
+    console.log(perms);
+    // Alert.alert("Permissions", JSON.stringify(perms));
   }
 
 }

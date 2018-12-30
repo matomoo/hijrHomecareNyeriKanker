@@ -19,6 +19,7 @@ import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
 import * as db1 from '../../../firebase/firebase';
 import NumberFormat from 'react-number-format';
+import NotifService from '../NotifService';
 
 interface IProps {
   navigation?: any;
@@ -35,6 +36,7 @@ interface IState {
 class Screen extends Component<IProps, IState> {
 
   private taskUser: any;
+  public notif: NotifService;
 
   constructor(props) {
     super(props);
@@ -43,10 +45,12 @@ class Screen extends Component<IProps, IState> {
       isLoaded: true,
       users: [],
     };
+    this.notif = new NotifService(this.onRegister.bind(this), this.onNotif.bind(this));
   }
 
   public componentDidMount() {
     this.getFirstData(this.taskUser);
+    this.getNotif(this.taskUser);
     // console.log(this.state.users);
   }
 
@@ -91,9 +95,39 @@ class Screen extends Component<IProps, IState> {
         users: r1,
         isLoaded: false,
       });
+      // this.notif.localNotif();
       this.props.store.user.userBadge1 = r1.length;
     });
 
+  }
+
+  private async getNotif(p) {
+    await p
+      // .orderByChild('requestVisit')
+      // .equalTo('Request visit')
+      .on('child_added', (snap) => {
+        // console.log(snap.val());
+        // snap.forEach(el => {
+          this.notif.localNotifFor( 'Konfirmasi Pembayaran',
+                                      snap.val().namaLengkap );
+          
+        // });
+      })
+  }
+
+  onRegister(token) {
+    Alert.alert("Registered !", JSON.stringify(token));
+    console.log(token);
+    // this.setState({ registerToken: token.token, gcmRegistered: true });
+  }
+
+  onNotif(notif) {
+    console.log(notif);
+    Alert.alert(notif.title, notif.message);
+  }
+
+  handlePerm(perms) {
+    Alert.alert("Permissions", JSON.stringify(perms));
   }
 
 }
