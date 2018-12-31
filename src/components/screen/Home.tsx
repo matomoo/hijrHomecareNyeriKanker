@@ -16,7 +16,7 @@ import CpUsers from './Users/CpUsers';
 import CpDeposit from './Users/CpDeposit';
 // import CpKonfirmasiDeposit from './Admin/CpKonfirmasiDeposit';
 import CpAdminIndex from './Admin/Index';
-import CpListUsers from '../screen/SysAdmin/CpListUsers';
+import CpListUsers from '../screen/SysAdmin/CpListUsers2';
 
 interface IProps {
   navigation?: any;
