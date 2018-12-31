@@ -69,6 +69,10 @@ class Screen extends Component<IProps, IState> {
               <Button title='Update User Profile'
                 onPress={() => this.props.navigation.navigate('InputUserProfile')} />
             </View>
+            <View style={styles.card1}>
+              <Button title='Ubah User Password'
+                onPress={() => this.props.navigation.navigate('UserChangePassword')} />
+            </View>
           </View>
           <View style={styles.card1}>
             <Button title='Logout'
