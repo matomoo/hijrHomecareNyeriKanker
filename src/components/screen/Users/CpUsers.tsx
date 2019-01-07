@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { ratio, colors } from '../../../utils/Styles';
 import { observable } from 'mobx';
+import {Subheading, Paragraph, Title} from 'react-native-paper';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
 import * as db1 from '../../../firebase/firebase';
@@ -72,8 +73,10 @@ class Screen extends Component<IProps, IState> {
                       <Image style={styles.avatar}
                         source={{uri: el.userAvatar }}/>
                     </TouchableOpacity>
+                    {/* <Title>Halo, {el.namaLengkap}</Title> */}
                     <Text style={styles.name}>Halo, {el.namaLengkap}</Text>
-                    {/* <Text style={styles.textInfo}>Alamat {el.alamat}</Text> */}
+                    { (el.handphone === '' || el.alamat === '') &&
+                      <Paragraph>Pastikan nomor handphone dan alamat sudah diupdate untuk kemudahan komunikasi</Paragraph>}
                     <NumberFormat
                       value={el.saldoDeposit}
                       displayType={'text'} thousandSeparator={true} prefix={'Rp. '}

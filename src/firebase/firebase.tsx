@@ -17,9 +17,11 @@ if (!firebase.apps.length) {
 const db = firebase.database();
 const auth = firebase.auth();
 const storage = firebase.storage();
+const authEmailProvider = firebase.auth.EmailAuthProvider;
 
 export {
   db,
   auth,
   storage,
+  authEmailProvider,
 };

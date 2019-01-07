@@ -21,6 +21,7 @@ import AppLoader from '../screen/AppLoader';
 import PilihanObat from '../screen/Users/PilihanObat';
 import RoleLoader from '../screen/RoleLoader';
 import HomeAdmin from '../screen/HomeAdmin';
+import UserChangePassword from '../screen/Users/UserChangePwd';
 
 // Set here for tabNavigator content
 const BottomTabNavigator = createBottomTabNavigator(
@@ -77,63 +78,36 @@ const routeConfig = {
   },
   InputUserProfile: { screen: InputUserProfile,
     path: 'InputUserProfile',
-    // navigationOptions: {
-    //   title: 'Input Konfirmasi Deposit',
-    // },
   },
   InputKonfirmasiDeposit: { screen: InputKonfirmasiDeposit,
     path: 'InputKonfirmasiDeposit',
-    // navigationOptions: {
-    //   title: 'Input Konfirmasi Deposit',
-    // },
   },
   DetailKonfirmasiDeposit: { screen: DetailKonfirmasiDeposit,
     path: 'DetailKonfirmasiDeposit',
-    // navigationOptions: {
-    //   title: 'Input Konfirmasi Deposit',
-    // },
   },
   DetailRequestVisit: { screen: DetailRequestVisit,
     path: 'DetailRequestVisit',
-    // navigationOptions: {
-    //   title: 'Input Konfirmasi Deposit',
-    // },
   },
   DetailStatusVisit: { screen: DetailStatusVisit,
     path: 'DetailStatusVisit',
-    // navigationOptions: {
-    //   title: 'Input Konfirmasi Deposit',
-    // },
   },
   Terms: { screen: Terms,
     path: 'Terms',
-    // navigationOptions: {
-    //   title: 'Input Konfirmasi Deposit',
-    // },
   },
   AutheLoading: { screen: AutheLoading,
     path: 'AutheLoading',
-    // navigationOptions: {
-    //   title: 'Input Konfirmasi Deposit',
-    // },
   },
   LayananHomecare: { screen: LayananHomecare,
     path: 'LayananHomecare',
-    // navigationOptions: {
-    //   title: 'Input Konfirmasi Deposit',
-    // },
   },
   AppLoader: { screen: AppLoader,
     path: 'AppLoader',
-    // navigationOptions: {
-    //   title: 'Input Konfirmasi Deposit',
-    // },
   },
   PilihanObat: { screen: PilihanObat,
     path: 'PilihanObat',
-    // navigationOptions: {
-    //   title: 'Input Konfirmasi Deposit',
-    // },
+  },
+  UserChangePassword: { screen: UserChangePassword,
+    path: 'UserChangePassword',
   },
   RoleLoader: { screen: RoleLoader,
     path: 'RoleLoader',

@@ -19,6 +19,7 @@ import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
 import * as db1 from '../../../firebase/firebase';
 import NumberFormat from 'react-number-format';
+// import NotifService from '../NotifService';
 
 interface IProps {
   navigation?: any;
@@ -39,7 +40,7 @@ class Screen extends Component<IProps, IState> {
   public static navigationOptions = {
     title: 'Detail Status Layanan',
   };
-
+  // public notif: NotifService;
   private taskUser: any;
 
   constructor(props) {
@@ -51,6 +52,7 @@ class Screen extends Component<IProps, IState> {
       totalBayarLayanan: '',
       totalDeposit: '',
     };
+    // this.notif = new NotifService(this.onRegister.bind(this), this.onNotif.bind(this));
   }
 
   public componentDidMount() {
@@ -169,6 +171,7 @@ class Screen extends Component<IProps, IState> {
       requestVisitNote: '',
       saldoDeposit: parseInt(this.state.totalDeposit, 10) - parseInt(this.state.totalBayarLayanan, 10),
     });
+    // this.notif.cancelAll();
     this.props.navigation.navigate('Home');
   }
 
@@ -182,8 +185,20 @@ class Screen extends Component<IProps, IState> {
       requestVisitNote: this.state.catatanStatusLayanan,
       requestVisit: 'Idle',
     });
+    // this.notif.cancelAll();
     this.props.navigation.navigate('Home');
   }
+
+  // public onRegister(token) {
+  //   // Alert.alert("Registered !", JSON.stringify(token));
+  //   console.log(token);
+  //   // this.setState({ registerToken: token.token, gcmRegistered: true });
+  // }
+
+  // public onNotif(notif) {
+  //   console.log(notif);
+  //   // Alert.alert(notif.title, notif.message);
+  // }
 
 }
 

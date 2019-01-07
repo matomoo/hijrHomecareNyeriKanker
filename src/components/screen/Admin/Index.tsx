@@ -8,9 +8,11 @@ import {
   AsyncStorage,
   Alert,
 } from 'react-native';
-import { Button } from 'react-native-paper';
+// import { Button } from 'react-native-paper';
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view';
+import { TextInput, Button, TouchableRipple } from 'react-native-paper';
 import TabBar from 'react-native-underline-tabbar';
+// import NotifService from '../NotifService';
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
 
@@ -66,17 +68,13 @@ class Index extends Component<any, any> {
           {/* <Page tabLabel={{label: 'Page Demo'}} />
           <Page tabLabel={{label: 'Page Demo'}} /> */}
         </ScrollableTabView>
-        <Button
-          onPress={() => { this.notif.localNotif(); }}
-        >
-          Tes
-        </Button>
+        {/* <Button onPress={() => this.notif.localNotif()}>Tes</Button> */}
         </View>
       );
   }
 
   public onRegister(token) {
-    Alert.alert('Registered !', JSON.stringify(token));
+    Alert.alert("Registered !", JSON.stringify(token));
     console.log(token);
     this.setState({ registerToken: token.token, gcmRegistered: true });
   }
@@ -84,6 +82,10 @@ class Index extends Component<any, any> {
   public onNotif(notif) {
     console.log(notif);
     Alert.alert(notif.title, notif.message);
+  }
+
+  public handlePerm(perms) {
+    Alert.alert("Permissions", JSON.stringify(perms));
   }
 
 }

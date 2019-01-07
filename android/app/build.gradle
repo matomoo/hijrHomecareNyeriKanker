@@ -101,8 +101,8 @@ android {
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
     vectorDrawables.useSupportLibrary = true
-    versionCode 3
-    versionName "3"
+    versionCode 4
+    versionName "4"
     ndk {
       abiFilters "armeabi-v7a", "x86"
     }
@@ -119,10 +119,10 @@ android {
   }
   splits {
     abi {
-      reset()
       enable enableSeparateBuildPerCPUArchitecture
-      universalApk false  // If true, also generate a universal APK
+      reset()
       include "armeabi-v7a", "x86"
+      universalApk false  // If true, also generate a universal APK
     }
   }
   buildTypes {
@@ -130,6 +130,9 @@ android {
       minifyEnabled enableProguardInReleaseBuilds
       proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
       signingConfig signingConfigs.release
+      // ndk {
+      //   abiFilters "arm64-v8a", "armeabi-v7a"
+      // }
     }
   }
   // applicationVariants are e.g. debug, release
@@ -150,6 +153,7 @@ android {
 
 dependencies {
     compile project(':react-native-push-notification')
+    // compile project(':react-native-fs')
     compile project(':rn-fetch-blob')
     compile project(':react-native-image-picker')
     compile project(':react-native-vector-icons')

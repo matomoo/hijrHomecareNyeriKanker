@@ -16,6 +16,7 @@ import CpUsers from './Users/CpUsers';
 import CpDeposit from './Users/CpDeposit';
 // import CpKonfirmasiDeposit from './Admin/CpKonfirmasiDeposit';
 import CpAdminIndex from './Admin/Index';
+import CpListUsers from '../screen/SysAdmin/CpListUsers2';
 
 interface IProps {
   navigation?: any;
@@ -52,6 +53,11 @@ class Screen extends Component<IProps, IState> {
           { this.props.store.user.userRole === 'admin' &&
             <View style={styles.container}>
               <CpAdminIndex navigation={ this.props.navigation } />
+            </View>
+          }
+          { this.props.store.user.userRole === 'sysadmin' &&
+            <View style={styles.container}>
+              <CpListUsers navigation={ this.props.navigation } />
             </View>
           }
           {/* <Button title='TERMS' onPress={() => this.props.navigation.navigate('Terms')} /> */}

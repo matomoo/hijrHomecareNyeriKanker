@@ -13,51 +13,38 @@ import {
   TouchableHighlight,
   ScrollView,
 } from 'react-native';
-import { TextInput, Button, TouchableRipple } from 'react-native-paper';
-import { ratio, colors } from '../../../utils/Styles';
-import { observable } from 'mobx';
+
 import { observer } from 'mobx-react';
 import { inject } from 'mobx-react/native';
 import * as db1 from '../../../firebase/firebase';
-import NumberFormat from 'react-number-format';
-import NotifService from '../NotifService';
 
 interface IProps {
   navigation?: any;
   store?: any;
   tabLabel?;
-  // notif?: any;
 }
 
 interface IState {
   isLoaded: boolean;
   users: any;
-  // registerToken;
-  // gcmRegistered;
 }
 
 @inject('store') @observer
 class Screen extends Component<IProps, IState> {
 
-  public notif: NotifService;
   private taskUser: any;
 
   constructor(props) {
     super(props);
-    this.taskUser = db1.db.ref(`homecare/visit`);
+    this.taskUser = db1.db.ref(`users`);
     this.state = {
       isLoaded: true,
       users: [],
-      // registerToken: '',
-      // gcmRegistered: false,
     };
-    this.notif = new NotifService(this.onRegister.bind(this), this.onNotif.bind(this));
   }
 
   public componentDidMount() {
     this.getFirstData(this.taskUser);
-    this.getNotif(this.taskUser);
-    // console.log(this.state.users);
   }
 
   public render() {
@@ -73,12 +60,16 @@ class Screen extends Component<IProps, IState> {
                   <TouchableOpacity
                     // style={[styles.buttonContainer, styles.loginButton]}
                     onPress={() =>
-                      this.props.navigation.navigate('DetailRequestVisit' , {qey : {el}})
-                      // this._onRequest()
+                      // this.props.navigation.navigate('DetailRequestVisit' , {qey : {el}})
+                      this.onChangeRole(el)
                     }
                   >
-                    <View style={styles.headerContent}>
+                    <View style={el.userRole === 'user' ?
+                                   styles.headerContent :
+                                   styles.headerContentAdmin}>
                       <Text style={styles.name}>{el.namaLengkap}</Text>
+                      <Text style={styles.smallTextInfo}>{el.email}</Text>
+                      <Text style={styles.smallTextInfo}>{el.userRole}</Text>
                     </View>
                   </TouchableOpacity>
                 </View>,
@@ -86,23 +77,20 @@ class Screen extends Component<IProps, IState> {
             </View>
         }
         </ScrollView>
-        {/* <Button onPress={() => this.notif.localNotif()}>Tes</Button> */}
       </View>
     );
   }
 
   private async getFirstData( p ) {
-    await p.orderByChild('requestVisit')
-      .equalTo('Request visit')
+    await p
       .on('value', (snap) => {
       const r1 = [];
       snap.forEach((el) => {
         r1.push({
-          uid: el.val().uid,
+          uid: el.val()._id,
           namaLengkap: el.val().namaLengkap,
-          idRequestVisit: el.val()._id,
-          tanggalRequestVisit: el.val().tanggalRequestVisit,
-          itemLayanan: el.val().itemLayanan,
+          email: el.val().email,
+          userRole: el.val().role,
         });
       });
       this.setState({
@@ -110,37 +98,20 @@ class Screen extends Component<IProps, IState> {
         isLoaded: false,
       });
       // this.notif.localNotif();
-      this.props.store.user.userBadge2 = r1.length;
+      // this.props.store.user.userBadge2 = r1.length;
     });
   }
 
-  private async getNotif(p) {
-    await p.orderByChild('requestVisit')
-      .equalTo('Request visit')
-      .on('child_added', (snap) => {
-        // console.log(snap.val());
-        // snap.forEach(el => {
-          this.notif.localNotifFor( 'Request Layanan',
-                                      snap.val().namaLengkap );
-          
-        // });
-      })
-  }
-
-  public onRegister(token) {
-    // Alert.alert("Registered !", JSON.stringify(token));
-    console.log(token);
-    // this.setState({ registerToken: token.token, gcmRegistered: true });
-  }
-
-  public onNotif(notif) {
-    console.log(notif);
-    // Alert.alert(notif.title, notif.message);
-  }
-
-  public handlePerm(perms) {
-    console.log(perms);
-    // Alert.alert("Permissions", JSON.stringify(perms));
+  private onChangeRole (p) {
+    // console.log( p );
+    if (p.userRole === 'user') {
+      db1.db.ref('users/' + p.uid).update({
+        role: 'admin',
+    }) } else {
+      db1.db.ref('users/' + p.uid).update({
+        role: 'user',
+    })
+    }
   }
 
 }
@@ -182,8 +153,19 @@ const styles: any = StyleSheet.create({
   },
   headerContent: {
     backgroundColor: '#0277bd',
-    padding: 15,
-    borderRadius: 15,
+    padding: 10,
+    borderRadius: 10,
+    // paddingHorizontal: 30,
+    // marginLeft: 15,
+    // marginHorizontal: 0,
+    alignItems: 'flex-start',
+    width: '100%',
+    // flex: 1,
+  },
+  headerContentAdmin: {
+    backgroundColor: '#2e7d32',
+    padding: 10,
+    borderRadius: 10,
     // paddingHorizontal: 30,
     // marginLeft: 15,
     // marginHorizontal: 0,
@@ -200,9 +182,9 @@ const styles: any = StyleSheet.create({
     marginBottom: 10,
   },
   name: {
-    fontSize: 22,
+    fontSize: 16,
     color: '#FFFFFF',
-    fontWeight: '600',
+    // fontWeight: '600',
   },
   bodyContent: {
     flex: 1,
@@ -216,9 +198,9 @@ const styles: any = StyleSheet.create({
     color: '#616161',
   },
   smallTextInfo: {
-    fontSize: 14,
-    marginBottom: 10,
-    color: '#696969',
+    fontSize: 12,
+    // marginBottom: 10,
+    color: '#FFFFFF',
   },
   itemSpaceV10: {
     marginVertical: 10,
