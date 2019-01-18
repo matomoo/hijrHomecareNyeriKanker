@@ -53,6 +53,7 @@ const routeConfig = {
       const childOptions = getActiveChildNavigationOptions(navigation, screenProps);
       return {
         title: childOptions.title,
+        // headerTitleStyle: childOptions.headerTitleStyle,
       };
     },
   },
@@ -137,8 +138,11 @@ const navigatorConfig = {
       elevation: 1,
     },
     // title: 'Dzikr App',
-    headerMode: 'screen',
-    headerTitleStyle: { color: '#e4ff54' },
+    // headerMode: 'screen',
+    headerTitleStyle: {
+      color: '#e4ff54',
+      fontSize: 10,
+    },
     // headerTintColor: 'white',
   },
 };

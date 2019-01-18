@@ -30,7 +30,7 @@ interface IState {
 @inject('store') @observer
 class Screen extends Component<IProps, IState> {
   public static navigationOptions = {
-    title: 'Homecare Nyeri Kanker dan Paliatif',
+    // title: 'Homecare Nyeri Kanker, Geriatri dan Paliatif',
   };
 
   constructor(props) {
