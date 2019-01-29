@@ -76,7 +76,9 @@ class Screen extends Component<IProps, IState> {
                     {/* <Title>Halo, {el.namaLengkap}</Title> */}
                     <Text style={styles.name}>Halo, {el.namaLengkap}</Text>
                     { (el.handphone === '' || el.alamat === '') &&
-                      <Paragraph>Pastikan nomor handphone dan alamat sudah diupdate untuk kemudahan komunikasi</Paragraph>}
+                      <Paragraph>
+                        Pastikan nomor handphone dan alamat sudah diupdate untuk kemudahan komunikasi
+                      </Paragraph>}
                     <NumberFormat
                       value={el.saldoDeposit}
                       displayType={'text'} thousandSeparator={true} prefix={'Rp. '}
@@ -86,16 +88,13 @@ class Screen extends Component<IProps, IState> {
                     {/* <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text> */}
                     {!!el.requestVisitNote && <Text style={styles.smallTextInfo}>Info : {el.requestVisitNote}</Text>}
                     <TouchableOpacity
-                        style={ parseInt(el.saldoDeposit, 10) >= parseInt('50000', 10) &&
-                                  el.requestVisit === 'Idle'  ?
+                        style={ el.requestVisit === 'Idle'  ?
                                     [styles.buttonContainer, styles.loginButton] :
                                     [styles.buttonContainerDisabled, styles.loginButtonDisabled] }
                         onPress={() => this._onRequest(el)}
-                        disabled={ parseInt(el.saldoDeposit, 10) >= parseInt('50000', 10) &&
-                                    el.requestVisit === 'Idle' ? false : true }
+                        disabled={ el.requestVisit === 'Idle' ? false : true }
                       >
-                          <Text style={ parseInt(el.saldoDeposit, 10) >= parseInt('50000', 10) &&
-                                          el.requestVisit === 'Idle' ?
+                          <Text style={ el.requestVisit === 'Idle' ?
                                 [styles.buttonText] :
                                 [styles.buttonTextDisabled] }>Layanan Homecare</Text>
                       </TouchableOpacity>
