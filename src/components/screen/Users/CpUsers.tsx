@@ -79,10 +79,10 @@ class Screen extends Component<IProps, IState> {
                       <Paragraph>
                         Pastikan nomor handphone dan alamat sudah diupdate untuk kemudahan komunikasi
                       </Paragraph>}
-                    <NumberFormat
+                    {/* <NumberFormat
                       value={el.saldoDeposit}
                       displayType={'text'} thousandSeparator={true} prefix={'Rp. '}
-                      renderText={(value) => <Text style={styles.textInfo}>Saldo : {value}</Text>} />
+                      renderText={(value) => <Text style={styles.textInfo}>Saldo : {value}</Text>} /> */}
                   </View>
                   <View style={styles.bodyContent}>
                     {/* <Text style={styles.smallTextInfo}>Status request : {el.requestVisit}</Text> */}
@@ -113,15 +113,10 @@ class Screen extends Component<IProps, IState> {
                                 [styles.buttonTextDisabled] }>Layanan Beli dan Antar Obat</Text>
                       </TouchableOpacity>
 
-                    <Text style={styles.itemSpaceV10} />
-                    { el.statusDeposit !== 'OK' &&
-                      <Text style={styles.smallTextInfo}>Info : {el.statusDeposit}</Text>}
-                      {/* { el.statusDeposit !== 'OK' &&
-                      <Text style={styles.smallTextInfo}>Silahkan melakukan transfer ke rekening berikut dan
-                        melakukan konfirmasi transfer, petugas kami akan melakukan
-                        verifikasi setelahnya</Text>
-                      } */}
-                      <TouchableOpacity
+                    {/* <Text style={styles.itemSpaceV10} /> */}
+                    {/* { el.statusDeposit !== 'OK' &&
+                      <Text style={styles.smallTextInfo}>Info : {el.statusDeposit}</Text>} */}
+                      {/* <TouchableOpacity
                         style={ el.statusDeposit === 'Menunggu verifikasi' ?
                                 [styles.buttonContainerDisabled, styles.loginButtonDisabled] :
                                 [styles.buttonContainer, styles.loginButton] }
@@ -131,12 +126,7 @@ class Screen extends Component<IProps, IState> {
                           <Text style={ el.statusDeposit === 'Menunggu verifikasi' ?
                                 [styles.buttonTextDisabled] :
                                 [styles.buttonText] }>Konfirmasi Pembayaran</Text>
-                      </TouchableOpacity>
-                      {/* <Button title=' Konfirmasi Deposit '
-                        // color='#841584'
-                        onPress={() => this.props.navigation.navigate('InputKonfirmasiDeposit', { qey : {el} })}
-                        disabled={ el.statusDeposit === 'Menunggu verifikasi' ? true : false }
-                      /> */}
+                      </TouchableOpacity> */}
                   </View>
                 </View>,
               )}

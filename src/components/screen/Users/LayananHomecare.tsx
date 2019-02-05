@@ -68,11 +68,11 @@ class Screen extends Component<IProps, IState> {
                   </View>
                   <View style={styles.content2}>
                     {/* <Text style={styles.tex2}>{ el.r2 }</Text> */}
-                    <NumberFormat
+                    {/* <NumberFormat
                       value={el.r2}
                       displayType={'text'} thousandSeparator={true} prefix={'Rp. '}
                       renderText={(value) => <Text style={styles.tex2}>{value}</Text>} />
-                    <Text style={styles.tex3}>{ el.r3 }</Text>
+                    <Text style={styles.tex3}>{ el.r3 }</Text> */}
                   </View>
                 {/* </TouchableOpacity> */}
               </View>
@@ -80,11 +80,6 @@ class Screen extends Component<IProps, IState> {
         )}
         </ScrollView>
         <View style={{marginVertical: 5}}>
-
-          {/* <Button title='PROSES'
-              onPress={() => this._onPress()}
-              // disabled={true}
-          /> */}
           <Button
             icon='assignment' mode='contained'
             onPress={() => this._onPress()}
